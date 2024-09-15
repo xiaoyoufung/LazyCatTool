@@ -110,8 +110,9 @@
 }
 
 .first-image{
-    -fx-padding: 20px;
-    -fx-border-width: 5px;
+    -fx-padding: 2px;
+    -fx-border-width: 2.5px;
     -fx-border-color: black;
     -fx-border-style: solid;
+    -fx-border-radius: 6;
 }
