@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import se233.lazycattool.model.ImageFile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +21,8 @@ public class MultiPicturePane extends HBox {
         firstImgBorder.getStyleClass().add("first-image");
 
         // Create and collect ImageViewURL objects
-        List<ImageViewURL> imageViews = imageFiles.stream()
-                .map(image -> new ImageViewURL(image.getFilepath(),"local", 46, 30, 8))
+        List<ImageFileURL> imageViews = imageFiles.stream()
+                .map(image -> new ImageFileURL(image.getFilepath(), 46, 30, 8))
                 .collect(Collectors.toList());
 
         // Apply CSS class to the first image

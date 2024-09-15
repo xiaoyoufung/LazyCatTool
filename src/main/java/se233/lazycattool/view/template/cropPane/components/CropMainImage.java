@@ -2,7 +2,6 @@ package se233.lazycattool.view.template.cropPane.components;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -10,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
+import se233.lazycattool.view.template.components.CripBorder;
+import se233.lazycattool.view.template.components.ImageFileURL;
 import se233.lazycattool.view.template.components.ImageViewURL;
 
 public class CropMainImage extends Pane {
@@ -20,10 +21,11 @@ public class CropMainImage extends Pane {
     public CropMainImage(String url){
         this.setPrefSize(512, 312);
 
-        String imgURL1 = "file:/Users/xiaoyoufung/Desktop/test-photo/blue_dusk.png";
+        // for use if Error occur.
+        //String imgURL1 = "file:/Users/xiaoyoufung/Desktop/test-photo/blue_dusk.png";
 
         // User current Image.
-        ImageView imageView = new ImageView(new Image("file:" + url));
+        ImageView imageView = new ImageFileURL(url);
 
         // Background Image.
         ImageView backgroundImage = new ImageViewURL("assets/images/imageWrap.jpg");
@@ -91,12 +93,9 @@ public class CropMainImage extends Pane {
             draw(gc);
         });
 
-        // clip a border
-        Rectangle clip = new Rectangle(paneWidth, paneHeight);
-        clip.setArcWidth(18);
-        clip.setArcHeight(18);
+        // make border have radius of 18px
+        Rectangle clip = new CripBorder(paneWidth, paneHeight, 18);
         this.setClip(clip);
-        //
 
         this.getChildren().addAll(backgroundImage, imageView, canvas);
     }
