@@ -16,7 +16,7 @@ public class MultiPicturePane extends HBox {
     public MultiPicturePane(ArrayList<ImageFile> imageFiles){
         this.setSpacing(12);
 
-        // add Border around first image
+        // Add Border around first image
         StackPane firstImgBorder = new StackPane();
         firstImgBorder.getStyleClass().add("first-image");
 

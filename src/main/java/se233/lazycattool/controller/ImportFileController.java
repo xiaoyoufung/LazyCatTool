@@ -16,9 +16,9 @@ public class ImportFileController {
         Dragboard db = event.getDragboard();
 
         // Check if file name is .zip .png .jpg or not?
-        final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase()
-                .endsWith(".zip") || db.getFiles().get(0).getName().toLowerCase()
-                .endsWith(".png") || db.getFiles().get(0).getName().toLowerCase()
+        final boolean isAccepted = db.getFiles().getFirst().getName().toLowerCase()
+                .endsWith(".zip") || db.getFiles().getFirst().getName().toLowerCase()
+                .endsWith(".png") || db.getFiles().getFirst().getName().toLowerCase()
                 .endsWith(".jpg");
 
         // if it's accept and copy to the dragBoard
@@ -44,8 +44,8 @@ public class ImportFileController {
             String fileName;
             Double fileSize;
             int total_files = db.getFiles().size();
-           // String file_name = db.getFiles().
 
+            // Loop through all files
             for (int i = 0; i < total_files; i++) {
                 File file = db.getFiles().get(i);
                 filePath = file.getAbsolutePath();
@@ -53,6 +53,7 @@ public class ImportFileController {
                 fileSize = (double) (file.length() / 1024);
                 FileType fileType = fileName.endsWith(".png") ? FileType.png : FileType.jpg;
 
+                // Check if the Drop file is .zip -> extract file
                 if (fileName.endsWith(".zip")){
                     extractZipFile.extractZip(filePath);
                 } else {
@@ -63,9 +64,7 @@ public class ImportFileController {
             Launcher.setAllUploadedImages(allImages);
             Launcher.refreshUploadPane();
         }
+        event.setDropCompleted(success);
+        event.consume();
     }
-
-    // Extract file
-
-
 }

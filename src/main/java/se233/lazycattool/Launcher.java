@@ -29,14 +29,7 @@ public class Launcher extends Application {
     private static MultiPicturePane multiPicturePane = null;
 
 
-    // delete soon...
-    public static ArrayList<ImageFile> getTempImageFiles() {
-        return tempImageFiles;
-    }
-
     private static ArrayList<ImageFile> tempImageFiles = new ArrayList<>();
-
-    //
 
     public static ArrayList<ImageFile> getAllUploadedImages() {
         return allUploadedImages;
