@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    -fx-font-family: "Inter", sans-serif;
+}
+
+.crop-pane, .upload-pane{
+    -fx-background-color: #FFF;
+}
+
+.crop-pane{
+    -fx-padding: 30 0 0 0;
+}
+
+.upload-pane{
+    -fx-padding: 30 25 0 25;
+}
+
+.upload-pane .heading{
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.sub-heading{
+    -fx-text-fill: #475467;
+    -fx-font-size: 14;
+}
+
+.upload-pane .drag-drop-group{
+    -fx-border-style: segments(6, 6, 6, 6)  line-cap round ;
+    -fx-border-width: 1.75;
+    -fx-border-color: #D2D4DA;
+    -fx-border-radius: 10;
+}
+.upload-pane .drag-drop-group .drag-drop-head, .sidebar-btn-lbl {
+    -fx-font-size: 15;
+}
+
+.upload-pane .drag-drop-group .drag-drop-head {
+    -fx-font-weight: bold;
+}
+
+.upload-pane .drag-drop-group .drag-drop-txt{
+    -fx-font-size: 13;
+}
+.upload-pane .sub-heading, .drag-drop-txt{
+    -fx-text-fill: #868e96;
+}
+
+
+.scroll-pane {
+     -fx-background-color: transparent;
+}
+
+
+.uploaded-file {
+    -fx-border-width: 1.75;
+    -fx-border-color: #D2D4DA;
+    -fx-border-radius: 10;
+    -fx-padding: 12;
+}
+
+.upload-pane .drag-drop-group-active, .uploaded-file-active{
+    -fx-border-color: #101223;
+}
+
+.file-icon-container{
+    -fx-border-width: 1.25;
+    -fx-border-color: #E4E7EC;
+    -fx-border-radius: 8;
+    -fx-background-color: #FFF;
+}
+
+.crop-pane .file-icon-container{
+    -fx-border-radius: 10;
+}
+
+
+.progress-bar{
+    -fx-accent: black;
+    -fx-background-radius: 5;
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 0;
+    -fx-background-radius: 5;
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7%), derive(-fx-accent, 0%), derive(-fx-accent, -3%), derive(-fx-accent, -9%) );
+    -fx-background-insets: 1 1 2 1;
+    -fx-padding: 0.44em;
+}
+
+.progress-bar .track {
+    -fx-background-radius: 0;
+    -fx-background-radius: 5;
+}
+
+.percent-txt {
+    -fx-padding: 0, 0, 200,0;
+}
+
+.crop-pane .heading{
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.crop-pane .btn{
+    -fx-border-radius: 8;
+    -fx-border-width: 1.25;
+    -fx-border-color: #E4E7EC;
+}
+
+.first-image{
+    -fx-padding: 20px;
+    -fx-border-width: 5px;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+}
