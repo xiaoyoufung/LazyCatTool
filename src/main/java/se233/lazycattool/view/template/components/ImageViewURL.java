@@ -13,13 +13,29 @@ public class ImageViewURL extends ImageView {
     private Image imageURL;
 
     public Image getImageURL(String url) {
-        this.imageURL = new Image(Objects.requireNonNull(Launcher.class.getResource(url)).toString());
+        this.imageURL = new Image((Launcher.class.getResource(url)).toString());
         return this.imageURL;
     }
 
     public void setImageURL(String url) {
         this.imageURL = getImageURL(url);
         this.setImage(imageURL);
+    }
+
+    public ImageViewURL(String url){
+        this.imageURL = getImageURL(url);
+        this.setImage(this.imageURL);
+    }
+
+    public ImageViewURL(String url, String type, double width, double height, double radius){
+        if (type == "local"){
+            this.setFitWidth(width);
+            this.setFitHeight(height);
+            this.setPreserveRatio(true);
+            this.imageURL = new Image("file:" + url);
+            this.setImageBorderRadius(radius, width, height);
+            this.setImage(this.imageURL);
+        }
     }
 
     public ImageViewURL(String url, double width, double height){

@@ -57,7 +57,7 @@ public class UploadPane extends ScrollPane {
                 uploadedList[i].setOnMouseExited(event -> {
                     uploadedList[finalI1].isToggle(false);
                 });
-
+                System.out.println(imageArray.get(i).getFilepath());
             }
             //System.out.println(imageArray.size());
             scrollGroup.setChildrenElement(uploadedList);

@@ -9,6 +9,11 @@ import se233.lazycattool.view.template.cropPane.components.CustomButton;
 
 public class CropBtmSection extends HBox {
     private CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+
+    public CustomButton getConfirmBtn() {
+        return confirmBtn;
+    }
+
     private CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");
     private HBox twoButtonContainer = new HBox(10);
     private HBox helpContainer = new HBox(5);
