@@ -20,6 +20,11 @@ import java.util.List;
 
 public class Launcher extends Application {
     private static Scene mainScene;
+
+    public static BorderPane getMainPane() {
+        return mainPane;
+    }
+
     private static BorderPane mainPane;
     private static SideBarPane sideBarPane = null;
     private static UploadPane uploadPane = null;
