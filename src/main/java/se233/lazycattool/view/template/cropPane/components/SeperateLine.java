@@ -4,10 +4,10 @@ import javafx.scene.shape.Line;
 
 public class SeperateLine extends Line {
 
-    public SeperateLine(){
+    public SeperateLine(double length, double weight){
         this.setStartX(0);
-        this.setEndX(565);
-        this.setStrokeWidth(1.25);
+        this.setEndX(length);
+        this.setStrokeWidth(weight);
         this.setStyle("-fx-stroke: #E4E7EC;");
 
     }

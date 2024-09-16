@@ -9,7 +9,7 @@
 }
 
 .process-area{
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, -10, 0);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 1, 0, -1, 0);
 }
 
 .crop-pane{
@@ -22,6 +22,9 @@
 
 .upload-pane .heading{
     -fx-font-size: 20;
+}
+
+.heading {
     -fx-font-weight: bold;
 }
 
@@ -62,6 +65,14 @@
     -fx-border-color: #D2D4DA;
     -fx-border-radius: 10;
     -fx-padding: 12;
+}
+
+.processing-image{
+    -fx-border-width: 1;
+    -fx-border-color: #D2D4DA;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-font-size: 11;
 }
 
 .upload-pane .drag-drop-group-active, .uploaded-file-active{
@@ -119,4 +130,8 @@
     -fx-border-color: black;
     -fx-border-style: solid;
     -fx-border-radius: 6;
+}
+
+.process-area .sub-heading{
+    -fx-font-size: 9.5;
 }

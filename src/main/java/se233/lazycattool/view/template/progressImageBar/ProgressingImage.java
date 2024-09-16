@@ -2,6 +2,7 @@ package se233.lazycattool.view.template.progressImageBar;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
@@ -14,10 +15,10 @@ public class ProgressingImage extends BorderPane {
     Label fileName, fileSize, percent;
 
     // icon
-    private final ImageViewURL closeIcon = new ImageViewURL("assets/icons/closeIcon.png", 11);
+    private final ImageViewURL closeIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
 
     public ProgressingImage(String name, double size){
-        this.getStyleClass().add("uploaded-file");
+        this.getStyleClass().add("processing-image");
         fileName = new Label(name);
         fileSize = new Label(size + " MB");
         percent = new Label(100 + "%");
@@ -49,7 +50,7 @@ public class ProgressingImage extends BorderPane {
     private ProgressBar genProgressBar(){
         ProgressBar progressBar = new ProgressBar(0);
         progressBar.getStyleClass().add("progress-bar");
-        progressBar.setPrefWidth(100);
+        progressBar.setPrefWidth(210);
         progressBar.setProgress(0.4);
         return progressBar;
     }
@@ -57,17 +58,17 @@ public class ProgressingImage extends BorderPane {
     private HBox genBottomArea(){
         ProgressBar progressBar = genProgressBar();
 
-        HBox bottomArea = new HBox(10);
-        bottomArea.setPadding(new Insets(10,0,0,0));
+        HBox bottomArea = new HBox(5);
+        bottomArea.setPadding(new Insets(5,0,0,0));
         bottomArea.getChildren().addAll(progressBar, percent);
-        bottomArea.setAlignment(Pos.CENTER);
+        bottomArea.setAlignment(Pos.CENTER_LEFT);
         return bottomArea;
     }
 
     private VBox genLeftArea(){
         VBox leftArea = new VBox(4);
         leftArea.getChildren().addAll(fileName, fileSize);
-        leftArea.setPadding(new Insets(0,52,0,0));
+        //leftArea.setPadding(new Insets(0,52,0,0));
         return leftArea;
     }
 

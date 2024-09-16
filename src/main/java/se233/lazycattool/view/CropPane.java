@@ -1,6 +1,7 @@
 package se233.lazycattool.view;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
@@ -54,7 +55,7 @@ public class CropPane extends ScrollPane {
         midSection = new CropMidSection(unCropImages);
 
         // use Line from [template/cropPane/SeperateLine]
-        Line line = new SeperateLine();
+        Line line = new SeperateLine(565,1.25);
 
         // use BottomSection from [template/cropPane/CropBtmSection]
         CropBtmSection btmSection = new CropBtmSection();
@@ -74,12 +75,42 @@ public class CropPane extends ScrollPane {
 
     private Pane genProcessArea(){
         VBox processArea = new VBox(25);
-        processArea.setPadding(new Insets(5,5,5,5));
+        processArea.setPadding(new Insets(25,9,5,9));
         processArea.getStyleClass().add("process-area");
+        processArea.setPrefWidth(270);
 
+        VBox topArea = genProcessTopArea();
+        VBox btmArea = genProcessBtmArea();
+
+        processArea.getChildren().addAll(topArea, btmArea);
+        return processArea;
+    }
+
+    private VBox genProcessTopArea(){
+        VBox topArea = new VBox(10);
+        Label processingLbl = new Label("Processing");
+        processingLbl.setStyle("-fx-font-weight: bold");
+
+        // Processing Image show [!!! we will adjust process bar here !!!]
         Pane progressingImage = new ProgressingImage("blue_dusk", 203);
 
-        processArea.getChildren().add(progressingImage);
-        return processArea;
+        topArea.getChildren().addAll(processingLbl, progressingImage);
+        return topArea;
+    }
+
+    private VBox genProcessBtmArea(){
+        VBox btmArea = new VBox(8);
+        Label headingLbl, subHeadLbl;
+        headingLbl = new Label("Processed Images");
+        subHeadLbl = new Label("Files and assets that have been processed in this program.");
+
+        headingLbl.getStyleClass().add("heading");
+        subHeadLbl.getStyleClass().add("sub-heading");
+
+        Line line = new SeperateLine(270, 1);
+
+
+        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line);
+        return btmArea;
     }
 }
