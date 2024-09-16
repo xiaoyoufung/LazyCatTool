@@ -4,8 +4,12 @@
     -fx-font-family: "Inter", sans-serif;
 }
 
-.crop-pane, .upload-pane{
+.crop-pane, .upload-pane, .process-area{
     -fx-background-color: #FFF;
+}
+
+.process-area{
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 2, 0, -10, 0);
 }
 
 .crop-pane{

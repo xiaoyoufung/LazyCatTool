@@ -90,7 +90,7 @@ public class Launcher extends Application {
         sideBarPane.getUploadButton().setOnAction(e -> switchRoot(uploadPane));
         sideBarPane.getCropButton().setOnAction(e -> switchRoot(cropPane));
         sideBarPane.getDetectEdgeButton().setOnAction(e -> switchRoot(edgeDetectPane));
-        cropPane.getAddButton().setOnMouseClicked(e -> switchRoot(uploadPane));
+//        cropPane.getAddButton().setOnMouseClicked(e -> switchRoot(uploadPane));
     }
 
     public static void refreshPane(){
@@ -106,6 +106,10 @@ public class Launcher extends Application {
 
     public static void refreshCropPane(ArrayList<ImageFile> imageFiles){
         cropPane.drawPane(imageFiles);
+    }
+
+    public static void switchToUpload(){
+        switchRoot(uploadPane);
     }
 
     public static void switchRoot(Node newRoot) {

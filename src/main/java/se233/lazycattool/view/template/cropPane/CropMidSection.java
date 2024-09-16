@@ -2,6 +2,7 @@ package se233.lazycattool.view.template.cropPane;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
+import se233.lazycattool.Launcher;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.IconWithBorder;
 import se233.lazycattool.view.template.components.MultiPicturePane;
@@ -30,11 +31,14 @@ public class CropMidSection extends VBox {
 
         System.out.println(allUploadedImages.getFirst().getFilepath());
 
-        cropMultiplePic.getAddButton();
+        cropMultiplePic.getAddButton().setOnMouseClicked(event -> {
+            onAddButtonClicked();
+        });
 
         this.getChildren().addAll(mainImage, cropMultiplePic);
     }
-    public IconWithBorder getAddButton(){
-        return cropMultiplePic.getAddButton();
+
+    public void onAddButtonClicked(){
+        Launcher.switchToUpload();
     }
 }
