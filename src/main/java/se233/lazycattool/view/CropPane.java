@@ -12,6 +12,7 @@ import se233.lazycattool.view.template.cropPane.CropBtmSection;
 import se233.lazycattool.view.template.cropPane.CropMidSection;
 import se233.lazycattool.view.template.cropPane.CropTopSection;
 import se233.lazycattool.view.template.cropPane.components.SeperateLine;
+import se233.lazycattool.view.template.progressImageBar.ProgressedImage;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
 
 import static se233.lazycattool.controller.CropController.onMouseClicked;
@@ -109,8 +110,9 @@ public class CropPane extends ScrollPane {
 
         Line line = new SeperateLine(270, 1);
 
+        ProgressedImage progressedImage = new ProgressedImage("autumn_spring", 123);
 
-        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line);
+        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line, progressedImage);
         return btmArea;
     }
 }
