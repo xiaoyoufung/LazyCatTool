@@ -104,7 +104,9 @@ public class Launcher extends Application {
         uploadPane.drawPane(allUploadedImages);
     }
 
-    public static void refreshCropPane(){cropPane.drawPane(tempImageFiles);}
+    public static void refreshCropPane(ArrayList<ImageFile> imageFiles){
+        cropPane.drawPane(imageFiles);
+    }
 
     public static void switchRoot(Node newRoot) {
         BorderPane.setMargin(newRoot, new Insets(0)); // Ensure no margin

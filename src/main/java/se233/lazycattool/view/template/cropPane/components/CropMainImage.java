@@ -157,7 +157,6 @@ public class CropMainImage extends Pane {
         this.cropY = 56;
         this.cropWidth = 330;
         this.cropHeight = 205;
-        Launcher.refreshCropPane();
     }
 
     public CropImage getCroppedImage(){

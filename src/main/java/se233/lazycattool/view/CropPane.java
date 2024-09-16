@@ -47,7 +47,7 @@ public class CropPane extends ScrollPane {
                 CropImage cropImage = midSection.getMainImage().getCroppedImage();
                 System.out.println(cropImage.getCropX());
 
-                onMouseClicked(cropImage, unCropImages.getFirst());
+                onMouseClicked(cropImage, unCropImages);
             }
         });
 
