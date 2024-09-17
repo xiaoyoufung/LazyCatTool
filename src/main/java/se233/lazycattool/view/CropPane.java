@@ -1,32 +1,38 @@
 package se233.lazycattool.view;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
-import se233.lazycattool.view.template.components.MainInfoPane;
-import se233.lazycattool.view.template.cropPane.CropBtmSection;
-import se233.lazycattool.view.template.cropPane.CropMidSection;
-import se233.lazycattool.view.template.cropPane.CropTopSection;
-import se233.lazycattool.view.template.cropPane.components.SeperateLine;
+import se233.lazycattool.view.template.components.*;
+import se233.lazycattool.view.template.cropPane.CropMainImage;
+import se233.lazycattool.view.template.cropPane.CustomButton;
+import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.progressImageBar.ProgressedImage;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
 
+// import from controller
 import static se233.lazycattool.controller.CropController.onMouseClicked;
+import static se233.lazycattool.controller.CropController.onAddButtonClicked;
 
 import java.util.ArrayList;
 
 public class CropPane extends ScrollPane {
     public CropPane(){}
-    private CropMidSection midSection;
-    private ArrayList<ImageFile> unCropImages;
-    //private boolean showRight = true;
 
+    public CropMainImage getMainImage() {
+        return mainImage;
+    }
+
+    private CropMainImage mainImage;
+    private ArrayList<ImageFile> unCropImages;
+    private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
+    private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
 
     private Pane getDetailsPane() {
         BorderPane cropInfoPane = new BorderPane();
@@ -36,11 +42,6 @@ public class CropPane extends ScrollPane {
         Pane processArea = genProcessArea();
 
         cropInfoPane.setLeft(mainArea);
-
-//        // if cropped image have added.
-//        if (unCropImages.size() == 1){
-//            cropInfoPane.setRight(processArea);
-//        }
 
         return cropInfoPane;
     }
@@ -57,29 +58,76 @@ public class CropPane extends ScrollPane {
     private Pane  genMainArea(){
         MainInfoPane mainArea = new MainInfoPane("crop-pane");
 
-        // use CropTopSection from [template/cropPane/CropTopSection]
-        HBox topSection = new CropTopSection();
+        HBox topArea = genMainTopArea();
 
-        // use MiddleSection from [template/cropPane/CropMidSection]
-        midSection = new CropMidSection(unCropImages);
+        VBox middleArea = genMainMiddleArea();
 
         // use Line from [template/cropPane/SeperateLine]
         Line line = new SeperateLine(565,1.25);
 
-        // use BottomSection from [template/cropPane/CropBtmSection]
-        CropBtmSection btmSection = new CropBtmSection();
+        HBox btmArea = genMainBtmArea();
+
+        mainArea.getChildren().addAll(topArea, middleArea, line, btmArea);
+
+        return mainArea;
+    }
+
+    private HBox genMainTopArea(){
+        HBox topArea = new HBox(16);
+        topArea.setPadding(new Insets(0, 25, 0, 25));
+
+        HeadingSection headingSection = new HeadingSection("Crop an image", "Upload a 1600 x 480 px image for best results.");
+        ImageViewURL cropIcon = new ImageViewURL("assets/icons/cropIcon.png", 24);
+        IconWithBorder cropIconContainer = new IconWithBorder(cropIcon, 12);
+
+        topArea.getChildren().addAll(cropIconContainer, headingSection);
+        return topArea;
+    }
+
+    private VBox genMainMiddleArea(){
+        VBox middleArea = new VBox(20);
+        middleArea.setPadding(new Insets(0, 25, 0,25));
+
+        mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
+
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(unCropImages);
+        cropMultiplePic.getAddButton().setOnMouseClicked(_ -> onAddButtonClicked());
+
+        middleArea.getChildren().addAll(mainImage, cropMultiplePic);
+        return middleArea;
+    }
+
+    private HBox genMainBtmArea(){
+        HBox btmArea = new HBox(250);
+        btmArea.setPadding(new Insets(0, 0, 20, 0));
+        btmArea.setAlignment(Pos.CENTER);
+
+        HBox btnContainer = new HBox(10);
 
         // when User click confirm button
-        btmSection.getConfirmBtn().setOnMouseClicked(event -> {
-            CropImage cropImage = midSection.getMainImage().getCroppedImage();
-            System.out.println(cropImage.getCropX());
+        confirmBtn.setOnMouseClicked(event -> {
+            // ทำอะไรสักอย่าง
+            CropImage cropImage = getMainImage().getCroppedImage();
+            //System.out.println(cropImage.getCropX());
 
             onMouseClicked(cropImage, unCropImages);
         });
 
-        mainArea.getChildren().addAll(topSection, midSection, line, btmSection);
+        cancelBtn.setBorder();
+        cancelBtn.setOnMouseClicked(event -> {
+            Launcher.refreshCropPane(unCropImages);
+        });
 
-        return mainArea;
+        btnContainer.getChildren().addAll(cancelBtn, confirmBtn);
+
+        HBox helpContainer = new HBox(5);
+        ImageViewURL helpIcon = new ImageViewURL("assets/icons/questionIconGrey.png", 14);
+        Label helpLbl = new Label("Support");
+        helpContainer.getChildren().addAll(helpIcon, helpLbl);
+        helpContainer.setAlignment(Pos.CENTER);
+
+        btmArea.getChildren().addAll(helpContainer, btnContainer);
+        return btmArea;
     }
 
     private Pane genProcessArea(){
@@ -127,4 +175,5 @@ public class CropPane extends ScrollPane {
         btmArea.getChildren().addAll(headingLbl, subHeadLbl, line, progressedImage, line1, progressedImage1, line2);
         return btmArea;
     }
+
 }

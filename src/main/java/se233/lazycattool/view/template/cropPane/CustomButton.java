@@ -1,4 +1,4 @@
-package se233.lazycattool.view.template.cropPane.components;
+package se233.lazycattool.view.template.cropPane;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

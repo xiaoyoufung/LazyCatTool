@@ -10,9 +10,7 @@ import se233.lazycattool.model.ImageFile;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class CropController {
     public static String desPath;
@@ -31,77 +29,41 @@ public class CropController {
         // ถ้ารูปที่ต้องการครอปมี 1 รูป
         if (imageFile.size() == 1){
 
-            initializeCropPane(cropImage, imageFile.getFirst());
+            initializeCropPane();
 
         } else {
             // รูปที่ต้องการครอปมีมากกว่า 1 รูป
-            System.out.println(croppedImages.size());
+            //System.out.println(croppedImages.size());
 
             if (croppedImages.size() == allImagesFile.size()){
-                initializeCropPane(cropImage, imageFile.getFirst());
+
+                // ขึ้นโฟลเดอร์ให้กดเลือก
+                initializeCropPane();
+
+                //unCropImages.add(allImagesFile.getLast());
+
             } else {
                 unCropImages.removeFirst();
                 croppedImages.add(imageFile.getFirst());
+                Launcher.refreshCropPane(unCropImages);
             }
-
-            Launcher.refreshCropPane(unCropImages);
         }
-
-
-
-
-
-//        if (croppedImages.isEmpty()) {
-//            initializeCropPane(cropImage, imageFile.getFirst());
-//
-//            // test
-//            System.out.println(desPath);
-//
-//            // see the path in unCropImages
-//            //unCropImages.forEach(image -> System.out.println(image.getFilepath()));
-//
-//
-//            System.out.println(Arrays.toString(images));
-//
-//        } else {
-//            // Handle subsequent crops
-//            System.out.println("Second time: " + desPath);
-//            System.out.println(Arrays.toString(images));
-//
-//
-//            // Do smth if
-//
-//            croppedImages.add(imageFile.getFirst());
-//
-//            if(croppedImages.size() != imageFile.size()){
-//                unCropImages.removeFirst();
-//            } else {
-//                Stage stage = (Stage) Launcher.getMainPane().getScene().getWindow();
-//                stage.sizeToScene();
-//            }
-//            Launcher.refreshCropPane(unCropImages);
-//        }
-        //        String[] images = unCropImages.stream()
-        //                .map(ImageFile::getName)
-        //                .toArray(String[]::new);
 
     }
 
-    public static void initializeCropPane(CropImage cropImage, ImageFile imageFile) {
+    public static void initializeCropPane() {
 
         // (1) This ensures that the directory chooser dialog is shown without blocking the JavaFX Application Thread.
-        CompletableFuture.supplyAsync(() -> chooseDirectory(cropImage, imageFile))
+        CompletableFuture.supplyAsync(() -> chooseDirectory())
                 .thenAccept(selectedPath -> {
                     if (selectedPath != null) {
                         Platform.runLater(() -> {
                             desPath = selectedPath;
                             System.out.println("Selected directory: " + desPath);
 
-                            // Logic
-                            unCropImages.removeFirst();
-                            croppedImages.add(imageFile);
+                            //Launcher.refreshCropPane(unCropImages);
 
-                            Launcher.refreshCropPane(unCropImages);
+
                             // Add new Pane or perform other UI updates here
 
                         });
@@ -115,7 +77,7 @@ public class CropController {
     }
 
     // (2) Returns the selected path directly, or null if no directory was selected.
-    public static String chooseDirectory(CropImage cropImage, ImageFile imageFile) {
+    public static String chooseDirectory() {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         Platform.runLater(() -> {
@@ -148,5 +110,9 @@ public class CropController {
         alert.setHeaderText("No Directory Selected");
         alert.setContentText("Please choose a directory to continue.");
         alert.showAndWait();
+    }
+
+    public static void onAddButtonClicked(){
+        Launcher.switchToUpload();
     }
 }

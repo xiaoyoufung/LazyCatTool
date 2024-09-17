@@ -1,4 +1,4 @@
-package se233.lazycattool.view.template.cropPane.components;
+package se233.lazycattool.view.template.cropPane;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -7,7 +7,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.view.template.components.CripBorder;
 import se233.lazycattool.view.template.components.ImageFileURL;
