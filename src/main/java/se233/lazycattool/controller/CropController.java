@@ -17,16 +17,13 @@ public class CropController {
     public static String desPath;
     public static ArrayList<ImageFile> croppedImages = new ArrayList<>();
     public static ArrayList<ImageFile> unCropImages;
-    public static ArrayList<ImageFile> allImagesFile;
 
     public static void onAddButtonClicked(){ Launcher.switchToUpload(); }
 
     public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
         unCropImages = imageFile;
-        // เก็บรูปทั้งหมดที่ต้องครอป
-//        if (allImagesFile == null) {
-//            allImagesFile = new ArrayList<>(imageFile);
-//        }
+        ImageFile selectedImage = imageFile.getFirst();
+        selectedImage.setCropInfo(cropImage);
 
         // ถ้ารูปที่ต้องการครอปมี 1 รูป
         if (imageFile.size() == 1){
@@ -38,11 +35,9 @@ public class CropController {
                 // ขึ้นโฟลเดอร์ให้กดเลือก
                 initializeCropPane();
 
-                //unCropImages.add(allImagesFile.getLast());
-
             } else {
                 unCropImages.removeFirst();
-                croppedImages.add(imageFile.getFirst());
+                croppedImages.add(selectedImage);
                 Launcher.refreshCropPane(unCropImages);
             }
         }

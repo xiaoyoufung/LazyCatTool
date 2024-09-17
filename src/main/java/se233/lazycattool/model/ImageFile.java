@@ -5,6 +5,7 @@ public class ImageFile {
     protected double sizeKB;
     protected String path;
     protected FileType type;
+    protected CropImage cropInfo;
 
     public ImageFile(String name, String path, double size, FileType type){
         this.name = name;
@@ -35,6 +36,14 @@ public class ImageFile {
 
     public void setSize(int size) {
         this.sizeKB = size;
+    }
+
+    public CropImage getCropInfo() {
+        return cropInfo;
+    }
+
+    public void setCropInfo(CropImage cropInfo) {
+        this.cropInfo = cropInfo;
     }
 
 }
