@@ -12,48 +12,78 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class CropController {
     public static String desPath;
     public static ArrayList<ImageFile> croppedImages = new ArrayList<>();
-
-    //public static ArrayList<ImageFile> allUploadedImages;
-    //public static final ArrayList<ImageFile> allUploadedImages = Launcher.getAllUploadedImages();
     public static ArrayList<ImageFile> unCropImages;
+    public static ArrayList<ImageFile> allImagesFile;
 
     public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
-        unCropImages = new ArrayList<>(imageFile);
 
-        String[] images = unCropImages.stream()
-                .map(ImageFile::getName)
-                .toArray(String[]::new);
+        if (allImagesFile == null) {
+            allImagesFile = new ArrayList<>(imageFile);
+        }
 
-        if (croppedImages.isEmpty()) {
+        unCropImages = imageFile;
+
+        // ถ้ารูปที่ต้องการครอปมี 1 รูป
+        if (imageFile.size() == 1){
+
             initializeCropPane(cropImage, imageFile.getFirst());
 
-            // test
-            System.out.println(desPath);
-
-            // see the path in unCropImages
-            //unCropImages.forEach(image -> System.out.println(image.getFilepath()));
-
-
-            System.out.println(Arrays.toString(images));
-
         } else {
-            // Handle subsequent crops
-            System.out.println("Second time: " + desPath);
-            System.out.println(Arrays.toString(images));
+            // รูปที่ต้องการครอปมีมากกว่า 1 รูป
+            System.out.println(croppedImages.size());
 
-
-            // Do smth if
-
-            unCropImages.removeFirst();
-            croppedImages.add(imageFile.getFirst());
+            if (croppedImages.size() == allImagesFile.size()){
+                initializeCropPane(cropImage, imageFile.getFirst());
+            } else {
+                unCropImages.removeFirst();
+                croppedImages.add(imageFile.getFirst());
+            }
 
             Launcher.refreshCropPane(unCropImages);
         }
 
+
+
+
+
+//        if (croppedImages.isEmpty()) {
+//            initializeCropPane(cropImage, imageFile.getFirst());
+//
+//            // test
+//            System.out.println(desPath);
+//
+//            // see the path in unCropImages
+//            //unCropImages.forEach(image -> System.out.println(image.getFilepath()));
+//
+//
+//            System.out.println(Arrays.toString(images));
+//
+//        } else {
+//            // Handle subsequent crops
+//            System.out.println("Second time: " + desPath);
+//            System.out.println(Arrays.toString(images));
+//
+//
+//            // Do smth if
+//
+//            croppedImages.add(imageFile.getFirst());
+//
+//            if(croppedImages.size() != imageFile.size()){
+//                unCropImages.removeFirst();
+//            } else {
+//                Stage stage = (Stage) Launcher.getMainPane().getScene().getWindow();
+//                stage.sizeToScene();
+//            }
+//            Launcher.refreshCropPane(unCropImages);
+//        }
+        //        String[] images = unCropImages.stream()
+        //                .map(ImageFile::getName)
+        //                .toArray(String[]::new);
 
     }
 

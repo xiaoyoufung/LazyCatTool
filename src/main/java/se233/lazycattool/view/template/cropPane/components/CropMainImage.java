@@ -129,11 +129,11 @@ public class CropMainImage extends Pane {
         drawSquareWithBorder(gc, cropX + cropWidth - squareSize / 2, cropY + cropHeight - squareSize / 2, squareSize);
 
         // Print the crop area position and size
-        System.out.println("Crop Area Position and Size:");
-        System.out.println("X: " + cropX);
-        System.out.println("Y: " + cropY);
-        System.out.println("Width: " + cropWidth);
-        System.out.println("Height: " + cropHeight);
+//        System.out.println("Crop Area Position and Size:");
+//        System.out.println("X: " + cropX);
+//        System.out.println("Y: " + cropY);
+//        System.out.println("Width: " + cropWidth);
+//        System.out.println("Height: " + cropHeight);
     }
 
     private void drawSquareWithBorder(GraphicsContext gc, double x, double y, int size) {

@@ -75,6 +75,10 @@
     -fx-font-size: 11;
 }
 
+.processed-image{
+    -fx-font-size: 10;
+}
+
 .upload-pane .drag-drop-group-active, .uploaded-file-active{
     -fx-border-color: #101223;
 }
@@ -134,4 +138,8 @@
 
 .process-area .sub-heading{
     -fx-font-size: 9.5;
+}
+
+.processed-file-size{
+    -fx-font-size: 9;
 }

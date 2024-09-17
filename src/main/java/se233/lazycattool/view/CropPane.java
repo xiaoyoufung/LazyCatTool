@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
+import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.MainInfoPane;
@@ -23,6 +25,7 @@ public class CropPane extends ScrollPane {
     public CropPane(){}
     private CropMidSection midSection;
     private ArrayList<ImageFile> unCropImages;
+    //private boolean showRight = true;
 
 
     private Pane getDetailsPane() {
@@ -33,7 +36,12 @@ public class CropPane extends ScrollPane {
         Pane processArea = genProcessArea();
 
         cropInfoPane.setLeft(mainArea);
-        cropInfoPane.setRight(processArea);
+
+//        // if cropped image have added.
+//        if (unCropImages.size() == 1){
+//            cropInfoPane.setRight(processArea);
+//        }
+
         return cropInfoPane;
     }
 
@@ -81,6 +89,7 @@ public class CropPane extends ScrollPane {
         processArea.setPrefWidth(270);
 
         VBox topArea = genProcessTopArea();
+
         VBox btmArea = genProcessBtmArea();
 
         processArea.getChildren().addAll(topArea, btmArea);
@@ -90,7 +99,7 @@ public class CropPane extends ScrollPane {
     private VBox genProcessTopArea(){
         VBox topArea = new VBox(10);
         Label processingLbl = new Label("Processing");
-        processingLbl.setStyle("-fx-font-weight: bold");
+        processingLbl.setStyle("-fx-font-weight: bold; -fx-font-size: 14");
 
         // Processing Image show [!!! we will adjust process bar here !!!]
         Pane progressingImage = new ProgressingImage("blue_dusk", 203);
@@ -108,11 +117,14 @@ public class CropPane extends ScrollPane {
         headingLbl.getStyleClass().add("heading");
         subHeadLbl.getStyleClass().add("sub-heading");
 
-        Line line = new SeperateLine(270, 1);
+        Line line = new SeperateLine(270, 1.25);
+        Line line1 = new SeperateLine(270, 1.25);
+        Line line2 = new SeperateLine(270, 1.25);
 
         ProgressedImage progressedImage = new ProgressedImage("autumn_spring", 123);
+        ProgressedImage progressedImage1 = new ProgressedImage("autumn_spring", 123);
 
-        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line, progressedImage);
+        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line, progressedImage, line1, progressedImage1, line2);
         return btmArea;
     }
 }

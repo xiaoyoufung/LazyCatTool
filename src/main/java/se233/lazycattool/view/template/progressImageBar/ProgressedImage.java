@@ -1,10 +1,8 @@
 package se233.lazycattool.view.template.progressImageBar;
 
-import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,21 +16,23 @@ public class ProgressedImage extends BorderPane {
     // Change close icon to 3 dots
 
     // icon
-    private final ImageViewURL closeIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
-    private final ImageViewURL fileIcon = new ImageViewURL("assets/icons/imageFileIcon.png", 11);
-    private final IconWithBorder iconContainer = new IconWithBorder(fileIcon, 9, 8, 5);
+    private final ImageViewURL moreIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 12, 12);
+    private final ImageViewURL fileIcon = new ImageViewURL("assets/icons/Image.png", 18);
+    private final IconWithBorder iconContainer = new IconWithBorder(fileIcon, 4, 2, 6);
 
     public ProgressedImage(String name, double size){
-        this.getStyleClass().add("processing-image");
+        this.getStyleClass().add("processed-image");
         fileName = new Label(name);
         fileSize = new Label(size + " MB");
+        fileSize.getStyleClass().add("processed-file-size");
 
         // File's name and size
         HBox leftSection = genLeftArea();
 
         // Add all sections to main BorderPane
         this.setLeft(leftSection);
-        this.setRight(closeIcon);
+        this.setRight(moreIcon);
+        BorderPane.setAlignment(moreIcon, Pos.CENTER);
     }
 
     private HBox genLeftArea(){
