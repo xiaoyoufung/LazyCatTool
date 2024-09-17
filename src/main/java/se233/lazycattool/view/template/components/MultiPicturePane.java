@@ -6,32 +6,28 @@ import javafx.scene.layout.StackPane;
 import se233.lazycattool.model.ImageFile;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MultiPicturePane extends HBox {
 
     private final ImageViewURL addIcon = new ImageViewURL("assets/icons/addIcon.png", 14);
     IconWithBorder addButton = new IconWithBorder(addIcon, 11,11, 4);
 
-    public MultiPicturePane(ArrayList<ImageFile> imageFiles){
+    public MultiPicturePane(ArrayList<ImageFile> imageFiles, int imgIndex){
         this.setSpacing(12);
 
-        // Add Border around first image
-        StackPane firstImgBorder = new StackPane();
-        firstImgBorder.getStyleClass().add("first-image");
-
         // Create and collect ImageViewURL objects
-        List<ImageFileURL> imageViews = imageFiles.stream()
+        List<StackPane> imageViews = imageFiles.stream()
                 .map(image -> new ImageFileURL(image.getFilepath(), 46, 30, 8))
-                .collect(Collectors.toList());
+                .map(StackPane::new)
+                .toList();
 
-        // Apply CSS class to the first image
-        if (!imageViews.isEmpty()) {
-            firstImgBorder.getChildren().add(imageViews.getFirst());
-            imageViews.removeFirst();
+        if (imgIndex != imageViews.size()){
+            // Apply CSS class to the selected image
+            if (!imageViews.isEmpty()) {
+                imageViews.get(imgIndex).getStyleClass().add("first-image");
+            }
         }
 
-        this.getChildren().add(firstImgBorder);
         this.getChildren().addAll(imageViews);
         this.setAlignment(Pos.CENTER_LEFT);
         this.getChildren().addAll(addButton);
@@ -40,5 +36,4 @@ public class MultiPicturePane extends HBox {
     public IconWithBorder getAddButton() {
         return addButton;
     }
-
 }

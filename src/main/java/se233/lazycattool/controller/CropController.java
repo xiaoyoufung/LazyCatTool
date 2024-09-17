@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
+import se233.lazycattool.view.CropPane;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,24 +19,21 @@ public class CropController {
     public static ArrayList<ImageFile> unCropImages;
     public static ArrayList<ImageFile> allImagesFile;
 
+    public static void onAddButtonClicked(){ Launcher.switchToUpload(); }
+
     public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
-
-        if (allImagesFile == null) {
-            allImagesFile = new ArrayList<>(imageFile);
-        }
-
         unCropImages = imageFile;
+        // เก็บรูปทั้งหมดที่ต้องครอป
+//        if (allImagesFile == null) {
+//            allImagesFile = new ArrayList<>(imageFile);
+//        }
 
         // ถ้ารูปที่ต้องการครอปมี 1 รูป
         if (imageFile.size() == 1){
-
             initializeCropPane();
-
         } else {
             // รูปที่ต้องการครอปมีมากกว่า 1 รูป
-            //System.out.println(croppedImages.size());
-
-            if (croppedImages.size() == allImagesFile.size()){
+            if (croppedImages.size() == CropPane.allImages.size()){
 
                 // ขึ้นโฟลเดอร์ให้กดเลือก
                 initializeCropPane();
@@ -48,7 +46,6 @@ public class CropController {
                 Launcher.refreshCropPane(unCropImages);
             }
         }
-
     }
 
     public static void initializeCropPane() {
@@ -112,7 +109,5 @@ public class CropController {
         alert.showAndWait();
     }
 
-    public static void onAddButtonClicked(){
-        Launcher.switchToUpload();
-    }
+
 }

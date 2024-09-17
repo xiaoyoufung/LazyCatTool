@@ -17,10 +17,10 @@ import se233.lazycattool.view.template.progressImageBar.ProgressedImage;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
 
 // import from controller
-import static se233.lazycattool.controller.CropController.onMouseClicked;
-import static se233.lazycattool.controller.CropController.onAddButtonClicked;
 
 import java.util.ArrayList;
+
+import static se233.lazycattool.controller.CropController.*;
 
 public class CropPane extends ScrollPane {
     public CropPane(){}
@@ -28,11 +28,21 @@ public class CropPane extends ScrollPane {
     public CropMainImage getMainImage() {
         return mainImage;
     }
-
+    public static ArrayList<ImageFile> allImages;
     private CropMainImage mainImage;
     private ArrayList<ImageFile> unCropImages;
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+
+    public static ArrayList<ImageFile> getAllImages() {
+        return allImages;
+    }
+
+    public void setAllImages(ArrayList<ImageFile> allImages) {
+        if (CropPane.allImages == null) {
+            CropPane.allImages = new ArrayList<>(allImages);
+        }
+    }
 
     private Pane getDetailsPane() {
         BorderPane cropInfoPane = new BorderPane();
@@ -88,9 +98,11 @@ public class CropPane extends ScrollPane {
         VBox middleArea = new VBox(20);
         middleArea.setPadding(new Insets(0, 25, 0,25));
 
+        setAllImages(unCropImages);
+
         mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
 
-        MultiPicturePane cropMultiplePic = new MultiPicturePane(unCropImages);
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(getAllImages(), allImages.size() - unCropImages.size());
         cropMultiplePic.getAddButton().setOnMouseClicked(_ -> onAddButtonClicked());
 
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);
