@@ -67,7 +67,7 @@ public class CropController {
 
 
                             // Add new Pane or perform other UI updates here
-
+                            Launcher.showProcess();
                         });
                     } else {
                         Platform.runLater(() -> {
@@ -93,8 +93,6 @@ public class CropController {
                 future.complete(selectedPath);
             } else {
                 showErrorDialog();
-                //unCropImages.add(CropPane.getAllImages().getLast());
-                //Launcher.refreshCropPane(unCropImages);
                 System.out.println("Uncrop " + unCropImages.size());
                 System.out.println("Crop " + croppedImages.size());
                 future.complete(null);

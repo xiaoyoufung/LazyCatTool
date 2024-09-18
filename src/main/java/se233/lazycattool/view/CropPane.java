@@ -31,6 +31,8 @@ public class CropPane extends ScrollPane {
     public static ArrayList<ImageFile> allImages;
     private CropMainImage mainImage;
     private ArrayList<ImageFile> unCropImages;
+    private Pane processArea = genProcessArea();
+    private BorderPane cropInfoPane = new BorderPane();
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
 
@@ -45,11 +47,11 @@ public class CropPane extends ScrollPane {
     }
 
     private Pane getDetailsPane() {
-        BorderPane cropInfoPane = new BorderPane();
+
 
         Pane mainArea = genMainArea();
 
-        Pane processArea = genProcessArea();
+
 
         cropInfoPane.setLeft(mainArea);
 
@@ -63,6 +65,10 @@ public class CropPane extends ScrollPane {
 
         this.setStyle("-fx-background-color:#FFF;");
         this.setContent(cropInfoPane);
+    }
+
+    public void drawShowProcess(){
+        cropInfoPane.setRight(processArea);
     }
 
     private Pane  genMainArea(){
