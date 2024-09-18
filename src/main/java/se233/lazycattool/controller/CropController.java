@@ -18,9 +18,13 @@ public class CropController {
     public static ArrayList<ImageFile> croppedImages = new ArrayList<>();
     public static ArrayList<ImageFile> unCropImages;
 
-    public static void onAddButtonClicked(){ Launcher.switchToUpload(); }
+    public static void onAddButtonClicked(){
+        Launcher.switchToUpload();
+        Launcher.refreshPane();
+    }
 
     public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
+        int allImagesSize = CropPane.getAllImages().size();
         unCropImages = imageFile;
         ImageFile selectedImage = imageFile.getFirst();
         selectedImage.setCropInfo(cropImage);
@@ -29,19 +33,20 @@ public class CropController {
         if (CropPane.allImages.size() == 1){
             initializeCropPane(croppedImages);
         } else { // Crop multiple images
-            if (croppedImages.size() != CropPane.allImages.size() - 1){
+
+            if (croppedImages.size() == allImagesSize){
+                initializeCropPane(croppedImages);
+                return;
+            }
+
+            if (croppedImages.size() != allImagesSize - 1){
                 unCropImages.removeFirst();
                 croppedImages.add(selectedImage);
 
                 Launcher.refreshCropPane(unCropImages);
             } else { // If crop all images
                 croppedImages.add(selectedImage);
-
                 initializeCropPane(croppedImages);
-
-//                for (ImageFile image: croppedImages){
-//                    System.out.println("Image" + image.getName() + ": " + image.getCropInfo().getCropX() + ", " + image.getCropInfo().getCropY());
-//                }
             }
         }
     }
@@ -88,6 +93,10 @@ public class CropController {
                 future.complete(selectedPath);
             } else {
                 showErrorDialog();
+                //unCropImages.add(CropPane.getAllImages().getLast());
+                //Launcher.refreshCropPane(unCropImages);
+                System.out.println("Uncrop " + unCropImages.size());
+                System.out.println("Crop " + croppedImages.size());
                 future.complete(null);
             }
         });
