@@ -117,11 +117,9 @@ public class CropPane extends ScrollPane {
         HBox btnContainer = new HBox(10);
 
         // when User click confirm button
-        confirmBtn.setOnMouseClicked(event -> {
-            // ทำอะไรสักอย่าง
+        confirmBtn.setOnMouseClicked(_ -> {
+            // get image crop size from CropMainImage getCroppedImage method.
             CropImage cropImage = getMainImage().getCroppedImage();
-            //System.out.println(cropImage.getCropX());
-
             onMouseClicked(cropImage, unCropImages);
         });
 

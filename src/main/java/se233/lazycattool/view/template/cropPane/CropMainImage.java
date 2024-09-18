@@ -2,6 +2,7 @@ package se233.lazycattool.view.template.cropPane;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -15,28 +16,44 @@ import se233.lazycattool.view.template.components.ImageViewURL;
 public class CropMainImage extends Pane {
     private double startX, startY;
     private boolean draggingTopLeft, draggingTopRight, draggingBottomLeft, draggingBottomRight, draggingCropArea;
-    private double cropX = 84, cropY = 56, cropWidth = 330, cropHeight = 205, paneWidth = 512, paneHeight = 312;
+    private double cropX = 84;
+    private double cropY = 56;
+    private double cropWidth = 330;
+    private double cropHeight = 205;
+    private final double PANE_WIDTH = 512;
+    private final double PANE_HEIGHT = 312;
+    private double imageWidth, imageHeight;
 
     public CropMainImage(String url){
-        this.setPrefSize(512, 312);
+        this.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
+        this.setMaxSize(PANE_WIDTH, PANE_HEIGHT);
 
         // for use if Error occur.
         //String imgURL1 = "file:/Users/xiaoyoufung/Desktop/test-photo/blue_dusk.png";
 
-        // User current Image.
-        ImageView imageView = new ImageFileURL(url);
+
+        // Load the image to get its dimensions
+        Image image = new Image(STR."file:\{url}");
+        imageWidth = image.getWidth();
+        imageHeight = image.getHeight();
+
+        // Create ImageView and set it to clip to the pane size
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(Math.max(PANE_WIDTH, imageWidth));
+        imageView.setFitHeight(Math.max(PANE_HEIGHT, imageHeight));
 
         // Background Image.
         ImageView backgroundImage = new ImageViewURL("assets/images/imageWrap.jpg");
-
-        backgroundImage.setFitWidth(paneWidth);
-        backgroundImage.setFitHeight(paneHeight);
+        backgroundImage.setFitWidth(PANE_WIDTH);
+        backgroundImage.setFitHeight(PANE_HEIGHT);
         backgroundImage.setPreserveRatio(true);
-        imageView.setFitWidth(paneWidth);
-        imageView.setFitHeight(paneHeight);
-        imageView.setPreserveRatio(true);
 
-        Canvas canvas = new Canvas(paneWidth, paneHeight);
+        // Center the image if it's smaller than the pane
+        imageView.setX(Math.min(0, (PANE_WIDTH - imageWidth) / 2));
+        imageView.setY(Math.min(0, (PANE_HEIGHT - imageHeight) / 2));
+
+        Canvas canvas = new Canvas(PANE_WIDTH, PANE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         draw(gc);
@@ -93,18 +110,18 @@ public class CropMainImage extends Pane {
         });
 
         // make border have radius of 18px
-        Rectangle clip = new CripBorder(paneWidth, paneHeight, 18);
+        Rectangle clip = new CripBorder(PANE_WIDTH, PANE_HEIGHT, 18);
         this.setClip(clip);
 
         this.getChildren().addAll(backgroundImage, imageView, canvas);
     }
 
     private void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, paneWidth, paneHeight);
+        gc.clearRect(0, 0, PANE_WIDTH, PANE_HEIGHT);
 
         // Draw the darkened background
         gc.setFill(Color.rgb(0, 0, 0, 0.375));
-        gc.fillRect(0, 0, paneWidth, paneHeight);
+        gc.fillRect(0, 0, PANE_WIDTH, PANE_HEIGHT);
 
         // Set the stroke width for the crop area border
         gc.setLineWidth(2);

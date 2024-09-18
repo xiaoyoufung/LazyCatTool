@@ -25,25 +25,28 @@ public class CropController {
         ImageFile selectedImage = imageFile.getFirst();
         selectedImage.setCropInfo(cropImage);
 
-        // ถ้ารูปที่ต้องการครอปมี 1 รูป
-        if (imageFile.size() == 1){
-            initializeCropPane();
-        } else {
-            // รูปที่ต้องการครอปมีมากกว่า 1 รูป
-            if (croppedImages.size() == CropPane.allImages.size()){
-
-                // ขึ้นโฟลเดอร์ให้กดเลือก
-                initializeCropPane();
-
-            } else {
+        // Crop one image
+        if (CropPane.allImages.size() == 1){
+            initializeCropPane(croppedImages);
+        } else { // Crop multiple images
+            if (croppedImages.size() != CropPane.allImages.size() - 1){
                 unCropImages.removeFirst();
                 croppedImages.add(selectedImage);
+
                 Launcher.refreshCropPane(unCropImages);
+            } else { // If crop all images
+                croppedImages.add(selectedImage);
+
+                initializeCropPane(croppedImages);
+
+//                for (ImageFile image: croppedImages){
+//                    System.out.println("Image" + image.getName() + ": " + image.getCropInfo().getCropX() + ", " + image.getCropInfo().getCropY());
+//                }
             }
         }
     }
 
-    public static void initializeCropPane() {
+    public static void initializeCropPane(ArrayList<ImageFile> croppedImages) {
 
         // (1) This ensures that the directory chooser dialog is shown without blocking the JavaFX Application Thread.
         CompletableFuture.supplyAsync(() -> chooseDirectory())
@@ -53,6 +56,8 @@ public class CropController {
                             desPath = selectedPath;
                             System.out.println("Selected directory: " + desPath);
 
+                            ImageCropper imageCropper = new ImageCropper();
+                            imageCropper.cropImages(croppedImages, desPath);
                             //Launcher.refreshCropPane(unCropImages);
 
 

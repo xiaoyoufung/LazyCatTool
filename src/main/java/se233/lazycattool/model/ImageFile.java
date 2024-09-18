@@ -46,4 +46,12 @@ public class ImageFile {
         this.cropInfo = cropInfo;
     }
 
+    public String getType() {
+        if (this.type == FileType.png){
+            return "png";
+        } else {
+            return "jpg";
+        }
+    }
+
 }

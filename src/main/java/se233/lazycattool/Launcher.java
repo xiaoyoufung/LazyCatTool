@@ -49,10 +49,10 @@ public class Launcher extends Application {
         Font.loadFont(Launcher.class.getResource("assets/fonts/Inter-VariableFont_opsz,wght.ttf").toExternalForm(), 10);
 
         // delete soon...
-        ImageFile image1 = new ImageFile("blue_dusk.jpg", "/Users/xiaoyoufung/Desktop/test-photo/blue_dusk.png", 2048.5, FileType.png);
-        ImageFile image2 = new ImageFile("botanists_window.png", "/Users/xiaoyoufung/Desktop/test-photo/botanists_window.png", 1024.0, FileType.png);
-        ImageFile image3 = new ImageFile("dusty_lilac.png", "/Users/xiaoyoufung/Desktop/test-photo/dusty_lilac.png", 512.75, FileType.png);
-        ImageFile image4 = new ImageFile("summer_haze.png", "/Users/xiaoyoufung/Desktop/test-photo/summer_haze.png", 2334.8, FileType.png);
+        ImageFile image1 = new ImageFile("blue_dusk.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/blue_dusk.png", 2048.5, FileType.png);
+        ImageFile image2 = new ImageFile("botanists_window.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/botanists_window.png", 1024.0, FileType.png);
+        ImageFile image3 = new ImageFile("dusty_lilac.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/dusty_lilac.png", 512.75, FileType.png);
+        ImageFile image4 = new ImageFile("summer_haze.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/summer_haze.png", 2334.8, FileType.png);
 
         tempImageFiles.add(image1);
         tempImageFiles.add(image2);
