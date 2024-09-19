@@ -79,18 +79,13 @@ public class UploadPane extends ScrollPane {
         DragDropBox dragDropGroup = new DragDropBox();
 
         // Middle Drag drop
-        dragDropGroup.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent e) { onDragOver(e); }
-        });
-        dragDropGroup.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent e) {
-                try {
-                    onDragDropped(e);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+        dragDropGroup.setOnDragOver(e -> onDragOver(e));
+        dragDropGroup.setOnDragDropped(e -> {
+            try {
+                onDragDropped(e);
+            } catch (IOException ex) {
+                // (E.2) RuntimeException
+                throw new RuntimeException(ex);
             }
         });
 

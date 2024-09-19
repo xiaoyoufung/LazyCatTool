@@ -26,6 +26,7 @@ public class CropController {
     public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
         int allImagesSize = CropPane.getAllImages().size();
         unCropImages = imageFile;
+
         ImageFile selectedImage = imageFile.getFirst();
         selectedImage.setCropInfo(cropImage);
 

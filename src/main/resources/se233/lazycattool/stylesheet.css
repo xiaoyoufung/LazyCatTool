@@ -169,6 +169,7 @@
 .stretch-btn-active{
     -fx-background-color: #E5E5E5;
     -fx-border-color: #101828;
+    -fx-border-width: 2;
 }
 
 .edge-detect-pane .confirm-btn{
@@ -184,4 +185,11 @@
     -fx-background-radius: 8;
     -fx-background-color: #FFF;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);
+}
+
+.inside-process-pane{
+    -fx-border-color: #D5DBDF;
+    -fx-border-radius: 8;
+    -fx-background-color: #FFF;
+    -fx-background-radius: 8;
 }

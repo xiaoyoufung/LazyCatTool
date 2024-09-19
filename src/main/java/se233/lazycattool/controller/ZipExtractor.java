@@ -52,12 +52,6 @@ public class ZipExtractor {
                             }
                         }
 
-                        // Print the file details
-//                        System.out.println("Extracted file: " + filePath);
-//                        System.out.println("File size: " + Files.size(filePath) + " bytes");
-//                        System.out.println("File name: " + filePath.getFileName());
-//                        System.out.println("File type: " + filePath.getFileName().toString().endsWith(".png"));
-
                         String imageName = filePath.getFileName().toString();
                         double imageSize = (Files.size(filePath) / 1024.0);
                         FileType imageType = imageName.endsWith(".png") ? FileType.png : FileType.jpg;
@@ -79,7 +73,7 @@ public class ZipExtractor {
                             .map(Path::toFile)
                             .forEach(File::delete);
                     System.out.println("Temporary files deleted.");
-                } catch (IOException e) {
+                } catch (IOException e) { // (E.1) IOException
                     e.printStackTrace();
                 }
             }));

@@ -13,9 +13,6 @@ public class ProgressingImage extends BorderPane {
 
     Label fileName, fileSize, percent;
 
-    // icon
-    private final ImageViewURL closeIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
-
     public ProgressingImage(String name, double size){
         this.getStyleClass().add("processing-image");
         fileName = new Label(name);
@@ -30,7 +27,6 @@ public class ProgressingImage extends BorderPane {
 
         // Add all sections to main BorderPane
         this.setLeft(leftSection);
-        this.setRight(closeIcon);
         this.setBottom(btmSection);
     }
 
@@ -40,10 +36,6 @@ public class ProgressingImage extends BorderPane {
         } else {
             this.getStyleClass().removeAll("uploaded-file-active");
         }
-    }
-
-    public ImageViewURL getCloseIcon() {
-        return closeIcon;
     }
 
     private ProgressBar genProgressBar(){

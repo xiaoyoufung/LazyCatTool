@@ -11,15 +11,14 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import se233.lazycattool.model.ImageFile;
-import se233.lazycattool.view.template.components.CripBorder;
-import se233.lazycattool.view.template.components.MainInfoPane;
-import se233.lazycattool.view.template.components.MultiPicturePane;
+import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
+import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
 
 import java.util.ArrayList;
 
-public class EdgeDetectPane extends ScrollPane {
+public class EdgeDetectPane extends AnchorPane {
     public EdgeDetectPane(){}
     private final double PANE_WIDTH = 545;
     private final double LINE_BOLD = 1.25;
@@ -43,12 +42,24 @@ public class EdgeDetectPane extends ScrollPane {
     StretchButton sobelLbl;
 
     private Pane getDetailsPane(){
-        Pane edgeDetectInfoPane = new MainInfoPane("edge-detect-pane");
-        //edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
+        Pane edgeDetectInfoPane = new AnchorPane();
+        edgeDetectInfoPane.getStyleClass().add("edge-detect-pane");
 
         Pane mainArea = genMainArea();
+        ScrollPane processArea = genProcessPane();
 
-        edgeDetectInfoPane.getChildren().addAll(mainArea);
+        VBox mainAreaContainer = new VBox(mainArea);
+
+        edgeDetectInfoPane.getChildren().addAll(mainAreaContainer, processArea);
+
+        AnchorPane.setTopAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setLeftAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setRightAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setBottomAnchor(mainAreaContainer, 0.0);
+
+        AnchorPane.setTopAnchor(processArea, 35.0);
+        AnchorPane.setRightAnchor(processArea, -8.0);
+
         return edgeDetectInfoPane;
     }
 
@@ -57,12 +68,11 @@ public class EdgeDetectPane extends ScrollPane {
         this.unProcessedImages = allUploadedImages;
         Pane edgeDetectInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
-        this.setContent(edgeDetectInfoPane);
+        this.getChildren().add(edgeDetectInfoPane);
     }
 
     private VBox genMainArea(){
         VBox mainArea = new VBox(20);
-
 
         VBox mainTopArea = genMainTopArea();
 
@@ -85,15 +95,23 @@ public class EdgeDetectPane extends ScrollPane {
 
     private VBox genMainTopArea(){
         VBox mainTopArea = new VBox(10);
-        Label headLbl, algoLbl, algoSubLbl;
+        Label headLbl;
+        BorderPane headerArea = new BorderPane();
+
+        ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 14,14);
+        threeDotsIcon.setRotate(90);
+        IconWithBorder threeDotsButton = new IconWithBorder(threeDotsIcon, 12,7, 5);
 
         headLbl = new Label("Detect Edge");
         headLbl.getStyleClass().add("heading");
 
-        Line line1 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
-        //setPadding(line1, new Insets(10,0,20,0));
+        headerArea.setLeft(headLbl);
+        headerArea.setRight(threeDotsButton);
+        BorderPane.setAlignment(headLbl, Pos.CENTER);
 
-        mainTopArea.getChildren().addAll(headLbl, line1);
+        Line line1 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
+
+        mainTopArea.getChildren().addAll(headerArea, line1);
         return mainTopArea;
     }
 
@@ -219,5 +237,37 @@ public class EdgeDetectPane extends ScrollPane {
         confirmBtnArea.setPadding(new Insets(0, 0, 25, 0));
         confirmBtnArea.getChildren().add(confirmBtn);
         return confirmBtnArea;
+    }
+
+    private ScrollPane genProcessPane(){
+        ScrollPane processPane = new ScrollPane();
+        processPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 10; -fx-border-radius: 10;");
+        processPane.setMaxHeight(600);
+        processPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        processPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        VBox insideProcess = new VBox(12);
+        insideProcess.getStyleClass().add("inside-process-pane");
+
+        BorderPane topArea = new BorderPane();
+
+        // Add some content to make it visible
+        Label label = new Label("Processing");
+        label.setStyle("-fx-text-fill: black");
+
+        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
+
+        topArea.setLeft(label);
+        topArea.setRight(closeProcessIcon);
+
+        Pane progressingImage1 = new ProgressingImage("blue_dusk", 203);
+        Pane progressingImage2 = new ProgressingImage("blue_dusk", 203);
+        Pane progressingImage3 = new ProgressingImage("blue_dusk", 203);
+
+        insideProcess.setPadding(new Insets(12));
+        insideProcess.getChildren().addAll(topArea, progressingImage1, progressingImage2, progressingImage3);
+
+        processPane.setContent(insideProcess);
+        return processPane;
     }
 }
