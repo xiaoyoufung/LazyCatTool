@@ -6,7 +6,7 @@ public class CripBorder extends Rectangle {
     public CripBorder(double width, double height, double radius){
         this.setWidth(width);
         this.setHeight(height);
-        this.setArcWidth(18);
-        this.setArcHeight(18);
+        this.setArcWidth(radius);
+        this.setArcHeight(radius);
     }
 }

@@ -158,6 +158,14 @@
     -fx-cursor: hand;
 }
 
+.edge-detect-pane .confirm-btn{
+    -fx-background-color: #101828;
+    -fx-background-radius: 8;
+    -fx-font-weight: 700;
+    -fx-text-fill: #FFF;
+    -fx-font-size: 15;
+}
+
 .sidebar-btn-active{
     -fx-background-radius: 8;
     -fx-background-color: #FFF;

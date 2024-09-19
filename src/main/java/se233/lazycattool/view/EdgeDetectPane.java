@@ -13,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.CripBorder;
 import se233.lazycattool.view.template.components.MainInfoPane;
+import se233.lazycattool.view.template.components.MultiPicturePane;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 
@@ -44,7 +45,7 @@ public class EdgeDetectPane extends ScrollPane {
     }
 
     private VBox genMainArea(){
-        VBox mainArea = new VBox(10);
+        VBox mainArea = new VBox(20);
 
 
         VBox mainTopArea = genMainTopArea();
@@ -56,9 +57,12 @@ public class EdgeDetectPane extends ScrollPane {
         VBox bottomArea = genMainBtmArea();
 
         SeperateLine line3 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
+
+        HBox confirmButton = genConfirmBtn();
+
         // button take full width
 
-        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, bottomArea, line3);
+        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, bottomArea, line3, confirmButton);
 
         return mainArea;
     }
@@ -90,7 +94,6 @@ public class EdgeDetectPane extends ScrollPane {
         // Three button
         HBox buttonArea = genSelectButtonArea();
 
-        mainMiddleArea.setPadding(new Insets(12,0,12,0));
         mainMiddleArea.getChildren().addAll(algoLbl, algoSubLbl, buttonArea);
         return mainMiddleArea;
     }
@@ -127,7 +130,9 @@ public class EdgeDetectPane extends ScrollPane {
 
         ImageView mainImage = genMainImage();
 
-        mainBtmArea.getChildren().addAll(uploadLbl, uploadSubLbl, mainImage);
+        MultiPicturePane multiPictureArea = new MultiPicturePane(unProcessedImages, 0);
+
+        mainBtmArea.getChildren().addAll(uploadLbl, uploadSubLbl, mainImage, multiPictureArea);
         return mainBtmArea;
     }
 
@@ -139,23 +144,20 @@ public class EdgeDetectPane extends ScrollPane {
 
         String filepath = unProcessedImages.getFirst().getFilepath();
         Image image = new Image("file:" + filepath);
-
-
         ImageView imageView = new ImageView(image);
 
         // make image's border radius of 6px
-        Rectangle clip = new CripBorder(PANE_WIDTH, 200, 6);
+        Rectangle clip = new CripBorder(PANE_WIDTH, 200, 10);
         imageView.setClip(clip);
 
-        resizeImageView(imageView, PANE_WIDTH, 200);
-
+        resizeImageView(imageView);
         return imageView;
     }
 
-    private void resizeImageView(ImageView imageView, double width, double height) {
+    private void resizeImageView(ImageView imageView) {
         imageView.setPreserveRatio(true);
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
+        imageView.setFitWidth(PANE_WIDTH);
+        imageView.setFitHeight(200);
 
         double imageWidth = imageView.getImage().getWidth();
         double imageHeight = imageView.getImage().getHeight();
@@ -165,14 +167,33 @@ public class EdgeDetectPane extends ScrollPane {
         double centerY = imageHeight / 2;
 
         // Calculate the viewport coordinates
-        double viewportX = centerX - (width / 2);
-        double viewportY = centerY - (height / 2);
+        double viewportX = centerX - (545.0 / 2);
+        double viewportY = centerY - ((double) 200 / 2);
 
         // Ensure the viewport does not exceed the image boundaries
         viewportX = Math.max(0, viewportX);
         viewportY = Math.max(0, viewportY);
 
         // Set the viewport to display the center part of the image
-        imageView.setViewport(new Rectangle2D(viewportX, viewportY, width, height));
+        imageView.setViewport(new Rectangle2D(viewportX, viewportY, 545.0, 200));
+    }
+
+    private HBox genConfirmBtn(){
+        HBox confirmBtnArea = new HBox();
+        confirmBtnArea.setPrefWidth(PANE_WIDTH);
+        Label confirmBtn = new Label("Confirm");
+
+        // Set max width to infinity to ensure they grow
+        confirmBtn.setMaxWidth(Double.MAX_VALUE);
+        confirmBtn.setAlignment(Pos.CENTER);
+        confirmBtn.getStyleClass().add("confirm-btn");
+        confirmBtn.setPadding(new Insets(16,0,16,0));
+
+        // Allow the label to grow horizontally
+        HBox.setHgrow(confirmBtn, Priority.ALWAYS);
+
+        confirmBtnArea.setPadding(new Insets(0, 0, 25, 0));
+        confirmBtnArea.getChildren().add(confirmBtn);
+        return confirmBtnArea;
     }
 }
