@@ -48,10 +48,7 @@ public class CropPane extends ScrollPane {
 
     private Pane getDetailsPane() {
 
-
         Pane mainArea = genMainArea();
-
-
 
         cropInfoPane.setLeft(mainArea);
 
@@ -163,7 +160,7 @@ public class CropPane extends ScrollPane {
     private VBox genProcessTopArea(){
         VBox topArea = new VBox(10);
         Label processingLbl = new Label("Processing");
-        processingLbl.setStyle("-fx-font-weight: bold; -fx-font-size: 14");
+        processingLbl.getStyleClass().add("small-heading");
 
         // Processing Image show [!!! we will adjust process bar here !!!]
         Pane progressingImage = new ProgressingImage("blue_dusk", 203);

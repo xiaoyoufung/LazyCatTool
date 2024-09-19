@@ -83,7 +83,7 @@ public class Launcher extends Application {
         mainPane.setLeft(sideBarPane);
 
         // Set initial center pane
-        mainPane.setCenter(cropPane);
+        mainPane.setCenter(edgeDetectPane);
         sideBarPane.getUploadButton().setOnClick(true);
 
         // Add event handlers to buttons
