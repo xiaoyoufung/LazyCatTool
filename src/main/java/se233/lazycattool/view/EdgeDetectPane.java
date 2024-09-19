@@ -26,6 +26,22 @@ public class EdgeDetectPane extends ScrollPane {
     private ArrayList<ImageFile> unProcessedImages;
     VBox mainBtmArea;
 
+    public StretchButton getCannyLbl() {
+        return cannyLbl;
+    }
+
+    public StretchButton getLaplacianLbl() {
+        return laplacianLbl;
+    }
+
+    public StretchButton getSobelLbl() {
+        return sobelLbl;
+    }
+
+    StretchButton cannyLbl;
+    StretchButton laplacianLbl;
+    StretchButton sobelLbl;
+
     private Pane getDetailsPane(){
         Pane edgeDetectInfoPane = new MainInfoPane("edge-detect-pane");
         //edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
@@ -102,9 +118,17 @@ public class EdgeDetectPane extends ScrollPane {
         HBox selectBtnArea = new HBox(6);
 
         // Create three labels
-        Label cannyLbl = new StretchButton("Canny");
-        Label laplacianLbl = new StretchButton("Laplacian");
-        Label sobelLbl = new StretchButton("Sobel");
+        cannyLbl = new StretchButton("Canny");
+        laplacianLbl = new StretchButton("Laplacian");
+        sobelLbl = new StretchButton("Sobel");
+
+        cannyLbl.setId("Canny");
+        laplacianLbl.setId("Laplacian");
+        sobelLbl.setId("Sobel");
+
+        cannyLbl.setOnAction();
+        laplacianLbl.setOnAction();
+        sobelLbl.setOnAction();
 
         selectBtnArea.setAlignment(Pos.CENTER);
 

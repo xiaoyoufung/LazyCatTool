@@ -29,6 +29,11 @@ public class Launcher extends Application {
     private static SideBarPane sideBarPane = null;
     private static UploadPane uploadPane = null;
     private static CropPane cropPane = null;
+
+    public static EdgeDetectPane getEdgeDetectPane() {
+        return edgeDetectPane;
+    }
+
     private static EdgeDetectPane edgeDetectPane = null;
     private static ArrayList<ImageFile> allUploadedImages = new ArrayList<>();
     private static MultiPicturePane multiPicturePane = null;
@@ -90,6 +95,7 @@ public class Launcher extends Application {
         sideBarPane.getUploadButton().setOnAction(e -> switchRoot(uploadPane));
         sideBarPane.getCropButton().setOnAction(e -> switchRoot(cropPane));
         sideBarPane.getDetectEdgeButton().setOnAction(e -> switchRoot(edgeDetectPane));
+//        cropPane.getAddButton().setOnMouseClicked(e -> switchRoot(uploadPane));
     }
 
     public static void refreshPane(){

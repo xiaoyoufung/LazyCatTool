@@ -40,12 +40,17 @@
     -fx-font-size: 14;
 }
 
+.sidebar-btn{
+    -fx-cursor: hand;
+}
+
 .upload-pane .drag-drop-group{
     -fx-border-style: segments(6, 6, 6, 6)  line-cap round ;
     -fx-border-width: 1.75;
     -fx-border-color: #D2D4DA;
     -fx-border-radius: 10;
 }
+
 .upload-pane .drag-drop-group .drag-drop-head, .sidebar-btn-lbl {
     -fx-font-size: 15;
 }
@@ -146,16 +151,24 @@
     -fx-font-size: 9;
 }
 
-.stretch-btn{
-    -fx-background-color: #F4F4F4;
-    -fx-border-width: 1.25;
-    -fx-border-color: #E4E7EC;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
+.stretch-btn, .stretch-btn-active{
+    -fx-text-fill: #101828;
     -fx-font-size: 19;
     -fx-font-weight: 600;
-    -fx-text-fill: #101828;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.25;
+}
+
+.stretch-btn{
+    -fx-background-color: #F4F4F4;
+    -fx-border-color: #E4E7EC;
     -fx-cursor: hand;
+}
+
+.stretch-btn-active{
+    -fx-background-color: #E5E5E5;
+    -fx-border-color: #101828;
 }
 
 .edge-detect-pane .confirm-btn{
@@ -164,6 +177,7 @@
     -fx-font-weight: 700;
     -fx-text-fill: #FFF;
     -fx-font-size: 15;
+    -fx-cursor: hand;
 }
 
 .sidebar-btn-active{

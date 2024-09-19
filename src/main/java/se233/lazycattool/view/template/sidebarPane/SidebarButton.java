@@ -24,6 +24,7 @@ public class SidebarButton extends StackPane {
         btnTextLbl.getStyleClass().add("sidebar-btn-lbl");
         btnTextLbl.setFont(Font.font("Inter", 600));
 
+        this.getStyleClass().add("sidebar-btn");
         this.getChildren().add(btnTextLbl);
         this.setAlignment(Pos.CENTER_LEFT);
         setMargin(this, new Insets(0));
