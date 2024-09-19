@@ -90,14 +90,13 @@ public class Launcher extends Application {
         sideBarPane.getUploadButton().setOnAction(e -> switchRoot(uploadPane));
         sideBarPane.getCropButton().setOnAction(e -> switchRoot(cropPane));
         sideBarPane.getDetectEdgeButton().setOnAction(e -> switchRoot(edgeDetectPane));
-//        cropPane.getAddButton().setOnMouseClicked(e -> switchRoot(uploadPane));
     }
 
     public static void refreshPane(){
         sideBarPane.drawPane();
         uploadPane.drawPane(allUploadedImages);
         cropPane.drawPane(tempImageFiles);
-        edgeDetectPane.drawPane();
+        edgeDetectPane.drawPane(tempImageFiles);
     }
 
     public static void refreshUploadPane(){
