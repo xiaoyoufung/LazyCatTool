@@ -13,6 +13,6 @@ public class StretchButton extends Label {
 
         this.getStyleClass().add("stretch-btn");
         this.setAlignment(Pos.CENTER);
-        this.setPadding(new Insets(10,0,10,0));
+        this.setPadding(new Insets(13,0,13,0));
     }
 }

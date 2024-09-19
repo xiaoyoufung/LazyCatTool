@@ -19,6 +19,7 @@ public class SideBarPane extends ScrollPane {
         VBox sidebarInfoPane = new VBox(25);
         sidebarInfoPane.setAlignment(Pos.TOP_LEFT);
         sidebarInfoPane.setPadding(new Insets(25,8,100,8));
+        sidebarInfoPane.setPrefWidth(200);
 
         // Add all the Buttons to the Sidebar Pane
         sidebarInfoPane.getChildren().addAll(uploadButton, detectEdgeButton, cropButton);

@@ -3,20 +3,21 @@ package se233.lazycattool.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import se233.lazycattool.view.template.components.MainInfoPane;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 
-public class EdgeDetectPane extends AnchorPane {
+public class EdgeDetectPane extends ScrollPane {
     public EdgeDetectPane(){}
     private final double PANE_WIDTH = 545;
     private final double LINE_BOLD = 1.25;
 
     private Pane getDetailsPane(){
         Pane edgeDetectInfoPane = new MainInfoPane("edge-detect-pane");
-        edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
+        //edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
 
         Pane mainArea = genMainArea();
 
@@ -28,7 +29,7 @@ public class EdgeDetectPane extends AnchorPane {
         Pane edgeDetectInfoPane = getDetailsPane();
 
         this.setStyle("-fx-background-color:#FFF;");
-        this.getChildren().add(edgeDetectInfoPane);
+        this.setContent(edgeDetectInfoPane);
     }
 
     private VBox genMainArea(){
@@ -64,8 +65,6 @@ public class EdgeDetectPane extends AnchorPane {
 
         VBox middleArea = genMainMiddleArea();
 
-
-
         SeperateLine line2 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
 
         mainTopArea.getChildren().addAll(headLbl, line1, middleArea, line2);
@@ -73,15 +72,17 @@ public class EdgeDetectPane extends AnchorPane {
     }
 
     private VBox genMainMiddleArea(){
-        VBox mainMiddleArea = new VBox(10);
+        VBox mainMiddleArea = new VBox(12);
         Label algoLbl, algoSubLbl;
 
         algoLbl = new Label("Algorithm");
         algoLbl.getStyleClass().add("small-heading");
+
         algoSubLbl = new Label("Choose an option to cuztomize the edge detection algorithm.");
+        algoSubLbl.getStyleClass().add("sub-heading");
 
         // Three button
-        HBox btnArea = new HBox(5);
+        HBox btnArea = new HBox(6);
         btnArea.setAlignment(Pos.CENTER);
 
         // Create three labels
@@ -97,7 +98,7 @@ public class EdgeDetectPane extends AnchorPane {
         HBox.setHgrow(laplacianLbl, Priority.ALWAYS);
         HBox.setHgrow(sobelLbl, Priority.ALWAYS);
 
-        mainMiddleArea.setPadding(new Insets(10,0,10,0));
+        mainMiddleArea.setPadding(new Insets(12,0,12,0));
         mainMiddleArea.getChildren().addAll(algoLbl, algoSubLbl, btnArea);
         return mainMiddleArea;
     }

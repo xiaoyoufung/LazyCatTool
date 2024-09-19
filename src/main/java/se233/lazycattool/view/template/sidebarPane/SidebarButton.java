@@ -19,13 +19,13 @@ public class SidebarButton extends StackPane {
 
     public SidebarButton(String btnTxt, String iconURL){
         ImageViewURL btnIcon = new ImageViewURL(iconURL, 14);
-        Label btnTextLbl = new Label(" " + btnTxt, btnIcon);
+        Label btnTextLbl = new Label(STR." \{ btnTxt}", btnIcon);
         btnTextLbl.setPadding(new Insets(0, 0, 0,20));
         btnTextLbl.getStyleClass().add("sidebar-btn-lbl");
         btnTextLbl.setFont(Font.font("Inter", 600));
 
         this.getChildren().add(btnTextLbl);
-        this.setAlignment(Pos.BASELINE_LEFT);
+        this.setAlignment(Pos.CENTER_LEFT);
         setMargin(this, new Insets(0));
     }
 
@@ -35,11 +35,12 @@ public class SidebarButton extends StackPane {
 
     private void setOnClickStyle(){
         if (this.isOnClick){
-            this.setPadding(new Insets(12,150,12,0));
-            this.setStyle("-fx-background-radius: 8; -fx-background-color: #FFF; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);");
+            this.setPadding(new Insets(12,0,12,0));
+            // right 150
+            this.getStyleClass().add("sidebar-btn-active");
         } else {
+            this.getStyleClass().remove("sidebar-btn-active");
             this.setPadding(new Insets(0));
-            this.setStyle("");
         }
     }
 }
