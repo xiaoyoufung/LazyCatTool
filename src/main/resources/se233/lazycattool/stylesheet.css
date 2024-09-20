@@ -217,10 +217,13 @@
 
 .three-dot-icon-active{
     -fx-border-width: 1.25;
-    -fx-border-color: #101828;
+    /* -fx-border-color: #101828; */
     -fx-border-radius: 6;
     -fx-background-radius: 6;
-    -fx-background-color: #E5E5E5;
+    /* -fx-background-color: #E5E5E5; */
+    -fx-background-color: #F4F4F4;
+    -fx-border-color: #E4E7EC;
+    -fx-cursor: hand;
 }
 
 .three-dot-icon{

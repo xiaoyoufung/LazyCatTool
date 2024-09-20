@@ -15,7 +15,6 @@ import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
-import static se233.lazycattool.controller.EdgeDetectController.onCloseIconClicked;
 import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
 import java.util.ArrayList;
@@ -260,32 +259,32 @@ public class EdgeDetectPane extends AnchorPane {
         VBox insideProcess = new VBox(12);
         insideProcess.getStyleClass().add("inside-process-pane");
 
-        BorderPane topArea = new BorderPane();
+        //BorderPane topArea = new BorderPane();
 
         // Add some content to make it visible
         Label processLbl = new Label("Processing");
         processLbl.getStyleClass().add("small-heading");
 
-        // Close icon
-        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeGreyIcon.png", 10);
-        closeProcessIcon.setStyle("-fx-cursor: hand");
+//        // Close icon
+//        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeGreyIcon.png", 10);
+//        closeProcessIcon.setStyle("-fx-cursor: hand");
 
-        closeProcessIcon.setOnMouseClicked(event -> {
-            onCloseIconClicked();
-        });
+//        closeProcessIcon.setOnMouseClicked(event -> {
+//            onCloseIconClicked();
+//        });
 
-        topArea.setLeft(processLbl);
-        topArea.setRight(closeProcessIcon);
-
-        BorderPane.setAlignment(processPane, Pos.CENTER);
-        BorderPane.setAlignment(closeProcessIcon, Pos.CENTER);
+//        topArea.setLeft(processLbl);
+//        topArea.setRight(closeProcessIcon);
+//
+//        BorderPane.setAlignment(processPane, Pos.CENTER);
+//        BorderPane.setAlignment(closeProcessIcon, Pos.CENTER);
 
         Pane progressingImage1 = new ProgressingImage("blue_dusk", 203);
         Pane progressingImage2 = new ProgressingImage("blue_dusk", 203);
         Pane progressingImage3 = new ProgressingImage("blue_dusk", 203);
 
         insideProcess.setPadding(new Insets(12));
-        insideProcess.getChildren().addAll(topArea, progressingImage1, progressingImage2, progressingImage3);
+        insideProcess.getChildren().addAll(processLbl, progressingImage1, progressingImage2, progressingImage3);
 
         processPane.setContent(insideProcess);
         return processPane;

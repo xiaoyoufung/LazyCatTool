@@ -27,17 +27,6 @@ public class ImageViewURL extends ImageView {
         this.setImage(this.imageURL);
     }
 
-    public ImageViewURL(String url, String type, double width, double height, double radius){
-        if (type == "local"){
-            this.setFitWidth(width);
-            this.setFitHeight(height);
-            this.setPreserveRatio(true);
-            this.imageURL = new Image("file:" + url);
-            this.setImageBorderRadius(radius, width, height);
-            this.setImage(this.imageURL);
-        }
-    }
-
     public ImageViewURL(String url, double width, double height){
         this.setFitWidth(width);
         this.setFitHeight(height);

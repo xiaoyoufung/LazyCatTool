@@ -44,10 +44,10 @@ public class EdgeDetectController {
     }
 
     // When user clicked Close Icon
-    public static void onCloseIconClicked(){
-        processPane.setVisible(false);
-        moreBtn.setOnClick(false);
-    }
+    //public static void onCloseIconClicked(){
+        //processPane.setVisible(false);
+        //moreBtn.setOnClick(false);
+    //}
 
     public static void onMoreIconClicked(){
         if (moreBtn.isOnClick()){
