@@ -47,6 +47,7 @@ public class EdgeDetectPane extends AnchorPane {
 
         Pane mainArea = genMainArea();
         ScrollPane processArea = genProcessPane();
+        processArea.setStyle("-fx-background-radius: 10; -fx-border-radius: 10;");
 
         VBox mainAreaContainer = new VBox(mainArea);
 
@@ -98,9 +99,10 @@ public class EdgeDetectPane extends AnchorPane {
         Label headLbl;
         BorderPane headerArea = new BorderPane();
 
-        ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 14,14);
+        ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 15,15);
         threeDotsIcon.setRotate(90);
-        IconWithBorder threeDotsButton = new IconWithBorder(threeDotsIcon, 12,7, 5);
+
+        IconWithBorder threeDotsButton = new IconWithBorder(threeDotsIcon, 13,7);
 
         headLbl = new Label("Detect Edge");
         headLbl.getStyleClass().add("heading");
@@ -241,7 +243,7 @@ public class EdgeDetectPane extends AnchorPane {
 
     private ScrollPane genProcessPane(){
         ScrollPane processPane = new ScrollPane();
-        processPane.setStyle("-fx-background-color: transparent; -fx-background-radius: 10; -fx-border-radius: 10;");
+        processPane.getStyleClass().add("process-pane");
         processPane.setMaxHeight(600);
         processPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         processPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

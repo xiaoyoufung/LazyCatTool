@@ -187,9 +187,45 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);
 }
 
+.process-pane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.process-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.process-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+/* If you want to style the content inside the ScrollPane */
+.process-pane > .viewport > * {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
 .inside-process-pane{
     -fx-border-color: #D5DBDF;
     -fx-border-radius: 8;
     -fx-background-color: #FFF;
     -fx-background-radius: 8;
+}
+
+.three-dot-icon-active{
+    -fx-border-width: 1.25;
+    -fx-border-color: #101828;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-color: #E5E5E5;
+}
+
+.three-dot-icon{
+    -fx-border-color: #FFF;
+    -fx-background-color: #FFF;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
 }

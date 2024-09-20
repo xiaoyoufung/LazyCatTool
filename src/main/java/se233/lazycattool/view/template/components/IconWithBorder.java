@@ -20,4 +20,10 @@ public class IconWithBorder extends BorderPane {
         this.getStyleClass().add("file-icon-container");
         this.setStyle("-fx-border-radius: " + radius + "; -fx-cursor: hand;");
     }
+
+    public IconWithBorder(ImageViewURL icon, double width, double height){
+        setMargin(icon, new Insets(height, width,height, width));
+        this.setCenter(icon);
+        this.getStyleClass().add("three-dot-icon-active");
+    }
 }

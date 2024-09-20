@@ -1,9 +1,7 @@
 package se233.lazycattool.view;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.*;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.ImageFile;
