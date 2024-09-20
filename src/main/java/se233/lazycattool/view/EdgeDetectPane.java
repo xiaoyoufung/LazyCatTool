@@ -29,6 +29,12 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton laplacianLbl;
     StretchButton sobelLbl;
 
+    public ScrollPane getProcessPane() {
+        return processPane;
+    }
+
+    ScrollPane processPane;
+
     public StretchButton getCannyLbl() {
         return cannyLbl;
     }
@@ -242,7 +248,7 @@ public class EdgeDetectPane extends AnchorPane {
     }
 
     private ScrollPane genProcessPane(){
-        ScrollPane processPane = new ScrollPane();
+        processPane = new ScrollPane();
         processPane.getStyleClass().add("process-pane");
         processPane.setMaxHeight(600);
         processPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -260,6 +266,7 @@ public class EdgeDetectPane extends AnchorPane {
         // Close icon
         ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeGreyIcon.png", 10);
         closeProcessIcon.setStyle("-fx-cursor: hand");
+
         closeProcessIcon.setOnMouseClicked(event -> {
             onCloseIconClicked();
         });

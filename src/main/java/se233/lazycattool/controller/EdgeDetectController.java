@@ -39,7 +39,8 @@ public class EdgeDetectController {
 
     }
 
+    // When user clicked Close Icon
     public static void onCloseIconClicked(){
-        System.out.println("Close Close Close Close Close");
+        edgeDetectPane.getProcessPane().setVisible(false);
     }
 }
