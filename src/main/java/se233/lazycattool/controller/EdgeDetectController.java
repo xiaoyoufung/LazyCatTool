@@ -1,15 +1,19 @@
 package se233.lazycattool.controller;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.view.EdgeDetectPane;
+import se233.lazycattool.view.template.components.IconWithBorder;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 
 import java.util.Objects;
 
 public class EdgeDetectController {
     private static final EdgeDetectPane edgeDetectPane = Launcher.getEdgeDetectPane();
+    private static final IconWithBorder moreBtn = edgeDetectPane.getThreeDotsButton();
+    private static final ScrollPane processPane = edgeDetectPane.getProcessPane();
 
     public static void onAlgorithmSelected(MouseEvent event){
         StretchButton cannyBtn = edgeDetectPane.getCannyLbl();
@@ -41,6 +45,17 @@ public class EdgeDetectController {
 
     // When user clicked Close Icon
     public static void onCloseIconClicked(){
-        edgeDetectPane.getProcessPane().setVisible(false);
+        processPane.setVisible(false);
+        moreBtn.setOnClick(false);
+    }
+
+    public static void onMoreIconClicked(){
+        if (moreBtn.isOnClick()){
+            moreBtn.setOnClick(false);
+            processPane.setVisible(false);
+        } else {
+            moreBtn.setOnClick(true);
+            processPane.setVisible(true);
+        }
     }
 }

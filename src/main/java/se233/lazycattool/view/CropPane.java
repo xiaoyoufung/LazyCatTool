@@ -31,8 +31,8 @@ public class CropPane extends ScrollPane {
     public static ArrayList<ImageFile> allImages;
     private CropMainImage mainImage;
     private ArrayList<ImageFile> unCropImages;
-    private Pane processArea = genProcessArea();
-    private BorderPane cropInfoPane = new BorderPane();
+    private final Pane processArea = genProcessArea();
+    private final BorderPane cropInfoPane = new BorderPane();
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
 
@@ -106,7 +106,6 @@ public class CropPane extends ScrollPane {
         mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
 
         MultiPicturePane cropMultiplePic = new MultiPicturePane(getAllImages(), allImages.size() - unCropImages.size());
-        cropMultiplePic.getAddButton().setOnMouseClicked(_ -> onAddButtonClicked());
 
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);
         return middleArea;

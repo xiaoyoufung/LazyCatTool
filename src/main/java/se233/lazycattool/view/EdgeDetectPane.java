@@ -16,6 +16,7 @@ import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
 import static se233.lazycattool.controller.EdgeDetectController.onCloseIconClicked;
+import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
 import java.util.ArrayList;
 
@@ -28,23 +29,24 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton cannyLbl;
     StretchButton laplacianLbl;
     StretchButton sobelLbl;
-
-    public ScrollPane getProcessPane() {
-        return processPane;
-    }
-
     ScrollPane processPane;
+    IconWithBorder threeDotsButton;
 
+    // Getters
     public StretchButton getCannyLbl() {
         return cannyLbl;
     }
-
     public StretchButton getLaplacianLbl() {
         return laplacianLbl;
     }
-
     public StretchButton getSobelLbl() {
         return sobelLbl;
+    }
+    public ScrollPane getProcessPane() {
+        return processPane;
+    }
+    public IconWithBorder getThreeDotsButton() {
+        return threeDotsButton;
     }
 
     private Pane getDetailsPane(){
@@ -108,7 +110,8 @@ public class EdgeDetectPane extends AnchorPane {
         ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 15,15);
         threeDotsIcon.setRotate(90);
 
-        IconWithBorder threeDotsButton = new IconWithBorder(threeDotsIcon, 13,7);
+        threeDotsButton = new IconWithBorder(threeDotsIcon, 13,7);
+        threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
 
         headLbl = new Label("Detect Edge");
         headLbl.getStyleClass().add("heading");

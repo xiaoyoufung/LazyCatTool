@@ -6,6 +6,7 @@ import javafx.scene.layout.StackPane;
 import se233.lazycattool.model.ImageFile;
 import java.util.ArrayList;
 import java.util.List;
+import static se233.lazycattool.controller.CropController.onAddButtonClicked;
 
 public class MultiPicturePane extends HBox {
 
@@ -28,12 +29,10 @@ public class MultiPicturePane extends HBox {
             }
         }
 
+        addButton.setOnMouseClicked(_ -> onAddButtonClicked());
+
         this.getChildren().addAll(imageViews);
         this.setAlignment(Pos.CENTER_LEFT);
         this.getChildren().addAll(addButton);
-    }
-
-    public IconWithBorder getAddButton() {
-        return addButton;
     }
 }
