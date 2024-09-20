@@ -38,4 +38,8 @@ public class EdgeDetectController {
         }
 
     }
+
+    public static void onCloseIconClicked(){
+        System.out.println("Close Close Close Close Close");
+    }
 }

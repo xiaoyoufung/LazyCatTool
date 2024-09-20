@@ -15,6 +15,7 @@ import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
+import static se233.lazycattool.controller.EdgeDetectController.onCloseIconClicked;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,9 @@ public class EdgeDetectPane extends AnchorPane {
     private final double LINE_BOLD = 1.25;
     private ArrayList<ImageFile> unProcessedImages;
     VBox mainBtmArea;
+    StretchButton cannyLbl;
+    StretchButton laplacianLbl;
+    StretchButton sobelLbl;
 
     public StretchButton getCannyLbl() {
         return cannyLbl;
@@ -36,10 +40,6 @@ public class EdgeDetectPane extends AnchorPane {
     public StretchButton getSobelLbl() {
         return sobelLbl;
     }
-
-    StretchButton cannyLbl;
-    StretchButton laplacianLbl;
-    StretchButton sobelLbl;
 
     private Pane getDetailsPane(){
         Pane edgeDetectInfoPane = new AnchorPane();
@@ -254,13 +254,21 @@ public class EdgeDetectPane extends AnchorPane {
         BorderPane topArea = new BorderPane();
 
         // Add some content to make it visible
-        Label label = new Label("Processing");
-        label.setStyle("-fx-text-fill: black");
+        Label processLbl = new Label("Processing");
+        processLbl.getStyleClass().add("small-heading");
 
-        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
+        // Close icon
+        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeGreyIcon.png", 10);
+        closeProcessIcon.setStyle("-fx-cursor: hand");
+        closeProcessIcon.setOnMouseClicked(event -> {
+            onCloseIconClicked();
+        });
 
-        topArea.setLeft(label);
+        topArea.setLeft(processLbl);
         topArea.setRight(closeProcessIcon);
+
+        BorderPane.setAlignment(processPane, Pos.CENTER);
+        BorderPane.setAlignment(closeProcessIcon, Pos.CENTER);
 
         Pane progressingImage1 = new ProgressingImage("blue_dusk", 203);
         Pane progressingImage2 = new ProgressingImage("blue_dusk", 203);
