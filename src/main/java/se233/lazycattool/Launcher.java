@@ -113,12 +113,12 @@ public class Launcher extends Application {
         cropPane.drawPane(imageFiles);
     }
 
-    public static void showProcess(){
-        cropPane.drawShowProcess();
-
-        Stage stage = (Stage) mainPane.getScene().getWindow();
-        stage.sizeToScene();
-    }
+//    public static void showProcess(){
+//        cropPane.drawShowProcess();
+//
+//        Stage stage = (Stage) mainPane.getScene().getWindow();
+//        stage.sizeToScene();
+//    }
 
     public static void switchToUpload(){
         switchRoot(uploadPane);

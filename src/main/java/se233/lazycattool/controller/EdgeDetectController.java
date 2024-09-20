@@ -3,16 +3,18 @@ package se233.lazycattool.controller;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.view.EdgeDetectPane;
 import se233.lazycattool.view.template.components.IconWithBorder;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
+import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
 
 import java.util.Objects;
 
 public class EdgeDetectController {
     private static final EdgeDetectPane edgeDetectPane = Launcher.getEdgeDetectPane();
-    private static final IconWithBorder moreBtn = edgeDetectPane.getThreeDotsButton();
+    private static final ProcessMoreButton moreBtn = edgeDetectPane.getThreeDotsButton();
     private static final ScrollPane processPane = edgeDetectPane.getProcessPane();
 
     public static void onAlgorithmSelected(MouseEvent event){

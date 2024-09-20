@@ -68,7 +68,9 @@ public class CropController {
 
 
                             // Add new Pane or perform other UI updates here
-                            Launcher.showProcess();
+
+
+                            //Launcher.showProcess();
                         });
                     } else {
                         Platform.runLater(() -> {

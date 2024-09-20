@@ -1,4 +1,4 @@
-package se233.lazycattool.view.template.progressImageBar;
+package se233.lazycattool.view.template.progressBar;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

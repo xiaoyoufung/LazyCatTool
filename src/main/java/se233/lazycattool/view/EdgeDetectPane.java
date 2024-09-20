@@ -14,7 +14,8 @@ import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
-import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
+import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
+import se233.lazycattool.view.template.progressBar.ProgressingImage;
 import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton laplacianLbl;
     StretchButton sobelLbl;
     ScrollPane processPane;
-    IconWithBorder threeDotsButton;
+    ProcessMoreButton threeDotsButton;
 
     // Getters
     public StretchButton getCannyLbl() {
@@ -44,7 +45,7 @@ public class EdgeDetectPane extends AnchorPane {
     public ScrollPane getProcessPane() {
         return processPane;
     }
-    public IconWithBorder getThreeDotsButton() {
+    public ProcessMoreButton getThreeDotsButton() {
         return threeDotsButton;
     }
 
@@ -109,7 +110,7 @@ public class EdgeDetectPane extends AnchorPane {
         ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 15,15);
         threeDotsIcon.setRotate(90);
 
-        threeDotsButton = new IconWithBorder(threeDotsIcon, 13,7);
+        threeDotsButton = new ProcessMoreButton( 13,7);
         threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
 
         headLbl = new Label("Detect Edge");
@@ -264,20 +265,6 @@ public class EdgeDetectPane extends AnchorPane {
         // Add some content to make it visible
         Label processLbl = new Label("Processing");
         processLbl.getStyleClass().add("small-heading");
-
-//        // Close icon
-//        ImageViewURL closeProcessIcon = new ImageViewURL("assets/icons/closeGreyIcon.png", 10);
-//        closeProcessIcon.setStyle("-fx-cursor: hand");
-
-//        closeProcessIcon.setOnMouseClicked(event -> {
-//            onCloseIconClicked();
-//        });
-
-//        topArea.setLeft(processLbl);
-//        topArea.setRight(closeProcessIcon);
-//
-//        BorderPane.setAlignment(processPane, Pos.CENTER);
-//        BorderPane.setAlignment(closeProcessIcon, Pos.CENTER);
 
         Pane progressingImage1 = new ProgressingImage("blue_dusk", 203);
         Pane progressingImage2 = new ProgressingImage("blue_dusk", 203);

@@ -13,16 +13,19 @@ import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.CropMainImage;
 import se233.lazycattool.view.template.cropPane.CustomButton;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
-import se233.lazycattool.view.template.progressImageBar.ProgressedImage;
-import se233.lazycattool.view.template.progressImageBar.ProgressingImage;
+import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
+import se233.lazycattool.view.template.progressBar.ProgressingImage;
 
 // import from controller
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static se233.lazycattool.controller.CropController.*;
+import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
-public class CropPane extends ScrollPane {
+public class CropPane extends AnchorPane {
     public CropPane(){}
 
     public CropMainImage getMainImage() {
@@ -31,10 +34,10 @@ public class CropPane extends ScrollPane {
     public static ArrayList<ImageFile> allImages;
     private CropMainImage mainImage;
     private ArrayList<ImageFile> unCropImages;
-    private final Pane processArea = genProcessArea();
-    private final BorderPane cropInfoPane = new BorderPane();
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+    private ScrollPane processPane;
+    private Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
 
     public static ArrayList<ImageFile> getAllImages() {
         return allImages;
@@ -47,11 +50,21 @@ public class CropPane extends ScrollPane {
     }
 
     private Pane getDetailsPane() {
-
+        Pane cropInfoPane = new AnchorPane();
         Pane mainArea = genMainArea();
+        ScrollPane processArea = genProcessPane();
 
-        cropInfoPane.setLeft(mainArea);
+        VBox mainAreaContainer = new VBox(mainArea);
 
+        cropInfoPane.getChildren().addAll(mainAreaContainer, processArea);
+
+        AnchorPane.setTopAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setLeftAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setRightAnchor(mainAreaContainer, 0.0);
+        AnchorPane.setBottomAnchor(mainAreaContainer, 0.0);
+
+        AnchorPane.setTopAnchor(processArea, 69.0);
+        AnchorPane.setRightAnchor(processArea, 13.0);
         return cropInfoPane;
     }
 
@@ -59,19 +72,14 @@ public class CropPane extends ScrollPane {
         // get uploadedImages from Launcher
         this.unCropImages = allUploadedImages;
         Pane cropInfoPane = getDetailsPane();
-
         this.setStyle("-fx-background-color:#FFF;");
-        this.setContent(cropInfoPane);
-    }
-
-    public void drawShowProcess(){
-        cropInfoPane.setRight(processArea);
+        this.getChildren().add(cropInfoPane);
     }
 
     private Pane  genMainArea(){
         MainInfoPane mainArea = new MainInfoPane("crop-pane");
 
-        HBox topArea = genMainTopArea();
+        BorderPane topArea = genMainTopArea();
 
         VBox middleArea = genMainMiddleArea();
 
@@ -85,15 +93,24 @@ public class CropPane extends ScrollPane {
         return mainArea;
     }
 
-    private HBox genMainTopArea(){
-        HBox topArea = new HBox(16);
+    private BorderPane genMainTopArea(){
+        BorderPane topArea = new BorderPane();
+
+        HBox topLeftArea = new HBox(16);
         topArea.setPadding(new Insets(0, 25, 0, 25));
 
         HeadingSection headingSection = new HeadingSection("Crop an image", "Upload a 1600 x 480 px image for best results.");
         ImageViewURL cropIcon = new ImageViewURL("assets/icons/cropIcon.png", 24);
         IconWithBorder cropIconContainer = new IconWithBorder(cropIcon, 12);
 
-        topArea.getChildren().addAll(cropIconContainer, headingSection);
+        // More button
+        ProcessMoreButton threeDotsButton = new ProcessMoreButton( 15,9);
+
+        threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
+
+        topLeftArea.getChildren().addAll(cropIconContainer, headingSection);
+        topArea.setLeft(topLeftArea);
+        topArea.setRight(threeDotsButton);
         return topArea;
     }
 
@@ -142,50 +159,30 @@ public class CropPane extends ScrollPane {
         return btmArea;
     }
 
-    private Pane genProcessArea(){
-        VBox processArea = new VBox(25);
-        processArea.setPadding(new Insets(25,9,5,9));
-        processArea.getStyleClass().add("process-area");
-        processArea.setPrefWidth(270);
+    private ScrollPane genProcessPane(){
+        processPane = new ScrollPane();
+        processPane.getStyleClass().add("process-pane");
+        processPane.setMaxHeight(600);
+        processPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        processPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        VBox topArea = genProcessTopArea();
+        VBox insideProcess = new VBox(12);
+        insideProcess.getStyleClass().add("inside-process-pane");
 
-        VBox btmArea = genProcessBtmArea();
+        // Add some content to make it visible
+        Label processLbl = new Label("Processing");
+        processLbl.getStyleClass().add("small-heading");
 
-        processArea.getChildren().addAll(topArea, btmArea);
-        return processArea;
-    }
+        for (ImageFile image : unCropImages) {
+            ProgressingImage progressingImage = new ProgressingImage(image.getName(), image.getSize());
+            insideProcess.getChildren().add(progressingImage);
+            progressingImages.put(image, progressingImage);
+        }
 
-    private VBox genProcessTopArea(){
-        VBox topArea = new VBox(10);
-        Label processingLbl = new Label("Processing");
-        processingLbl.getStyleClass().add("small-heading");
+        insideProcess.setPadding(new Insets(12));
 
-        // Processing Image show [!!! we will adjust process bar here !!!]
-        Pane progressingImage = new ProgressingImage("blue_dusk", 203);
-
-        topArea.getChildren().addAll(processingLbl, progressingImage);
-        return topArea;
-    }
-
-    private VBox genProcessBtmArea(){
-        VBox btmArea = new VBox(8);
-        Label headingLbl, subHeadLbl;
-        headingLbl = new Label("Processed Images");
-        subHeadLbl = new Label("Files and assets that have been processed in this program.");
-
-        headingLbl.getStyleClass().add("heading");
-        subHeadLbl.getStyleClass().add("sub-heading");
-
-        Line line = new SeperateLine(270, 1.25);
-        Line line1 = new SeperateLine(270, 1.25);
-        Line line2 = new SeperateLine(270, 1.25);
-
-        ProgressedImage progressedImage = new ProgressedImage("autumn_spring", 123);
-        ProgressedImage progressedImage1 = new ProgressedImage("autumn_spring", 123);
-
-        btmArea.getChildren().addAll(headingLbl, subHeadLbl, line, progressedImage, line1, progressedImage1, line2);
-        return btmArea;
+        processPane.setContent(insideProcess);
+        return processPane;
     }
 
 }
