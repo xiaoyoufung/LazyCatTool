@@ -18,10 +18,10 @@ public class CropController {
     public static ArrayList<ImageFile> croppedImages = Launcher.getAllCroppedImages();
     public static final int TOTAL_IMAGES = Launcher.getAllUploadedImages().size();
 
-//    public static void onAddButtonClicked(){
-//        //Launcher.switchToUpload();
-//        //Launcher.refreshPane();
-//    }
+    public static void onAddButtonClicked(){
+        //Launcher.switchToUpload();
+        //Launcher.refreshPane();
+    }
 
     public static void onCropConfirm(CropImage cropImage) {
 
