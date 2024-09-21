@@ -56,7 +56,7 @@ public class EdgeDetectPane extends AnchorPane {
 
     private Pane getDetailsPane(){
         // Debug
-        System.out.println("Unprocessed file:  " + unProcessedImages.size());
+        //System.out.println("Unprocessed file:  " + unProcessedImages.size());
 
 
         Pane edgeDetectInfoPane = new AnchorPane();

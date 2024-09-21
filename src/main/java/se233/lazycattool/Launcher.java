@@ -151,9 +151,9 @@ public class Launcher extends Application {
                 mainPane.setCenter(newRoot);
             }
 
+            Launcher.refreshPane();
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.sizeToScene();
-            Launcher.refreshPane();
         } catch (EmptyImageListException e) {
             showErrorAlert("No Images Available", e.getMessage());
             switchToUpload();

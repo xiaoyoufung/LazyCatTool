@@ -64,7 +64,7 @@ public class CropPane extends AnchorPane {
     public void setAllImages(ArrayList<ImageFile> allImages) {
         if (CropPane.allImages == null) {
             CropPane.allImages = new ArrayList<>(allImages);
-            System.out.println("create new Allimages");
+            //System.out.println("create new Allimages");
         } else {
             CropPane.allImages = new ArrayList<>(allImages);
         }
@@ -89,7 +89,7 @@ public class CropPane extends AnchorPane {
 
     public void drawPane(ArrayList<ImageFile> allUploadedImages){
         // get uploadedImages from Launcher
-        this.unCropImages = allUploadedImages;
+        this.unCropImages = new ArrayList<>(allUploadedImages);
         Pane cropInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
         this.getChildren().add(cropInfoPane);
@@ -97,8 +97,9 @@ public class CropPane extends AnchorPane {
 
     private Pane  genMainArea(){
         // Debug
-        System.out.println("Uncropped file:  " + unCropImages.size() + ", Allimages is " );
+        //System.out.println("Uncropped file:  " + unCropImages.size() + ", Allimages is " );
 
+        //System.out.println("Launcher imag is " + Launcher.getAllUploadedImages().size());
         if (allImages == null){
             System.out.println("null");
         } else {
@@ -174,7 +175,6 @@ public class CropPane extends AnchorPane {
             // get image crop size from CropMainImage getCroppedImage method.
             CropImage cropImage = getMainImage().getCroppedImage();
             onMouseClicked(cropImage, unCropImages);
-            System.out.println("Uncrop from confirm btn = " + unCropImages.size());
         });
 
         cancelBtn.setBorder();
