@@ -15,12 +15,15 @@ public class ProgressingImage extends BorderPane {
 
     // icon
     private final ImageViewURL closeIcon = new ImageViewURL("assets/icons/closeIcon.png", 10);
+    private ProgressBar progressBar;
 
     public ProgressingImage(String name, double size){
         this.getStyleClass().add("processing-image");
         fileName = new Label(name);
         fileSize = new Label(size + " MB");
-        percent = new Label(100 + "%");
+        percent = new Label(0 + "%");
+
+        percent.setPrefWidth(30);
 
         // File's name and size
         VBox leftSection = genLeftArea();
@@ -37,10 +40,10 @@ public class ProgressingImage extends BorderPane {
     }
 
     private ProgressBar genProgressBar(){
-        ProgressBar progressBar = new ProgressBar(0);
+        progressBar = new ProgressBar(0);
         progressBar.getStyleClass().add("progress-bar");
         progressBar.setPrefWidth(210);
-        progressBar.setProgress(0.4);
+        progressBar.setProgress(0);
         return progressBar;
     }
 
@@ -59,6 +62,14 @@ public class ProgressingImage extends BorderPane {
         leftArea.getChildren().addAll(fileName, fileSize);
         //leftArea.setPadding(new Insets(0,52,0,0));
         return leftArea;
+    }
+
+    public void updateProgress(double progress) {
+        progressBar.setProgress(progress);
+    }
+
+    public void updatePercent(String percentText) {
+        percent.setText(percentText);
     }
 
 }

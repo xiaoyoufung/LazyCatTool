@@ -7,29 +7,44 @@ import se233.lazycattool.view.template.components.ImageViewURL;
 public class ProcessMoreButton extends BorderPane {
     ImageViewURL icon = new ImageViewURL("assets/icons/threeDotIcon.png", 15,15);
     private boolean isOnClick = false;
+    ProcessPane processPane;
 
     public boolean isOnClick() { return isOnClick; }
 
     public void setOnClick(boolean onClick) {
-        isOnClick = onClick;
-        setOnClickStyle();
+        this.isOnClick = onClick;
     }
 
-    public ProcessMoreButton(double width, double height){
+    public ProcessMoreButton(double width, double height, ProcessPane processPane){
+        this.processPane = processPane;
         icon.setRotate(90);
         setMargin(icon, new Insets(height, width,height, width));
         this.setCenter(icon);
-        this.getStyleClass().add("three-dot-icon-active");
+        this.onMoreIconClicked();
         this.setMaxSize(20,20);
+
+        this.setOnMouseClicked(_ -> onMoreIconClicked());
     }
 
-    private void setOnClickStyle(){
-        if (this.isOnClick){
+    public void setActiveStyle(boolean isOnClick){
+        if (isOnClick){
             this.getStyleClass().remove("three-dot-icon");
             this.getStyleClass().add("three-dot-icon-active");
         } else {
             this.getStyleClass().add("three-dot-icon");
             this.getStyleClass().remove("three-dot-icon-active");
+        }
+    }
+
+    public void onMoreIconClicked(){
+        if (!this.isOnClick()){
+            processPane.setVisible(false);
+            setActiveStyle(false);
+            this.setOnClick(true);
+        } else {
+            processPane.setVisible(true);
+            setActiveStyle(true);
+            this.setOnClick(false);
         }
     }
 }

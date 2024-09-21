@@ -1,14 +1,16 @@
 package se233.lazycattool.view;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
+import se233.lazycattool.exception.EmptyImageListException;
 import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.CropMainImage;
 import se233.lazycattool.view.template.cropPane.CustomButton;
@@ -24,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static se233.lazycattool.controller.CropController.*;
-import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
 public class CropPane extends AnchorPane {
     public CropPane(){}
@@ -34,10 +35,27 @@ public class CropPane extends AnchorPane {
     }
     public static ArrayList<ImageFile> allImages;
     private CropMainImage mainImage;
+
+    public ArrayList<ImageFile> getUnCropImages() {
+        return unCropImages;
+    }
+
     private ArrayList<ImageFile> unCropImages;
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+    private ProcessPane processArea;
+
+    public Map<ImageFile, ProgressingImage> getProgressingImages() {
+        return progressingImages;
+    }
+
     private final Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
+
+    public ProcessMoreButton getThreeDotsButton() {
+        return threeDotsButton;
+    }
+
+    private ProcessMoreButton threeDotsButton;
 
     public static ArrayList<ImageFile> getAllImages() {
         return allImages;
@@ -46,16 +64,17 @@ public class CropPane extends AnchorPane {
     public void setAllImages(ArrayList<ImageFile> allImages) {
         if (CropPane.allImages == null) {
             CropPane.allImages = new ArrayList<>(allImages);
+            System.out.println("create new Allimages");
+        } else {
+            CropPane.allImages = new ArrayList<>(allImages);
         }
     }
 
     private Pane getDetailsPane() {
         Pane cropInfoPane = new AnchorPane();
+        processArea = new ProcessPane(croppedImages, progressingImages);
         Pane mainArea = genMainArea();
-        ScrollPane processArea = new ProcessPane(unCropImages, progressingImages);
-
         VBox mainAreaContainer = new VBox(mainArea);
-
         cropInfoPane.getChildren().addAll(mainAreaContainer, processArea);
 
         AnchorPane.setTopAnchor(mainAreaContainer, 0.0);
@@ -77,18 +96,29 @@ public class CropPane extends AnchorPane {
     }
 
     private Pane  genMainArea(){
+        // Debug
+        System.out.println("Uncropped file:  " + unCropImages.size() + ", Allimages is " );
+
+        if (allImages == null){
+            System.out.println("null");
+        } else {
+            System.out.println(allImages.size());
+        }
+
         MainInfoPane mainArea = new MainInfoPane("crop-pane");
 
-        BorderPane topArea = genMainTopArea();
+        if (!unCropImages.isEmpty()){
+            BorderPane topArea = genMainTopArea();
 
-        VBox middleArea = genMainMiddleArea();
+            VBox middleArea = genMainMiddleArea();
 
-        // use Line from [template/cropPane/SeperateLine]
-        Line line = new SeperateLine(565,1.25);
+            // use Line from [template/cropPane/SeperateLine]
+            Line line = new SeperateLine(565,1.25);
 
-        HBox btmArea = genMainBtmArea();
+            HBox btmArea = genMainBtmArea();
 
-        mainArea.getChildren().addAll(topArea, middleArea, line, btmArea);
+            mainArea.getChildren().addAll(topArea, middleArea, line, btmArea);
+        }
 
         return mainArea;
     }
@@ -104,9 +134,10 @@ public class CropPane extends AnchorPane {
         IconWithBorder cropIconContainer = new IconWithBorder(cropIcon, 12);
 
         // More button
-        ProcessMoreButton threeDotsButton = new ProcessMoreButton( 15,9);
+        threeDotsButton = new ProcessMoreButton( 15,9, processArea);
+        threeDotsButton.setVisible(false);
 
-        threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
+        //threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
 
         topLeftArea.getChildren().addAll(cropIconContainer, headingSection);
         topArea.setLeft(topLeftArea);
@@ -118,12 +149,15 @@ public class CropPane extends AnchorPane {
         VBox middleArea = new VBox(20);
         middleArea.setPadding(new Insets(0, 25, 0,25));
 
-        setAllImages(unCropImages);
+
+
+//        if (unCropImages == null || unCropImages.isEmpty()) {
+//            Launcher.switchToUpload();
+//            throw new EmptyImageListException("No images available for cropping.");
+//        }
 
         mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
-
-        MultiPicturePane cropMultiplePic = new MultiPicturePane(getAllImages(), allImages.size() - unCropImages.size());
-
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(getAllImages(), 0);
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);
         return middleArea;
     }
@@ -140,6 +174,7 @@ public class CropPane extends AnchorPane {
             // get image crop size from CropMainImage getCroppedImage method.
             CropImage cropImage = getMainImage().getCroppedImage();
             onMouseClicked(cropImage, unCropImages);
+            System.out.println("Uncrop from confirm btn = " + unCropImages.size());
         });
 
         cancelBtn.setBorder();
@@ -157,5 +192,22 @@ public class CropPane extends AnchorPane {
 
         btmArea.getChildren().addAll(helpContainer, btnContainer);
         return btmArea;
+    }
+
+    public void showProcessingPane() {
+        if (processArea != null) {
+            processArea.setVisible(true);
+            processArea.toFront();
+
+            // Ensure the processArea is properly positioned
+            AnchorPane.setTopAnchor(processArea, 69.0);
+            AnchorPane.setRightAnchor(processArea, 13.0);
+
+            // If you want to animate the appearance, you could add a fade-in effect
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), processArea);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+        }
     }
 }

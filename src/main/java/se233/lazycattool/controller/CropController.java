@@ -44,12 +44,19 @@ public class CropController {
                 unCropImages.removeFirst();
                 croppedImages.add(selectedImage);
 
-                Launcher.refreshCropPane(unCropImages);
+                Launcher.refreshPane();
             } else { // If crop all images
                 croppedImages.add(selectedImage);
                 initializeCropPane(croppedImages);
             }
         }
+    }
+
+    private static void startCroppingProcess() {
+        ImageCropperLatest imageCropper = new ImageCropperLatest();
+        new Thread(() -> {
+            imageCropper.cropImages(croppedImages, desPath, Launcher.getCropPane().getProgressingImages());
+        }).start();
     }
 
     public static void initializeCropPane(ArrayList<ImageFile> croppedImages) {
@@ -62,15 +69,20 @@ public class CropController {
                             desPath = selectedPath;
                             System.out.println("Selected directory: " + desPath);
 
-                            ImageCropper imageCropper = new ImageCropper();
-                            imageCropper.cropImages(croppedImages, desPath);
-                            //Launcher.refreshCropPane(unCropImages);
-
-
                             // Add new Pane or perform other UI updates here
+                            Launcher.refreshCropPane(unCropImages);
 
+                            // show ProcessPane
+                            Launcher.getCropPane().getThreeDotsButton().setVisible(true);
 
-                            //Launcher.showProcess();
+                            // ProcessButton onClick
+                            Launcher.getCropPane().getThreeDotsButton().setOnClick(true);
+                            Launcher.getCropPane().getThreeDotsButton().onMoreIconClicked();
+
+                            Launcher.getCropPane().showProcessingPane();
+
+                            //
+                            startCroppingProcess();
                         });
                     } else {
                         Platform.runLater(() -> {

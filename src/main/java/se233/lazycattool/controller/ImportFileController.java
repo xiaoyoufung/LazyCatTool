@@ -62,7 +62,8 @@ public class ImportFileController {
             }
 
             Launcher.setAllUploadedImages(allImages);
-            Launcher.refreshUploadPane();
+            Launcher.refreshPane();
+            Launcher.getCropPane().setAllImages(allImages);
         }
         event.setDropCompleted(success);
         event.consume();

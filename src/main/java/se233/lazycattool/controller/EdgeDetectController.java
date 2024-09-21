@@ -45,13 +45,5 @@ public class EdgeDetectController {
 
     }
 
-    public static void onMoreIconClicked(){
-        if (moreBtn.isOnClick()){
-            moreBtn.setOnClick(false);
-            processPane.setVisible(false);
-        } else {
-            moreBtn.setOnClick(true);
-            processPane.setVisible(true);
-        }
-    }
+
 }

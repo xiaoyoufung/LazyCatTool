@@ -63,7 +63,8 @@ public class ZipExtractor {
                 }
             }
 
-            Launcher.refreshUploadPane();
+            Launcher.refreshPane();
+            Launcher.getCropPane().setAllImages(imageFiles);
             // Register a shutdown hook to delete the temporary directory on program termination
             Path finalTempDir = tempDir;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

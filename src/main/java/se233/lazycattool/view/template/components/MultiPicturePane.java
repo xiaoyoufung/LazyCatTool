@@ -16,23 +16,25 @@ public class MultiPicturePane extends HBox {
     public MultiPicturePane(ArrayList<ImageFile> imageFiles, int imgIndex){
         this.setSpacing(12);
 
-        // Create and collect ImageViewURL objects
-        List<StackPane> imageViews = imageFiles.stream()
-                .map(image -> new ImageFileURL(image.getFilepath(), 46, 30, 8))
-                .map(StackPane::new)
-                .toList();
+        if (imageFiles != null){
+            // Create and collect ImageViewURL objects
+            List<StackPane> imageViews = imageFiles.stream()
+                    .map(image -> new ImageFileURL(image.getFilepath(), 46, 30, 8))
+                    .map(StackPane::new)
+                    .toList();
 
-        if (imgIndex != imageViews.size()){
-            // Apply CSS class to the selected image
-            if (!imageViews.isEmpty()) {
-                imageViews.get(imgIndex).getStyleClass().add("first-image");
+            if (imgIndex != imageViews.size()){
+                // Apply CSS class to the selected image
+                if (!imageViews.isEmpty()) {
+                    imageViews.get(imgIndex).getStyleClass().add("first-image");
+                }
             }
+
+            addButton.setOnMouseClicked(_ -> onAddButtonClicked());
+
+            this.getChildren().addAll(imageViews);
+            this.setAlignment(Pos.CENTER_LEFT);
+            this.getChildren().addAll(addButton);
         }
-
-        addButton.setOnMouseClicked(_ -> onAddButtonClicked());
-
-        this.getChildren().addAll(imageViews);
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.getChildren().addAll(addButton);
     }
 }

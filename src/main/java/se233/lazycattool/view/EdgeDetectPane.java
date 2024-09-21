@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import se233.lazycattool.Launcher;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
@@ -17,7 +18,7 @@ import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
 import se233.lazycattool.view.template.progressBar.ProcessPane;
 import se233.lazycattool.view.template.progressBar.ProgressingImage;
-import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
+//import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton cannyLbl;
     StretchButton laplacianLbl;
     StretchButton sobelLbl;
-    ScrollPane processPane;
+    ProcessPane processPane;
     ProcessMoreButton threeDotsButton;
 
     // Getters
@@ -54,12 +55,16 @@ public class EdgeDetectPane extends AnchorPane {
     }
 
     private Pane getDetailsPane(){
+        // Debug
+        System.out.println("Unprocessed file:  " + unProcessedImages.size());
+
+
         Pane edgeDetectInfoPane = new AnchorPane();
         edgeDetectInfoPane.getStyleClass().add("edge-detect-pane");
 
-        Pane mainArea = genMainArea();
         processPane = new ProcessPane(unProcessedImages, progressingImages);
-        processPane.setStyle("-fx-background-radius: 10; -fx-border-radius: 10;");
+
+        Pane mainArea = genMainArea();
 
         VBox mainAreaContainer = new VBox(mainArea);
 
@@ -111,11 +116,8 @@ public class EdgeDetectPane extends AnchorPane {
         Label headLbl;
         BorderPane headerArea = new BorderPane();
 
-        ImageViewURL threeDotsIcon = new ImageViewURL("assets/icons/threeDotIcon.png", 15,15);
-        threeDotsIcon.setRotate(90);
-
-        threeDotsButton = new ProcessMoreButton( 13,7);
-        threeDotsButton.setOnMouseClicked(_ -> onMoreIconClicked());
+        threeDotsButton = new ProcessMoreButton( 13,7, processPane);
+        threeDotsButton.setVisible(false);
 
         headLbl = new Label("Detect Edge");
         headLbl.getStyleClass().add("heading");

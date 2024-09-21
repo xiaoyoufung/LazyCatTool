@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import se233.lazycattool.Launcher;
 import se233.lazycattool.view.template.sidebarPane.SidebarButton;
 
 public class SideBarPane extends ScrollPane {

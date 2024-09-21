@@ -21,6 +21,9 @@ public class UploadPane extends ScrollPane {
     private ArrayList<ImageFile> imageArray;
 
     private Pane getDetailsPane() {
+        // [Debug]
+        System.out.println("Imported file:  " + Launcher.getAllUploadedImages().size());
+
         VBox uploadInfoPane = new VBox(25);
         uploadInfoPane.getStyleClass().add("upload-pane");
         uploadInfoPane.setAlignment(Pos.TOP_LEFT);
@@ -55,7 +58,7 @@ public class UploadPane extends ScrollPane {
                 uploadedList[i].setOnMouseExited(event -> {
                     uploadedList[finalI1].isToggle(false);
                 });
-                System.out.println(imageArray.get(i).getFilepath());
+                //System.out.println(imageArray.get(i).getFilepath());
             }
             //System.out.println(imageArray.size());
             scrollGroup.setChildrenElement(uploadedList);

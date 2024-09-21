@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import se233.lazycattool.exception.EmptyImageListException;
 import se233.lazycattool.model.FileType;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.CropPane;
@@ -14,30 +16,27 @@ import se233.lazycattool.view.EdgeDetectPane;
 import se233.lazycattool.view.SideBarPane;
 import se233.lazycattool.view.UploadPane;
 import se233.lazycattool.view.template.components.MultiPicturePane;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Launcher extends Application {
     private static Scene mainScene;
-
-    public static BorderPane getMainPane() {
-        return mainPane;
-    }
-
     private static BorderPane mainPane;
     private static SideBarPane sideBarPane = null;
     private static UploadPane uploadPane = null;
     private static CropPane cropPane = null;
 
+    public static CropPane getCropPane() {
+        return cropPane;
+    }
+    public static BorderPane getMainPane() {
+        return mainPane;
+    }
     public static EdgeDetectPane getEdgeDetectPane() {
         return edgeDetectPane;
     }
-
     private static EdgeDetectPane edgeDetectPane = null;
     private static ArrayList<ImageFile> allUploadedImages = new ArrayList<>();
     private static MultiPicturePane multiPicturePane = null;
-
 
     private static ArrayList<ImageFile> tempImageFiles = new ArrayList<>();
 
@@ -88,7 +87,7 @@ public class Launcher extends Application {
         mainPane.setLeft(sideBarPane);
 
         // Set initial center pane
-        mainPane.setCenter(edgeDetectPane);
+        mainPane.setCenter(uploadPane);
         sideBarPane.getUploadButton().setOnClick(true);
 
         // Add event handlers to buttons
@@ -99,10 +98,18 @@ public class Launcher extends Application {
     }
 
     public static void refreshPane(){
-        sideBarPane.drawPane();
-        uploadPane.drawPane(allUploadedImages);
-        cropPane.drawPane(tempImageFiles);
-        edgeDetectPane.drawPane(tempImageFiles);
+        try {
+            sideBarPane.drawPane();
+            uploadPane.drawPane(allUploadedImages);
+            cropPane.drawPane(allUploadedImages);
+            edgeDetectPane.drawPane(allUploadedImages);
+            System.out.println("Draw + " + allUploadedImages.size());
+        }
+         catch (EmptyImageListException e) {
+            switchToUpload();
+            showErrorAlert("No Images Available", e.getMessage());
+            // You might want to load a default view or take other appropriate action
+        }
     }
 
     public static void refreshUploadPane(){
@@ -113,13 +120,6 @@ public class Launcher extends Application {
         cropPane.drawPane(imageFiles);
     }
 
-//    public static void showProcess(){
-//        cropPane.drawShowProcess();
-//
-//        Stage stage = (Stage) mainPane.getScene().getWindow();
-//        stage.sizeToScene();
-//    }
-
     public static void switchToUpload(){
         switchRoot(uploadPane);
     }
@@ -127,32 +127,46 @@ public class Launcher extends Application {
     public static void switchRoot(Node newRoot) {
         BorderPane.setMargin(newRoot, new Insets(0)); // Ensure no margin
 
-        // if click CropButton
-        if (newRoot instanceof CropPane) {
+        try {
+            if (newRoot instanceof CropPane) {
+                if (allUploadedImages == null || allUploadedImages.isEmpty()) {
+                    throw new EmptyImageListException("No images available for cropping.");
+                }
+                sideBarPane.getUploadButton().setOnClick(false);
+                sideBarPane.getDetectEdgeButton().setOnClick(false);
+                sideBarPane.getCropButton().setOnClick(true);
+                mainPane.setCenter(newRoot);
+            } else if (newRoot instanceof UploadPane) {
+                sideBarPane.getCropButton().setOnClick(false);
+                sideBarPane.getDetectEdgeButton().setOnClick(false);
+                sideBarPane.getUploadButton().setOnClick(true);
+                mainPane.setCenter(newRoot);
+            } else if (newRoot instanceof EdgeDetectPane) {
+                if (allUploadedImages == null || allUploadedImages.isEmpty()) {
+                    throw new EmptyImageListException("No images available for edge detection.");
+                }
+                sideBarPane.getUploadButton().setOnClick(false);
+                sideBarPane.getDetectEdgeButton().setOnClick(true);
+                sideBarPane.getCropButton().setOnClick(false);
+                mainPane.setCenter(newRoot);
+            }
 
-            sideBarPane.getUploadButton().setOnClick(false);
-            sideBarPane.getDetectEdgeButton().setOnClick(false);
-            sideBarPane.getCropButton().setOnClick(true);
-            mainPane.setCenter(newRoot);
-
-            // if click UploadButton
-        } else if (newRoot instanceof UploadPane) {
-
-            sideBarPane.getCropButton().setOnClick(false);
-            sideBarPane.getDetectEdgeButton().setOnClick(false);
-            sideBarPane.getUploadButton().setOnClick(true);
-            mainPane.setCenter(newRoot);
-
-        } else if (newRoot instanceof EdgeDetectPane) {
-
-            sideBarPane.getUploadButton().setOnClick(false);
-            sideBarPane.getDetectEdgeButton().setOnClick(true);
-            sideBarPane.getCropButton().setOnClick(false);
-            mainPane.setCenter(newRoot);
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.sizeToScene();
+            Launcher.refreshPane();
+        } catch (EmptyImageListException e) {
+            showErrorAlert("No Images Available", e.getMessage());
+            switchToUpload();
         }
 
-        Stage stage = (Stage) mainPane.getScene().getWindow();
-        stage.sizeToScene();
+    }
+
+    private static void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {
