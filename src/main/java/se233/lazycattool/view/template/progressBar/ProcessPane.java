@@ -25,10 +25,12 @@ public class ProcessPane extends ScrollPane {
 
         insideProcess.getChildren().add(processLbl);
 
-        for (ImageFile image : unCropImages) {
-            ProgressingImage progressingImage = new ProgressingImage(image.getName(), image.getSize());
-            insideProcess.getChildren().add(progressingImage);
-            progressingImages.put(image, progressingImage);
+        if (unCropImages != null){
+            for (ImageFile image : unCropImages) {
+                ProgressingImage progressingImage = new ProgressingImage(image.getName(), image.getSize());
+                insideProcess.getChildren().add(progressingImage);
+                progressingImages.put(image, progressingImage);
+            }
         }
 
         insideProcess.setPadding(new Insets(12));

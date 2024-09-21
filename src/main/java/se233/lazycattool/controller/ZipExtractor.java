@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -20,7 +22,7 @@ public class ZipExtractor {
 
     public void extractZip(String zipFilePath){
         Path tempDir = null;
-        ArrayList<ImageFile> imageFiles = Launcher.getAllUploadedImages();
+        ArrayList<ImageFile> allUploadedImages = Launcher.getAllUploadedImages();
 
         //String zipFilePath = "/Users/xiaoyoufung/Desktop/test-photo.zip";
 
@@ -57,14 +59,16 @@ public class ZipExtractor {
                         FileType imageType = imageName.endsWith(".png") ? FileType.png : FileType.jpg;
 
                         if (!imageName.equals(".DS_Store")){
-                            imageFiles.add(new ImageFile(imageName, filePath.toString(), imageSize, imageType));
+                            allUploadedImages.add(new ImageFile(imageName, filePath.toString(), imageSize, imageType));
                         }
                     }
                 }
             }
 
+            Launcher.resetCropSetting(allUploadedImages);
+            Launcher.setAllUploadedImages(allUploadedImages);
             Launcher.refreshPane();
-            Launcher.getCropPane().setAllImages(imageFiles);
+
             // Register a shutdown hook to delete the temporary directory on program termination
             Path finalTempDir = tempDir;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

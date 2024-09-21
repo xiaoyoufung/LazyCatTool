@@ -9,6 +9,9 @@ import se233.lazycattool.model.FileType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ImportFileController {
@@ -33,7 +36,7 @@ public class ImportFileController {
         Dragboard db = event.getDragboard();
 
         // Get all uploaded Image
-        ArrayList<ImageFile> allImages = Launcher.getAllUploadedImages();
+        ArrayList<ImageFile> allUploadedImages = Launcher.getAllUploadedImages();
 
         ZipExtractor extractZipFile = new ZipExtractor();
 
@@ -57,13 +60,13 @@ public class ImportFileController {
                 if (fileName.endsWith(".zip")){
                     extractZipFile.extractZip(filePath);
                 } else {
-                    allImages.add(new ImageFile(fileName, filePath, fileSize, fileType));
+                    allUploadedImages.add(new ImageFile(fileName, filePath, fileSize, fileType));
                 }
             }
 
-            Launcher.setAllUploadedImages(allImages);
+            Launcher.resetCropSetting(allUploadedImages);
+            Launcher.setAllUploadedImages(allUploadedImages);
             Launcher.refreshPane();
-            Launcher.getCropPane().setAllImages(allImages);
         }
         event.setDropCompleted(success);
         event.consume();

@@ -25,6 +25,9 @@ public class Launcher extends Application {
     private static UploadPane uploadPane = null;
     private static CropPane cropPane = null;
 
+    private static ArrayList<ImageFile> allCroppedImages = null;
+    private static ArrayList<ImageFile> allUncroppedImages = null;
+
     public static CropPane getCropPane() {
         return cropPane;
     }
@@ -46,6 +49,22 @@ public class Launcher extends Application {
 
     public static void setAllUploadedImages(ArrayList<ImageFile> allUploadedImages) {
         Launcher.allUploadedImages = allUploadedImages;
+    }
+
+    public static ArrayList<ImageFile> getAllCroppedImages() {
+        return allCroppedImages;
+    }
+
+    public static void setAllCroppedImages(ArrayList<ImageFile> allCroppedImages) {
+        Launcher.allCroppedImages = allCroppedImages;
+    }
+
+    public static ArrayList<ImageFile> getAllOutcroppedImages() {
+        return allUncroppedImages;
+    }
+
+    public static void setAllOutcroppedImages(ArrayList<ImageFile> allUncroppedImages) {
+        Launcher.allUncroppedImages = allUncroppedImages;
     }
 
     public void start(Stage primaryStage){
@@ -101,9 +120,9 @@ public class Launcher extends Application {
         try {
             sideBarPane.drawPane();
             uploadPane.drawPane(allUploadedImages);
-            cropPane.drawPane(allUploadedImages);
-            edgeDetectPane.drawPane(allUploadedImages);
-            System.out.println("Draw + " + allUploadedImages.size());
+            cropPane.drawPane(allUncroppedImages, allCroppedImages);
+            //edgeDetectPane.drawPane(allUploadedImages);
+            System.out.println("refreshPane + " + allUploadedImages.size());
         }
          catch (EmptyImageListException e) {
             switchToUpload();
@@ -116,8 +135,15 @@ public class Launcher extends Application {
         uploadPane.drawPane(allUploadedImages);
     }
 
-    public static void refreshCropPane(ArrayList<ImageFile> imageFiles){
-        cropPane.drawPane(imageFiles);
+    public static void refreshCropPane(){
+        cropPane.drawPane(allUncroppedImages, allCroppedImages);
+    }
+
+    public static void resetCropSetting(ArrayList<ImageFile> allUncroppedImages){
+        // Reset allCroppedImages to be 0
+        Launcher.setAllCroppedImages(new ArrayList<>());
+        // Set allUncroppedImages
+        Launcher.setAllOutcroppedImages(allUncroppedImages);
     }
 
     public static void switchToUpload(){
@@ -151,7 +177,7 @@ public class Launcher extends Application {
                 mainPane.setCenter(newRoot);
             }
 
-            Launcher.refreshPane();
+            //Launcher.refreshPane();
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.sizeToScene();
         } catch (EmptyImageListException e) {

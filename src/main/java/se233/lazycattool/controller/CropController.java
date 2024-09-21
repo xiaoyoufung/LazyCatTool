@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
-import se233.lazycattool.view.CropPane;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,40 +14,39 @@ import java.util.concurrent.CompletableFuture;
 
 public class CropController {
     public static String desPath;
-    public static ArrayList<ImageFile> croppedImages = new ArrayList<>();
-    public static ArrayList<ImageFile> unCropImages;
+    public static ArrayList<ImageFile> unCropImages = Launcher.getAllOutcroppedImages();
+    public static ArrayList<ImageFile> croppedImages = Launcher.getAllCroppedImages();
+    public static final int TOTAL_IMAGES = Launcher.getAllUploadedImages().size();
 
-    public static void onAddButtonClicked(){
-        Launcher.switchToUpload();
-        Launcher.refreshPane();
-    }
+//    public static void onAddButtonClicked(){
+//        //Launcher.switchToUpload();
+//        //Launcher.refreshPane();
+//    }
 
-    public static void onMouseClicked(CropImage cropImage, ArrayList<ImageFile> imageFile) {
-        int allImagesSize = CropPane.getAllImages().size();
-        unCropImages = imageFile;
+    public static void onCropConfirm(CropImage cropImage) {
 
-        ImageFile selectedImage = imageFile.getFirst();
+        ImageFile selectedImage = unCropImages.getFirst();
         selectedImage.setCropInfo(cropImage);
 
-        // Crop one image
-        if (CropPane.allImages.size() == 1){
+        if (croppedImages.size() == TOTAL_IMAGES){
             initializeCropPane(croppedImages);
-        } else { // Crop multiple images
+            return;
+        }
 
-            if (croppedImages.size() == allImagesSize){
-                initializeCropPane(croppedImages);
-                return;
-            }
+        if (croppedImages.size() != TOTAL_IMAGES - 1){
 
-            if (croppedImages.size() != allImagesSize - 1){
-                unCropImages.removeFirst();
-                croppedImages.add(selectedImage);
+            unCropImages.removeFirst();
+            Launcher.setAllOutcroppedImages(unCropImages);
 
-                Launcher.refreshPane();
-            } else { // If crop all images
-                croppedImages.add(selectedImage);
-                initializeCropPane(croppedImages);
-            }
+            croppedImages.add(selectedImage);
+            Launcher.setAllCroppedImages(croppedImages);
+
+            Launcher.refreshCropPane();
+        } else { // If crop all images
+            croppedImages.add(selectedImage);
+            Launcher.setAllCroppedImages(croppedImages);
+
+            initializeCropPane(croppedImages);
         }
     }
 
@@ -70,7 +68,7 @@ public class CropController {
                             System.out.println("Selected directory: " + desPath);
 
                             // Add new Pane or perform other UI updates here
-                            Launcher.refreshCropPane(unCropImages);
+                            Launcher.refreshCropPane();
 
                             // show ProcessPane
                             Launcher.getCropPane().getThreeDotsButton().setVisible(true);

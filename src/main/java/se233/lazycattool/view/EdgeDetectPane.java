@@ -189,7 +189,7 @@ public class EdgeDetectPane extends AnchorPane {
 
         ImageView mainImage = genMainImage();
 
-        MultiPicturePane multiPictureArea = new MultiPicturePane(unProcessedImages, 0);
+        MultiPicturePane multiPictureArea = new MultiPicturePane(0);
 
         mainBtmArea.getChildren().addAll(uploadLbl, uploadSubLbl, mainImage, multiPictureArea);
         return mainBtmArea;

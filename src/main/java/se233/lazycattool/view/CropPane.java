@@ -30,49 +30,22 @@ import static se233.lazycattool.controller.CropController.*;
 public class CropPane extends AnchorPane {
     public CropPane(){}
 
-    public CropMainImage getMainImage() {
-        return mainImage;
-    }
-    public static ArrayList<ImageFile> allImages;
-    private CropMainImage mainImage;
-
-    public ArrayList<ImageFile> getUnCropImages() {
-        return unCropImages;
-    }
-
     private ArrayList<ImageFile> unCropImages;
-    private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
-    private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+    private ArrayList<ImageFile> cropImages;
+    private CropMainImage mainImage;
     private ProcessPane processArea;
-
-    public Map<ImageFile, ProgressingImage> getProgressingImages() {
-        return progressingImages;
-    }
-
+    private ProcessMoreButton threeDotsButton;
     private final Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
 
-    public ProcessMoreButton getThreeDotsButton() {
-        return threeDotsButton;
-    }
+    public CropMainImage getMainImage() { return mainImage; }
 
-    private ProcessMoreButton threeDotsButton;
-
-    public static ArrayList<ImageFile> getAllImages() {
-        return allImages;
-    }
-
-    public void setAllImages(ArrayList<ImageFile> allImages) {
-        if (CropPane.allImages == null) {
-            CropPane.allImages = new ArrayList<>(allImages);
-            //System.out.println("create new Allimages");
-        } else {
-            CropPane.allImages = new ArrayList<>(allImages);
-        }
-    }
+    public Map<ImageFile, ProgressingImage> getProgressingImages() { return progressingImages; }
+    public ProcessMoreButton getThreeDotsButton() { return threeDotsButton; }
 
     private Pane getDetailsPane() {
+
         Pane cropInfoPane = new AnchorPane();
-        processArea = new ProcessPane(croppedImages, progressingImages);
+        processArea = new ProcessPane(cropImages, progressingImages);
         Pane mainArea = genMainArea();
         VBox mainAreaContainer = new VBox(mainArea);
         cropInfoPane.getChildren().addAll(mainAreaContainer, processArea);
@@ -87,28 +60,22 @@ public class CropPane extends AnchorPane {
         return cropInfoPane;
     }
 
-    public void drawPane(ArrayList<ImageFile> allUploadedImages){
-        // get uploadedImages from Launcher
-        this.unCropImages = new ArrayList<>(allUploadedImages);
+    public void drawPane(ArrayList<ImageFile> unCropImages, ArrayList<ImageFile> croppedImages){
+        this.unCropImages = unCropImages;
+        this.cropImages = croppedImages;
+
         Pane cropInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
         this.getChildren().add(cropInfoPane);
     }
 
-    private Pane  genMainArea(){
-        // Debug
-        //System.out.println("Uncropped file:  " + unCropImages.size() + ", Allimages is " );
-
-        //System.out.println("Launcher imag is " + Launcher.getAllUploadedImages().size());
-        if (allImages == null){
-            System.out.println("null");
-        } else {
-            System.out.println(allImages.size());
-        }
+    private Pane genMainArea(){
 
         MainInfoPane mainArea = new MainInfoPane("crop-pane");
 
-        if (!unCropImages.isEmpty()){
+        if (unCropImages != null){
+            System.out.println(unCropImages.size());
+
             BorderPane topArea = genMainTopArea();
 
             VBox middleArea = genMainMiddleArea();
@@ -150,15 +117,12 @@ public class CropPane extends AnchorPane {
         VBox middleArea = new VBox(20);
         middleArea.setPadding(new Insets(0, 25, 0,25));
 
-
-
-//        if (unCropImages == null || unCropImages.isEmpty()) {
-//            Launcher.switchToUpload();
-//            throw new EmptyImageListException("No images available for cropping.");
-//        }
-
         mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
-        MultiPicturePane cropMultiplePic = new MultiPicturePane(getAllImages(), 0);
+
+        int croppedImagesCount = cropImages.size();
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount);
+
+        //System.out.println("Draw + " + Launcher.getAllUploadedImages().size());
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);
         return middleArea;
     }
@@ -167,19 +131,19 @@ public class CropPane extends AnchorPane {
         HBox btmArea = new HBox(250);
         btmArea.setPadding(new Insets(0, 0, 20, 0));
         btmArea.setAlignment(Pos.CENTER);
-
         HBox btnContainer = new HBox(10);
+        CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
+        CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");
 
         // when User click confirm button
         confirmBtn.setOnMouseClicked(_ -> {
             // get image crop size from CropMainImage getCroppedImage method.
-            CropImage cropImage = getMainImage().getCroppedImage();
-            onMouseClicked(cropImage, unCropImages);
+            onCropConfirm(getMainImage().getCroppedImage());
         });
 
         cancelBtn.setBorder();
         cancelBtn.setOnMouseClicked(event -> {
-            Launcher.refreshCropPane(unCropImages);
+            Launcher.refreshCropPane();
         });
 
         btnContainer.getChildren().addAll(cancelBtn, confirmBtn);
