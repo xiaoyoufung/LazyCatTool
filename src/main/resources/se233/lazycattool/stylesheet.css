@@ -191,6 +191,7 @@
     -fx-background-color: transparent;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.5, 0, 0);
 }
 
 .process-pane > .viewport {

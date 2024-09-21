@@ -14,6 +14,7 @@ import se233.lazycattool.view.template.cropPane.CropMainImage;
 import se233.lazycattool.view.template.cropPane.CustomButton;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
 import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
+import se233.lazycattool.view.template.progressBar.ProcessPane;
 import se233.lazycattool.view.template.progressBar.ProgressingImage;
 
 // import from controller
@@ -36,8 +37,7 @@ public class CropPane extends AnchorPane {
     private ArrayList<ImageFile> unCropImages;
     private final CustomButton confirmBtn = new CustomButton("Confirm", "#101828", "#FFF");;
     private final CustomButton cancelBtn = new CustomButton("Cancel", "#FFF", "#101828");
-    private ScrollPane processPane;
-    private Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
+    private final Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
 
     public static ArrayList<ImageFile> getAllImages() {
         return allImages;
@@ -52,7 +52,7 @@ public class CropPane extends AnchorPane {
     private Pane getDetailsPane() {
         Pane cropInfoPane = new AnchorPane();
         Pane mainArea = genMainArea();
-        ScrollPane processArea = genProcessPane();
+        ScrollPane processArea = new ProcessPane(unCropImages, progressingImages);
 
         VBox mainAreaContainer = new VBox(mainArea);
 
@@ -158,31 +158,4 @@ public class CropPane extends AnchorPane {
         btmArea.getChildren().addAll(helpContainer, btnContainer);
         return btmArea;
     }
-
-    private ScrollPane genProcessPane(){
-        processPane = new ScrollPane();
-        processPane.getStyleClass().add("process-pane");
-        processPane.setMaxHeight(600);
-        processPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        processPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        VBox insideProcess = new VBox(12);
-        insideProcess.getStyleClass().add("inside-process-pane");
-
-        // Add some content to make it visible
-        Label processLbl = new Label("Processing");
-        processLbl.getStyleClass().add("small-heading");
-
-        for (ImageFile image : unCropImages) {
-            ProgressingImage progressingImage = new ProgressingImage(image.getName(), image.getSize());
-            insideProcess.getChildren().add(progressingImage);
-            progressingImages.put(image, progressingImage);
-        }
-
-        insideProcess.setPadding(new Insets(12));
-
-        processPane.setContent(insideProcess);
-        return processPane;
-    }
-
 }
