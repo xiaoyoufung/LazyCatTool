@@ -199,18 +199,19 @@ public class EdgeDetectPane extends AnchorPane {
         if (unProcessedImages == null || unProcessedImages.isEmpty()) {
             System.out.println("No images available to display");
             return new ImageView(); // Return an empty ImageView
+        } else {
+            String filepath = unProcessedImages.getFirst().getFilepath();
+            Image image = new Image("file:" + filepath);
+            ImageView imageView = new ImageView(image);
+
+            // make image's border radius of 6px
+            Rectangle clip = new CripBorder(PANE_WIDTH, 200, 10);
+            imageView.setClip(clip);
+
+            resizeImageView(imageView);
+
+            return imageView;
         }
-
-        String filepath = unProcessedImages.getFirst().getFilepath();
-        Image image = new Image("file:" + filepath);
-        ImageView imageView = new ImageView(image);
-
-        // make image's border radius of 6px
-        Rectangle clip = new CripBorder(PANE_WIDTH, 200, 10);
-        imageView.setClip(clip);
-
-        resizeImageView(imageView);
-        return imageView;
     }
 
     private void resizeImageView(ImageView imageView) {

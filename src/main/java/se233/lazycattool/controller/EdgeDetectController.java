@@ -16,6 +16,7 @@ public class EdgeDetectController {
     private static final EdgeDetectPane edgeDetectPane = Launcher.getEdgeDetectPane();
     private static final ProcessMoreButton moreBtn = edgeDetectPane.getThreeDotsButton();
     private static final ScrollPane processPane = edgeDetectPane.getProcessPane();
+    private String choosenAlgo;
 
     public static void onAlgorithmSelected(MouseEvent event){
         StretchButton cannyBtn = edgeDetectPane.getCannyLbl();
@@ -29,6 +30,7 @@ public class EdgeDetectController {
                     cannyBtn.setOnClick(true);
                     laplacianBtn.setOnClick(false);
                     sobelBtn.setOnClick(false);
+                    //EdgeDetectController.choosenAlgo = "Canny";
                     break;
                 case "Laplacian":
                     cannyBtn.setOnClick(false);

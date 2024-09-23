@@ -19,7 +19,7 @@ public class SidebarButton extends StackPane {
 
     public SidebarButton(String btnTxt, String iconURL){
         ImageViewURL btnIcon = new ImageViewURL(iconURL, 14);
-        Label btnTextLbl = new Label(STR." \{ btnTxt}", btnIcon);
+        Label btnTextLbl = new Label(" " + btnTxt, btnIcon);
         btnTextLbl.setPadding(new Insets(0, 0, 0,20));
         btnTextLbl.getStyleClass().add("sidebar-btn-lbl");
         btnTextLbl.setFont(Font.font("Inter", 600));

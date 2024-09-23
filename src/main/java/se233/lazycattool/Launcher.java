@@ -119,6 +119,7 @@ public class Launcher extends Application {
     public static void refreshPane(){
         try {
             sideBarPane.drawPane();
+            edgeDetectPane.drawPane(allUploadedImages);
             uploadPane.drawPane(allUploadedImages);
             cropPane.drawPane(allUncroppedImages, allCroppedImages);
             //edgeDetectPane.drawPane(allUploadedImages);
@@ -175,6 +176,7 @@ public class Launcher extends Application {
                 sideBarPane.getDetectEdgeButton().setOnClick(true);
                 sideBarPane.getCropButton().setOnClick(false);
                 mainPane.setCenter(newRoot);
+                System.out.println("Edge Detect");
             }
 
             //Launcher.refreshPane();
