@@ -28,12 +28,11 @@ public class CropMainImage extends Pane {
         this.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
         this.setMaxSize(PANE_WIDTH, PANE_HEIGHT);
 
-        // for use if Error occur.
+        // If Error occur use this URL.
         //String imgURL1 = "file:/Users/xiaoyoufung/Desktop/test-photo/blue_dusk.png";
 
-
         // Load the image to get its dimensions
-        Image image = new Image(STR."file:\{url}");
+        Image image = new Image("file:" + url);
         imageWidth = image.getWidth();
         imageHeight = image.getHeight();
 

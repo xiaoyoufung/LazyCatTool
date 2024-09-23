@@ -16,13 +16,12 @@ public class EdgeDetectController {
     private static final EdgeDetectPane edgeDetectPane = Launcher.getEdgeDetectPane();
     private static final ProcessMoreButton moreBtn = edgeDetectPane.getThreeDotsButton();
     private static final ScrollPane processPane = edgeDetectPane.getProcessPane();
-    private String choosenAlgo;
+    private static String choosenAlgo;
 
     public static void onAlgorithmSelected(MouseEvent event){
         StretchButton cannyBtn = edgeDetectPane.getCannyLbl();
         StretchButton laplacianBtn = edgeDetectPane.getLaplacianLbl();
         StretchButton sobelBtn = edgeDetectPane.getSobelLbl();
-
         Object source = event.getSource();
         if (source instanceof Label clickedLabel) {
             switch (clickedLabel.getId()) {
@@ -30,21 +29,34 @@ public class EdgeDetectController {
                     cannyBtn.setOnClick(true);
                     laplacianBtn.setOnClick(false);
                     sobelBtn.setOnClick(false);
-                    //EdgeDetectController.choosenAlgo = "Canny";
+                    choosenAlgo = "Canny";
                     break;
                 case "Laplacian":
                     cannyBtn.setOnClick(false);
                     laplacianBtn.setOnClick(true);
                     sobelBtn.setOnClick(false);
+                    choosenAlgo = "Laplacian";
                     break;
                 case "Sobel":
                     cannyBtn.setOnClick(false);
                     laplacianBtn.setOnClick(false);
                     sobelBtn.setOnClick(true);
+                    choosenAlgo = "Sobel";
                     break;
             }
         }
 
+    }
+
+    // When user clicked Submit button
+    public static void onSubmitAlgo(){
+        if (choosenAlgo == "Canny"){
+            // Apply Canny algorithms to the image.
+        } else if (choosenAlgo == "Laplacian") {
+            // Apply Laplacian algorithms to the image.
+        } else if (choosenAlgo == "Sobel") {
+            // Apply Sobel algorithms to the image.
+        }
     }
 
 
