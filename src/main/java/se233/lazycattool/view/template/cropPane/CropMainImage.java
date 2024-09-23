@@ -16,13 +16,11 @@ import se233.lazycattool.view.template.components.ImageViewURL;
 public class CropMainImage extends Pane {
     private double startX, startY;
     private boolean draggingTopLeft, draggingTopRight, draggingBottomLeft, draggingBottomRight, draggingCropArea;
-    private double cropX = 84;
-    private double cropY = 56;
-    private double cropWidth = 330;
-    private double cropHeight = 205;
-    private final double PANE_WIDTH = 512;
-    private final double PANE_HEIGHT = 312;
+    private double cropX, cropY, cropWidth, cropHeight;
+    private final double PANE_WIDTH = 512.0;
+    private final double PANE_HEIGHT = 312.0;
     private double imageWidth, imageHeight;
+    private double scaleFactor;
 
     public CropMainImage(String url){
         this.setPrefSize(PANE_WIDTH, PANE_HEIGHT);
@@ -36,11 +34,32 @@ public class CropMainImage extends Pane {
         imageWidth = image.getWidth();
         imageHeight = image.getHeight();
 
+        // Calculate the scale factor to fit image in the pane
+        scaleFactor = PANE_HEIGHT / imageHeight;
+
+        // Calculate the scaled image dimensions
+        double scaledWidth = imageWidth * scaleFactor;
+        double scaledHeight = PANE_HEIGHT;
+
+        // Calculate initial crop area (e.g., 80% of the scaled image size)
+        cropWidth = Math.min(scaledWidth, PANE_WIDTH) * 0.8;
+        cropHeight = scaledHeight * 0.8;
+        cropX = 0; // Start crop area from the left edge
+        cropY = (PANE_HEIGHT - cropHeight) / 2;
+
         // Create ImageView and set it to clip to the pane size
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
-        imageView.setFitWidth(Math.max(PANE_WIDTH, imageWidth));
-        imageView.setFitHeight(Math.max(PANE_HEIGHT, imageHeight));
+        imageView.setFitHeight(PANE_HEIGHT);
+//        imageView.setFitWidth(Math.max(PANE_WIDTH, imageWidth));
+//        imageView.setFitHeight(Math.max(PANE_HEIGHT, imageHeight));
+
+        // Center the image if it's smaller than the pane
+        //imageView.setX((PANE_WIDTH - scaledWidth) / 2);
+        //imageView.setY((PANE_HEIGHT - scaledHeight) / 2);
+        imageView.setX(0);
+        imageView.setY(0);
+
 
         // Background Image.
         ImageView backgroundImage = new ImageViewURL("assets/images/imageWrap.jpg");
@@ -48,9 +67,9 @@ public class CropMainImage extends Pane {
         backgroundImage.setFitHeight(PANE_HEIGHT);
         backgroundImage.setPreserveRatio(true);
 
-        // Center the image if it's smaller than the pane
-        imageView.setX(Math.min(0, (PANE_WIDTH - imageWidth) / 2));
-        imageView.setY(Math.min(0, (PANE_HEIGHT - imageHeight) / 2));
+        // Clip the image view to the pane size
+        Rectangle clip = new Rectangle(PANE_WIDTH, PANE_HEIGHT);
+        imageView.setClip(clip);
 
         Canvas canvas = new Canvas(PANE_WIDTH, PANE_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -109,8 +128,8 @@ public class CropMainImage extends Pane {
         });
 
         // make border have radius of 18px
-        Rectangle clip = new CripBorder(PANE_WIDTH, PANE_HEIGHT, 18);
-        this.setClip(clip);
+        Rectangle clipPane = new CripBorder(PANE_WIDTH, PANE_HEIGHT, 18);
+        this.setClip(clipPane);
 
         this.getChildren().addAll(backgroundImage, imageView, canvas);
     }
@@ -174,8 +193,19 @@ public class CropMainImage extends Pane {
         this.cropHeight = 205;
     }
 
-    public CropImage getCroppedImage(){
-        CropImage cropImage = new CropImage(cropX, cropY, cropWidth, cropHeight);
-        return cropImage;
+    public CropImage getCroppedImage() {
+        // Convert the crop coordinates and dimensions back to the original image size
+        double originalX = cropX / scaleFactor;
+        double originalY = cropY / scaleFactor;
+        double originalWidth = cropWidth / scaleFactor;
+        double originalHeight = cropHeight / scaleFactor;
+
+        // Ensure the crop area doesn't exceed the original image boundaries
+        originalX = Math.max(0, Math.min(originalX, imageWidth - originalWidth));
+        originalY = Math.max(0, Math.min(originalY, imageHeight - originalHeight));
+        originalWidth = Math.min(originalWidth, imageWidth - originalX);
+        originalHeight = Math.min(originalHeight, imageHeight - originalY);
+
+        return new CropImage(originalX, originalY, originalWidth, originalHeight);
     }
 }
