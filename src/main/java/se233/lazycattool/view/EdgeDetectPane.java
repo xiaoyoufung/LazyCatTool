@@ -1,5 +1,6 @@
 package se233.lazycattool.view;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -18,7 +20,7 @@ import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
 import se233.lazycattool.view.template.progressBar.ProcessPane;
 import se233.lazycattool.view.template.progressBar.ProgressingImage;
-//import static se233.lazycattool.controller.EdgeDetectController.onMoreIconClicked;
+import static se233.lazycattool.controller.EdgeDetectController.onSubmitAlgo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -250,6 +252,9 @@ public class EdgeDetectPane extends AnchorPane {
 
         confirmBtnArea.setPadding(new Insets(0, 0, 25, 0));
         confirmBtnArea.getChildren().add(confirmBtn);
+
+        // when user click submit button
+        confirmBtnArea.setOnMouseClicked(_ -> onSubmitAlgo());
         return confirmBtnArea;
     }
 }
