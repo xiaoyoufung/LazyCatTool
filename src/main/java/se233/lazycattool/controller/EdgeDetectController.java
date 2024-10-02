@@ -62,7 +62,6 @@ public class EdgeDetectController {
     // When user clicked Submit button
     public static void onSubmitAlgo(){
         String inputPath = "/Users/xiaoyoufung/Desktop/test-photo-resize/blue_dusk.png";
-        //String outputPath = "/Users/xiaoyoufung/Desktop/test-photo-resize/blue_dusk_edge.png";
 
         if (choosenAlgo == "Canny"){
             try {

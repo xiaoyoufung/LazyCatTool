@@ -1,14 +1,15 @@
 package se233.lazycattool.view;
 
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -38,6 +39,8 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton sobelLbl;
     ProcessPane processPane;
     ProcessMoreButton threeDotsButton;
+
+    private ArrayList<ImageFile> imageFiles = new ArrayList<>(Launcher.getAllUploadedImages());
 
     // Getters
     public StretchButton getCannyLbl() {
@@ -102,9 +105,17 @@ public class EdgeDetectPane extends AnchorPane {
 
         HBox confirmButton = genConfirmBtn();
 
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "Option 1",
+                        "Option 2",
+                        "Option 3"
+                );
+        final ComboBox comboBox = new ComboBox(options);
+
         // button take full width
 
-        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, bottomArea, line3, confirmButton);
+        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, bottomArea, comboBox, line3, confirmButton);
 
         return mainArea;
     }
@@ -187,7 +198,7 @@ public class EdgeDetectPane extends AnchorPane {
 
         ImageView mainImage = genMainImage();
 
-        MultiPicturePane multiPictureArea = new MultiPicturePane(0);
+        MultiPicturePane multiPictureArea = new MultiPicturePane(0, imageFiles);
 
         mainBtmArea.getChildren().addAll(uploadLbl, uploadSubLbl, mainImage, multiPictureArea);
         return mainBtmArea;

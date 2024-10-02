@@ -17,6 +17,7 @@ import se233.lazycattool.view.SideBarPane;
 import se233.lazycattool.view.UploadPane;
 import se233.lazycattool.view.template.components.MultiPicturePane;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Launcher extends Application {
     private static Scene mainScene;
@@ -39,7 +40,6 @@ public class Launcher extends Application {
     }
     private static EdgeDetectPane edgeDetectPane = null;
     private static ArrayList<ImageFile> allUploadedImages = new ArrayList<>();
-    private static MultiPicturePane multiPicturePane = null;
 
     private static ArrayList<ImageFile> tempImageFiles = new ArrayList<>();
 
@@ -51,16 +51,8 @@ public class Launcher extends Application {
         Launcher.allUploadedImages = allUploadedImages;
     }
 
-    public static ArrayList<ImageFile> getAllCroppedImages() {
-        return allCroppedImages;
-    }
-
     public static void setAllCroppedImages(ArrayList<ImageFile> allCroppedImages) {
         Launcher.allCroppedImages = allCroppedImages;
-    }
-
-    public static ArrayList<ImageFile> getAllOutcroppedImages() {
-        return allUncroppedImages;
     }
 
     public static void setAllOutcroppedImages(ArrayList<ImageFile> allUncroppedImages) {
@@ -136,9 +128,22 @@ public class Launcher extends Application {
         uploadPane.drawPane(allUploadedImages);
     }
 
-    public static void refreshCropPane(){
-        cropPane.drawPane(allUncroppedImages, allCroppedImages);
+    public static ArrayList<ImageFile> getAllCroppedImages() {
+        return allUploadedImages.stream()
+                .filter(ImageFile::isCropped)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
+
+    public static ArrayList<ImageFile> getAllOutcroppedImages() {
+        return allUploadedImages.stream()
+                .filter(img -> !img.isCropped())
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static void refreshCropPane() {
+        cropPane.drawPane(getAllOutcroppedImages(), getAllCroppedImages());
+    }
+
 
     public static void resetCropSetting(ArrayList<ImageFile> allUncroppedImages){
         // Reset allCroppedImages to be 0

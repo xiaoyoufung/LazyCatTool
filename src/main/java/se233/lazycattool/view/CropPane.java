@@ -36,6 +36,7 @@ public class CropPane extends AnchorPane {
     private ProcessPane processArea;
     private ProcessMoreButton threeDotsButton;
     private final Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
+    //public static ArrayList<ImageFile> imageFiles = new ArrayList<>(Launcher.getAllUploadedImages());
 
     public CropMainImage getMainImage() { return mainImage; }
 
@@ -117,10 +118,14 @@ public class CropPane extends AnchorPane {
         VBox middleArea = new VBox(20);
         middleArea.setPadding(new Insets(0, 25, 0,25));
 
-        mainImage = new CropMainImage(unCropImages.getFirst().getFilepath());
-
+        if (!Launcher.getAllOutcroppedImages().isEmpty()){
+            mainImage = new CropMainImage(Launcher.getAllOutcroppedImages().getFirst().getFilepath());
+        } else{
+            mainImage = new CropMainImage(Launcher.getAllCroppedImages().getLast().getFilepath());
+        }
+        
         int croppedImagesCount = cropImages.size();
-        MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount);
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount, unCropImages);
 
         //System.out.println("Draw + " + Launcher.getAllUploadedImages().size());
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);

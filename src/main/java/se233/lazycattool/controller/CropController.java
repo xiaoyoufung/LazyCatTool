@@ -14,8 +14,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class CropController {
     public static String desPath;
-    public static ArrayList<ImageFile> unCropImages = Launcher.getAllOutcroppedImages();
-    public static ArrayList<ImageFile> croppedImages = Launcher.getAllCroppedImages();
+    //public static ArrayList<ImageFile> unCropImages = Launcher.getAllOutcroppedImages();
+    //public static ArrayList<ImageFile> croppedImages = Launcher.getAllCroppedImages();
     public static final int TOTAL_IMAGES = Launcher.getAllUploadedImages().size();
 
     public static void onAddButtonClicked(){
@@ -24,36 +24,49 @@ public class CropController {
     }
 
     public static void onCropConfirm(CropImage cropImage) {
+        ArrayList<ImageFile> unCropImages = Launcher.getAllOutcroppedImages();
 
-        ImageFile selectedImage = unCropImages.getFirst();
-        selectedImage.setCropInfo(cropImage);
+        //ImageFile selectedImage = unCropImages.getFirst();
+        //selectedImage.setCropInfo(cropImage);
 
-        if (croppedImages.size() == TOTAL_IMAGES){
-            initializeCropPane(croppedImages);
-            return;
+        if(!unCropImages.isEmpty()){
+            ImageFile selectedImage = unCropImages.get(0);
+            selectedImage.setCropInfo(cropImage);
+            selectedImage.setCropped(true);
+
+            if(Launcher.getAllCroppedImages().size() == TOTAL_IMAGES){
+                initializeCropPane(Launcher.getAllCroppedImages());
+            } else{
+                Launcher.refreshCropPane();
+            }
         }
 
-        if (croppedImages.size() != TOTAL_IMAGES - 1){
+//        if (Launcher.getAllCroppedImages().size() == TOTAL_IMAGES){
+//            initializeCropPane(Launcher.getAllCroppedImages());
+//            return;
+//        }
 
-            unCropImages.removeFirst();
-            Launcher.setAllOutcroppedImages(unCropImages);
-
-            croppedImages.add(selectedImage);
-            Launcher.setAllCroppedImages(croppedImages);
-
-            Launcher.refreshCropPane();
-        } else { // If crop all images
-            croppedImages.add(selectedImage);
-            Launcher.setAllCroppedImages(croppedImages);
-
-            initializeCropPane(croppedImages);
-        }
+//        if (croppedImages.size() != TOTAL_IMAGES - 1){
+//
+//            unCropImages.removeFirst();
+//            Launcher.setAllOutcroppedImages(unCropImages);
+//
+//            croppedImages.add(selectedImage);
+//            Launcher.setAllCroppedImages(croppedImages);
+//
+//            Launcher.refreshCropPane();
+//        } else { // If crop all images
+//            croppedImages.add(selectedImage);
+//            Launcher.setAllCroppedImages(croppedImages);
+//
+//            initializeCropPane(croppedImages);
+//        }
     }
 
     private static void startCroppingProcess() {
         ImageCropperLatest imageCropper = new ImageCropperLatest();
         new Thread(() -> {
-            imageCropper.cropImages(croppedImages, desPath, Launcher.getCropPane().getProgressingImages());
+            imageCropper.cropImages(Launcher.getAllCroppedImages(), desPath, Launcher.getCropPane().getProgressingImages());
         }).start();
     }
 
@@ -106,8 +119,8 @@ public class CropController {
                 future.complete(selectedPath);
             } else {
                 showErrorDialog();
-                System.out.println("Uncrop " + unCropImages.size());
-                System.out.println("Crop " + croppedImages.size());
+                System.out.println("Uncrop " + Launcher.getAllOutcroppedImages().size());
+                System.out.println("Crop " + Launcher.getAllCroppedImages().size());
                 future.complete(null);
             }
         });

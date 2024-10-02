@@ -13,14 +13,18 @@ public class MultiPicturePane extends HBox {
 
     private final ImageViewURL addIcon = new ImageViewURL("assets/icons/addIcon.png", 14);
     IconWithBorder addButton = new IconWithBorder(addIcon, 11,11, 4);
-    public static ArrayList<ImageFile> imageFiles = new ArrayList<>(Launcher.getAllUploadedImages());
+    private static ArrayList<ImageFile> imageFiles;
 
-    public MultiPicturePane(int imgIndex){
+    static {
+        imageFiles = new ArrayList<>(Launcher.getAllUploadedImages());
+    }
+
+    public MultiPicturePane(int imgIndex, ArrayList<ImageFile> imageFiles){
         this.setSpacing(12);
+            System.out.println(Launcher.getAllUploadedImages().size());
 
-        if (imageFiles != null){
             // Create and collect ImageViewURL objects
-            List<StackPane> imageViews = imageFiles.stream()
+            List<StackPane> imageViews = Launcher.getAllUploadedImages().stream()
                     .map(image -> new ImageFileURL(image.getFilepath(), 46, 30, 8))
                     .map(StackPane::new)
                     .toList();
@@ -37,6 +41,6 @@ public class MultiPicturePane extends HBox {
             this.getChildren().addAll(imageViews);
             this.setAlignment(Pos.CENTER_LEFT);
             this.getChildren().addAll(addButton);
-        }
+
     }
 }

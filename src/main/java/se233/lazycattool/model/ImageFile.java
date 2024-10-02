@@ -7,11 +7,32 @@ public class ImageFile {
     protected FileType type;
     protected CropImage cropInfo;
 
+    public boolean isCropped() {
+        return isCropped;
+    }
+
+    public void setCropped(boolean cropped) {
+        isCropped = cropped;
+    }
+
+    public boolean isProcessed() {
+        return isProcessed;
+    }
+
+    public void setProcessed(boolean processed) {
+        isProcessed = processed;
+    }
+
+    protected boolean isCropped;
+    protected boolean isProcessed;
+
     public ImageFile(String name, String path, double size, FileType type){
         this.name = name;
         this.path = path;
         this.sizeKB = size;
         this.type = type;
+        this.isCropped = false;
+        this.isProcessed = false;
     }
 
     public String getName() {
