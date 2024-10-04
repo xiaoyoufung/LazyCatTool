@@ -123,7 +123,7 @@ public class CropPane extends AnchorPane {
         } else{
             mainImage = new CropMainImage(Launcher.getAllCroppedImages().getLast().getFilepath());
         }
-        
+
         int croppedImagesCount = cropImages.size();
         MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount, unCropImages);
 
