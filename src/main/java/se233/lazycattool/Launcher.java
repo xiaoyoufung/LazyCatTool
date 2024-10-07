@@ -128,6 +128,10 @@ public class Launcher extends Application {
         uploadPane.drawPane(allUploadedImages);
     }
 
+    public static void refreshEdgeDetectPane(){
+        edgeDetectPane.drawPane(allUploadedImages);
+    }
+
     public static ArrayList<ImageFile> getAllCroppedImages() {
         return allUploadedImages.stream()
                 .filter(ImageFile::isCropped)

@@ -14,6 +14,7 @@ import se233.lazycattool.model.edgeDetector.util.Grayscale;
 import se233.lazycattool.model.edgeDetector.util.Threshold;
 import se233.lazycattool.view.EdgeDetectPane;
 import se233.lazycattool.view.template.components.IconWithBorder;
+import se233.lazycattool.view.template.edgedetectPane.ConfigureSection;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
 
@@ -151,5 +152,16 @@ public class EdgeDetectController {
         }
     }
 
+    public static void onArrowButtonClicked(){
+        System.out.println("I am config button");
+
+        if(ConfigureSection.isClicked()){
+            ConfigureSection.setClicked(false);
+        } else{
+            ConfigureSection.setClicked(true);
+        }
+
+        Launcher.refreshEdgeDetectPane();
+    }
 
 }

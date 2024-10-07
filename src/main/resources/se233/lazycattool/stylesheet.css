@@ -233,3 +233,15 @@
     -fx-border-radius: 5;
     -fx-cursor: hand;
 }
+
+.config-section{
+    -fx-background-color: #FFF;
+    -fx-border-color: #E4E7EC transparent #E4E7EC transparent; /* Top, Right, Bottom, Left */
+    -fx-border-width: 1.25px 0 1.25px 0; /* Top, Right, Bottom, Left */
+}
+
+.config-section-active{
+    -fx-background-color: #F2F4F5;
+    -fx-padding: 15px 10px 15px 10px;
+    -fx-background-radius: 8px;
+}

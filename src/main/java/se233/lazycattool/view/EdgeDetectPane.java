@@ -130,7 +130,7 @@ public class EdgeDetectPane extends AnchorPane {
 
         // button take full width
 
-        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, configureSection, line3, bottomArea, tile_pane, line4, confirmButton);
+        mainArea.getChildren().addAll(mainTopArea, middleArea, configureSection, bottomArea, tile_pane, line4, confirmButton);
 
         return mainArea;
     }
