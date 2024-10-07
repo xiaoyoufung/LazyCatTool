@@ -153,14 +153,7 @@ public class EdgeDetectController {
     }
 
     public static void onArrowButtonClicked(){
-        System.out.println("I am config button");
-
-        if(ConfigureSection.isClicked()){
-            ConfigureSection.setClicked(false);
-        } else{
-            ConfigureSection.setClicked(true);
-        }
-
+        ConfigureSection.setClicked(!ConfigureSection.isClicked());
         Launcher.refreshEdgeDetectPane();
     }
 
