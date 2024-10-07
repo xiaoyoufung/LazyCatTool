@@ -1,8 +1,4 @@
 package se233.lazycattool.view.template.cropPane;
-
-import javafx.beans.binding.Bindings;
-import javafx.scene.Parent;
-import javafx.scene.layout.Region;
 import javafx.scene.shape.Line;
 
 public class SeperateLine extends Line {

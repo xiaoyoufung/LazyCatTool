@@ -17,6 +17,7 @@ import se233.lazycattool.Launcher;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
+import se233.lazycattool.view.template.edgedetectPane.ConfigureSection;
 import se233.lazycattool.view.template.edgedetectPane.StretchButton;
 import se233.lazycattool.view.template.progressBar.ProcessMoreButton;
 import se233.lazycattool.view.template.progressBar.ProcessPane;
@@ -39,6 +40,7 @@ public class EdgeDetectPane extends AnchorPane {
     StretchButton sobelLbl;
     ProcessPane processPane;
     ProcessMoreButton threeDotsButton;
+    Pane edgeDetectInfoPane;
 
     private ArrayList<ImageFile> imageFiles = new ArrayList<>(Launcher.getAllUploadedImages());
 
@@ -60,7 +62,8 @@ public class EdgeDetectPane extends AnchorPane {
     }
 
     private Pane getDetailsPane(){
-        Pane edgeDetectInfoPane = new AnchorPane();
+        edgeDetectInfoPane = new AnchorPane();
+        edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
         edgeDetectInfoPane.getStyleClass().add("edge-detect-pane");
 
         processPane = new ProcessPane(unProcessedImages, progressingImages);
@@ -103,19 +106,31 @@ public class EdgeDetectPane extends AnchorPane {
 
         SeperateLine line3 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
 
+        SeperateLine line4 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
+
         HBox confirmButton = genConfirmBtn();
 
-        ObservableList<String> options =
-                FXCollections.observableArrayList(
-                        "Option 1",
-                        "Option 2",
-                        "Option 3"
-                );
-        final ComboBox comboBox = new ComboBox(options);
+        // Drop-down
+
+        // Weekdays
+        String week_days[] =
+                { "Monday", "Tuesday", "Wednesday",
+                        "Thursday", "Friday" };
+
+        // Create a combo box
+        ComboBox combo_box =
+                new ComboBox(FXCollections
+                        .observableArrayList(week_days));
+
+        combo_box.getSelectionModel().select(0);
+        // Create a tile pane
+        TilePane tile_pane = new TilePane(combo_box);
+
+        ConfigureSection configureSection = new ConfigureSection();
 
         // button take full width
 
-        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, bottomArea, comboBox, line3, confirmButton);
+        mainArea.getChildren().addAll(mainTopArea, middleArea, line2, configureSection, line3, bottomArea, tile_pane, line4, confirmButton);
 
         return mainArea;
     }
@@ -160,6 +175,7 @@ public class EdgeDetectPane extends AnchorPane {
 
     private HBox genSelectButtonArea(){
         HBox selectBtnArea = new HBox(6);
+        selectBtnArea.setMaxWidth(PANE_WIDTH);
 
         // Create three labels
         cannyLbl = new StretchButton("Canny");
@@ -253,7 +269,7 @@ public class EdgeDetectPane extends AnchorPane {
         Label confirmBtn = new Label("Confirm");
 
         // Set max width to infinity to ensure they grow
-        confirmBtn.setMaxWidth(Double.MAX_VALUE);
+        confirmBtn.setMaxWidth(PANE_WIDTH);
         confirmBtn.setAlignment(Pos.CENTER);
         confirmBtn.getStyleClass().add("confirm-btn");
         confirmBtn.setPadding(new Insets(16,0,16,0));
