@@ -127,9 +127,8 @@ public class CropPane extends AnchorPane {
         }
 
         int croppedImagesCount = cropImages.size();
-        MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount, unCropImages);
+        MultiPicturePane cropMultiplePic = new MultiPicturePane(croppedImagesCount, Launcher.getAllUploadedImages());
 
-        //System.out.println("Draw + " + Launcher.getAllUploadedImages().size());
         middleArea.getChildren().addAll(mainImage, cropMultiplePic);
         return middleArea;
     }

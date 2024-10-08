@@ -41,26 +41,7 @@ public class CropController {
             }
         }
 
-//        if (Launcher.getAllCroppedImages().size() == TOTAL_IMAGES){
-//            initializeCropPane(Launcher.getAllCroppedImages());
-//            return;
-//        }
 
-//        if (croppedImages.size() != TOTAL_IMAGES - 1){
-//
-//            unCropImages.removeFirst();
-//            Launcher.setAllOutcroppedImages(unCropImages);
-//
-//            croppedImages.add(selectedImage);
-//            Launcher.setAllCroppedImages(croppedImages);
-//
-//            Launcher.refreshCropPane();
-//        } else { // If crop all images
-//            croppedImages.add(selectedImage);
-//            Launcher.setAllCroppedImages(croppedImages);
-//
-//            initializeCropPane(croppedImages);
-//        }
     }
 
     private static void startCroppingProcess() {

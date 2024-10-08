@@ -30,6 +30,8 @@ public class Launcher extends Application {
     private static ArrayList<ImageFile> allCroppedImages = null;
     private static ArrayList<ImageFile> allUncroppedImages = null;
 
+    private static ArrayList<ImageFile> allProcessedImages = null;
+
     public static CropPane getCropPane() {
         return cropPane;
     }
