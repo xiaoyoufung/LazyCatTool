@@ -128,6 +128,11 @@ public class ImageEdgeDetector {
 
                     // If Algorithm type is Sobel
                 } else if (type == AlgorithmType.Sobel) {
+                    int kernelSize = 5;
+
+                    if (config.getKernalSize() == 0){
+                        kernelSize = 3;
+                    }
                     System.out.println(config.getKernalSize() == 0);
                     System.out.println(config.getThreshold());
 
@@ -139,7 +144,7 @@ public class ImageEdgeDetector {
 
                         // Step 3: Apply Sobel Edge Detection
                         // You can adjust the kernel size (3 or 5) and threshold as needed
-                        SobelEdgeDetector sobel = new SobelEdgeDetector(3, 50);
+                        SobelEdgeDetector sobel = new SobelEdgeDetector(kernelSize, config.getHighThreshold());
                         File outputFile = sobel.detectEdges(new File(inputPath), outputPath + "/" + imageFile.getName());
 
                         // Step 4: The result is already saved by the detectEdges method
