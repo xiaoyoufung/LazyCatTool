@@ -1,10 +1,12 @@
 package se233.lazycattool.view;
 
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.controller.EdgeDetectController;
 import se233.lazycattool.model.ImageFile;
@@ -34,6 +37,12 @@ public class EdgeDetectPane extends AnchorPane {
     private final double PANE_WIDTH = 545;
     private final double LINE_BOLD = 1.25;
     private ArrayList<ImageFile> unProcessedImages;
+    private ProcessPane processArea;
+
+    public Map<ImageFile, ProgressingImage> getProgressingImages() {
+        return progressingImages;
+    }
+
     private final Map<ImageFile, ProgressingImage> progressingImages = new HashMap<>();
     VBox mainBtmArea;
     StretchButton cannyLbl;
@@ -197,7 +206,15 @@ public class EdgeDetectPane extends AnchorPane {
 
         ImageView mainImage = genMainImage();
 
-        MultiPicturePane multiPictureArea = new MultiPicturePane(0, imageFiles);
+        System.out.println(Launcher.getAllProcessedImages().size());
+
+        MultiPicturePane multiPictureArea = null;
+
+        if (!Launcher.getAllProcessedImages().isEmpty()){
+             multiPictureArea = new MultiPicturePane(0, Launcher.getAllUploadedImages());
+        } else{
+             multiPictureArea = new MultiPicturePane(0, Launcher.getAllUploadedImages());
+        }
 
         mainBtmArea.getChildren().addAll(uploadLbl, uploadSubLbl, mainImage, multiPictureArea);
         return mainBtmArea;
@@ -266,5 +283,22 @@ public class EdgeDetectPane extends AnchorPane {
         // when user click submit button
         confirmBtnArea.setOnMouseClicked(_ -> onSubmitAlgo());
         return confirmBtnArea;
+    }
+
+    public void showProcessingPane() {
+        if (processArea != null) {
+            processArea.setVisible(true);
+            processArea.toFront();
+
+            // Ensure the processArea is properly positioned
+            AnchorPane.setTopAnchor(processArea, 69.0);
+            AnchorPane.setRightAnchor(processArea, 13.0);
+
+            // If you want to animate the appearance, you could add a fade-in effect
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), processArea);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
+        }
     }
 }

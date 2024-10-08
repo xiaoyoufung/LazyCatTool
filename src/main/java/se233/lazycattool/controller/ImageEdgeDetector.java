@@ -29,6 +29,7 @@ public class ImageEdgeDetector {
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
         for (ImageFile image: imagesToDetect){
             executor.submit(() -> detectImage(image, desPath, progressingImages, config));
+            System.out.println("in this");
         }
 
         executor.shutdown();
@@ -53,7 +54,6 @@ public class ImageEdgeDetector {
         AlgorithmType type = config.getAlgorithmType();
         String inputPath = imageFile.getFilepath();
         String imageType = imageFile.getType();
-        BufferedImage outputImage = null;
 
         try{
             int maxSteps = 100;
@@ -72,21 +72,25 @@ public class ImageEdgeDetector {
 //                int[][] pixels = Grayscale.imgToGrayPixels(originalImage);
 
                 // If Algorithm type is Canny
+                System.out.println(type);
                 if(type == AlgorithmType.Canny){
-                    outputImage = getCannyEdgeDetectorImage(config, inputPath);
+                    BufferedImage outputImage = getCannyEdgeDetectorImage(config, inputPath);
+                    ImageIO.write(outputImage, imageType, new File(outputPath + "/" + imageFile.getName()));
 
                     // If Algorithm type is Laplacian
                 } else if (type == AlgorithmType.Laplacian) {
-                    outputImage = getLaplacianEdgeDetectorImage(config, inputPath);
+                   BufferedImage outputImage = getLaplacianEdgeDetectorImage(config, inputPath);
+                    ImageIO.write(outputImage, imageType, new File(outputPath + "/" + imageFile.getName()));
 
                     // If Algorithm type is Sobel
                 } else if (type == AlgorithmType.Sobel) {
-                    outputImage = getSobelEdgeDetectorImage(config, inputPath);
+                    BufferedImage outputImage = getSobelEdgeDetectorImage(config, inputPath);
+                    ImageIO.write(outputImage, imageType, new File(outputPath + "/" + imageFile.getName()));
                 }
 
+
                 // Step 7: Save the output image
-                assert outputImage != null;
-                ImageIO.write(outputImage, imageType, new File(outputPath));
+
 
                 // kept new processed image....
                 if(!unProcessImages.isEmpty()){
@@ -109,7 +113,7 @@ public class ImageEdgeDetector {
 
     public BufferedImage getCannyEdgeDetectorImage(ConfigEdge config, String inputPath) throws IOException {
         // Step 3: Read the input image
-        BufferedImage outputImage = null;
+
         BufferedImage originalImage = ImageIO.read(new File(inputPath));
 
         // Step 4: Convert to grayscale
@@ -124,13 +128,12 @@ public class ImageEdgeDetector {
                 .L1norm(false)
                 .build();
         boolean[][] edges = canny.getEdges();
-        outputImage = Threshold.applyThresholdReversed(edges);
+        BufferedImage outputImage = Threshold.applyThresholdReversed(edges);
 
         return outputImage;
     }
 
     public BufferedImage getLaplacianEdgeDetectorImage(ConfigEdge config, String inputPath) throws IOException {
-        BufferedImage outputImage = null;
 
         double maskSizeIndex = config.getConvolutionMask();
         int maskSize;
@@ -144,7 +147,7 @@ public class ImageEdgeDetector {
         // Step 4: Apply Laplacian Edge Detection
         LaplacianEdgeDetector laplacian = new LaplacianEdgeDetector(maskSize); // Use 3x3 mask
         File outputFile = laplacian.detectEdges(new File(inputPath));
-        outputImage = ImageIO.read(outputFile);
+        BufferedImage outputImage = ImageIO.read(outputFile);
 
         return outputImage;
     }

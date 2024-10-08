@@ -92,6 +92,9 @@ public class EdgeDetectController {
             );
         }
 
+        System.out.println(Launcher.getAllOutprocessedImages().size());
+        initializeEdgeDetectPane(Launcher.getAllOutprocessedImages());
+
     }
 
     public static void onArrowButtonClicked(){
@@ -116,17 +119,19 @@ public class EdgeDetectController {
                             System.out.println("Selected directory: " + desPath);
 
                             // Add new Pane or perform other UI updates here
-                            //Launcher.refreshCropPane();
+                            Launcher.refreshEdgeDetectPane();
 
                             // show ProcessPane
-                            //Launcher.getCropPane().getThreeDotsButton().setVisible(true);
+                            Launcher.getEdgeDetectPane().getThreeDotsButton().setVisible(true);
 
                             // ProcessButton onClick
-                            //Launcher.getCropPane().getThreeDotsButton().setOnClick(true);
-                            //Launcher.getCropPane().getThreeDotsButton().onMoreIconClicked();
+                            Launcher.getEdgeDetectPane().getThreeDotsButton().setOnClick(true);
+                            Launcher.getEdgeDetectPane().getThreeDotsButton().onMoreIconClicked();
 
-                            //Launcher.getCropPane().showProcessingPane();
+                            Launcher.getCropPane().showProcessingPane();
+                            //Launcher.getEdgeDetectPane().showProcessingPane();
 
+                            startDetectingProcess();
                             //
                             //startCroppingProcess();
                         });
@@ -137,6 +142,13 @@ public class EdgeDetectController {
                         });
                     }
                 });
+    }
+
+    private static void startDetectingProcess() {
+        ImageEdgeDetector imageDetector = new ImageEdgeDetector();
+        new Thread(() -> {
+            imageDetector.detectImages(Launcher.getAllOutprocessedImages(), desPath, Launcher.getEdgeDetectPane().getProgressingImages(), configureEdge);
+        }).start();
     }
 
     // (2) Returns the selected path directly, or null if no directory was selected.
