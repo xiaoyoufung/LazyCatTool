@@ -68,7 +68,9 @@ public class ImageEdgeDetector {
                 // If Algorithm type is Canny
                 System.out.println(type);
                 if(type == AlgorithmType.Canny){
-                    System.out.println("True");
+                    System.out.println(config.getLowThreshold());
+                    System.out.println(config.getHighThreshold());
+
                     try {
                         // Step 3: Read the input image
                         BufferedImage originalImage = ImageIO.read(new File(inputPath));
@@ -100,6 +102,11 @@ public class ImageEdgeDetector {
 
                     // If Algorithm type is Laplacian
                 } else if (type == AlgorithmType.Laplacian) {
+                    System.out.println(config.getConvolutionMask());
+                    int maskSize = 5;
+                    if (config.getConvolutionMask() == 0){
+                        maskSize = 3;
+                    }
 
                     try {
                         // Step 2: Read the input image
@@ -109,7 +116,7 @@ public class ImageEdgeDetector {
                         int[][] pixels = Grayscale.imgToGrayPixels(originalImage);
 
                         // Step 4: Apply Laplacian Edge Detection
-                        LaplacianEdgeDetector laplacian = new LaplacianEdgeDetector(3); // Use 3x3 mask
+                        LaplacianEdgeDetector laplacian = new LaplacianEdgeDetector(maskSize); // Use 3x3 mask
                         File outputFile = laplacian.detectEdges(new File(inputPath), outputPath + "/" + imageFile.getName());
 
                         // Step 5: The result is already saved by the detectEdges method
@@ -121,6 +128,9 @@ public class ImageEdgeDetector {
 
                     // If Algorithm type is Sobel
                 } else if (type == AlgorithmType.Sobel) {
+                    System.out.println(config.getKernalSize() == 0);
+                    System.out.println(config.getThreshold());
+
                     try {
                         // Step 1: Specify input and output paths
 
@@ -136,9 +146,9 @@ public class ImageEdgeDetector {
                         System.out.println("Edge detection completed. Output saved to: " + outputFile.getAbsolutePath());
 
                         // Optional: If you want to save with a custom name/location
-                        BufferedImage edgeImage = ImageIO.read(outputFile);
-                        ImageIO.write(edgeImage, "PNG", new File(outputPath + "/sobel_" + imageFile.getName()));
-                        System.out.println("Edge detection result copied to: " + outputPath);
+                        //BufferedImage edgeImage = ImageIO.read(outputFile);
+                        //ImageIO.write(edgeImage, "PNG", new File(outputPath + "/sobel_" + imageFile.getName()));
+                       // System.out.println("Edge detection result copied to: " + outputPath);
 
                     } catch (IOException e) {
                         e.printStackTrace();
