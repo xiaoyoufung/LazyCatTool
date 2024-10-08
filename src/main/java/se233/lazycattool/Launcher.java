@@ -1,6 +1,7 @@
 package se233.lazycattool;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -130,6 +131,12 @@ public class Launcher extends Application {
 
     public static void refreshEdgeDetectPane(){
         edgeDetectPane.drawPane(allUploadedImages);
+        Platform.runLater(() -> {
+            edgeDetectPane.layout();
+            mainPane.layout();
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.sizeToScene();
+        });
     }
 
     public static ArrayList<ImageFile> getAllCroppedImages() {

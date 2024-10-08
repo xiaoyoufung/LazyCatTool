@@ -87,6 +87,7 @@ public class EdgeDetectPane extends AnchorPane {
 
     public void drawPane(ArrayList<ImageFile> allUploadedImages){
         // BEWARE!! the order is matter!
+        this.getChildren().clear();
         this.unProcessedImages = allUploadedImages;
         Pane edgeDetectInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
@@ -130,7 +131,7 @@ public class EdgeDetectPane extends AnchorPane {
 
         // button take full width
 
-        mainArea.getChildren().addAll(mainTopArea, middleArea, configureSection, bottomArea, tile_pane, line4, confirmButton);
+        mainArea.getChildren().addAll(mainTopArea, middleArea, configureSection, bottomArea, line4, confirmButton);
 
         return mainArea;
     }

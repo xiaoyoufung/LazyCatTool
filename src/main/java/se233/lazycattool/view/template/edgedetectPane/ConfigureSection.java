@@ -46,7 +46,8 @@ public class ConfigureSection extends VBox {
         configureBox.setPrefWidth(545);
 
         if(isClicked){
-            mainArea.getStyleClass().add("config-section");
+            mainArea.getStyleClass().add("config-main-section");
+
 
             Region spacer1 = new Region();
             HBox.setHgrow(spacer1, Priority.ALWAYS);
@@ -73,7 +74,7 @@ public class ConfigureSection extends VBox {
                 //
             }
         } else{
-            mainArea.getStyleClass().remove("config-section");
+            mainArea.getStyleClass().remove("config-main-section");
         }
 
         mainArea.getChildren().addAll(topArea, configureBox);

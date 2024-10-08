@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.edgeDetector.detectors.CannyEdgeDetector;
 import se233.lazycattool.model.edgeDetector.detectors.LaplacianEdgeDetector;
@@ -24,40 +25,49 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class EdgeDetectController {
     private static final EdgeDetectPane edgeDetectPane = Launcher.getEdgeDetectPane();
     private static final ProcessMoreButton moreBtn = edgeDetectPane.getThreeDotsButton();
     private static final ScrollPane processPane = edgeDetectPane.getProcessPane();
-    private static String choosenAlgo;
+    private static String choosenAlgo = "Canny";
 
     public static void onAlgorithmSelected(MouseEvent event){
-        StretchButton cannyBtn = edgeDetectPane.getCannyLbl();
-        StretchButton laplacianBtn = edgeDetectPane.getLaplacianLbl();
-        StretchButton sobelBtn = edgeDetectPane.getSobelLbl();
+
         Object source = event.getSource();
         if (source instanceof Label clickedLabel) {
             switch (clickedLabel.getId()) {
                 case "Canny":
-                    cannyBtn.setOnClick(true);
-                    laplacianBtn.setOnClick(false);
-                    sobelBtn.setOnClick(false);
                     choosenAlgo = "Canny";
                     break;
                 case "Laplacian":
-                    cannyBtn.setOnClick(false);
-                    laplacianBtn.setOnClick(true);
-                    sobelBtn.setOnClick(false);
                     choosenAlgo = "Laplacian";
                     break;
                 case "Sobel":
-                    cannyBtn.setOnClick(false);
-                    laplacianBtn.setOnClick(false);
-                    sobelBtn.setOnClick(true);
                     choosenAlgo = "Sobel";
                     break;
             }
         }
+        checkCurrentAlgo();
+    }
 
+    public static void checkCurrentAlgo(){
+        StretchButton cannyBtn = edgeDetectPane.getCannyLbl();
+        StretchButton laplacianBtn = edgeDetectPane.getLaplacianLbl();
+        StretchButton sobelBtn = edgeDetectPane.getSobelLbl();
+        if (choosenAlgo == "Canny"){
+            cannyBtn.setOnClick(true);
+            laplacianBtn.setOnClick(false);
+            sobelBtn.setOnClick(false);
+        } else if (choosenAlgo == "Laplacian") {
+            cannyBtn.setOnClick(false);
+            laplacianBtn.setOnClick(true);
+            sobelBtn.setOnClick(false);
+        } else if (choosenAlgo == "Sobel") {
+            cannyBtn.setOnClick(false);
+            laplacianBtn.setOnClick(false);
+            sobelBtn.setOnClick(true);
+        }
     }
 
     // When user clicked Submit button
@@ -154,7 +164,12 @@ public class EdgeDetectController {
 
     public static void onArrowButtonClicked(){
         ConfigureSection.setClicked(!ConfigureSection.isClicked());
+
         Launcher.refreshEdgeDetectPane();
+        checkCurrentAlgo();
+
+        Stage stage = (Stage) Launcher.getMainPane().getScene().getWindow();
+        stage.sizeToScene();
     }
 
 }

@@ -234,7 +234,7 @@
     -fx-cursor: hand;
 }
 
-.config-section, config-main-section{
+.config-section, .config-main-section{
     -fx-background-color: #FFF;
     -fx-border-color: #E4E7EC transparent #E4E7EC transparent; /* Top, Right, Bottom, Left */
     -fx-border-width: 1.25px 0 1.25px 0; /* Top, Right, Bottom, Left */
@@ -247,5 +247,5 @@
 }
 
 .config-main-section{
-    -fx-padding: 15px 10px 15px 10px;
+    -fx-padding: 15px 0px 15px 0px;
 }
