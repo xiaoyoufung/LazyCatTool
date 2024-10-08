@@ -80,6 +80,19 @@ public class LaplacianEdgeDetector implements EdgeDetector {
         return result;
     }
 
+    public File detectEdges(File imageFile, String path) throws IOException {
+        BufferedImage originalImage = ImageIO.read(imageFile);
+        int[][] grayImage = Grayscale.imgToGrayPixels(originalImage);
+
+        // เรียกใช้ฟังก์ชันการค้นหาขอบ
+        findEdges(grayImage);
+
+        BufferedImage edgeImage = Threshold.applyThresholdReversed(edges);
+        File result = new File(path);
+        ImageIO.write(edgeImage, "png", result);
+        return result;
+    }
+
     // ฟังก์ชัน Gaussian smoothing
     private int[][] applyGaussianSmoothing(int[][] image) {
         double[][] gaussianKernel = {

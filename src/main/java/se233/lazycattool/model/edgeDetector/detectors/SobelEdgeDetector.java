@@ -97,6 +97,28 @@ public class SobelEdgeDetector implements EdgeDetector {
         return result;
     }
 
+    public File detectEdges(File imageFile, String path) throws IOException {
+        // Load and convert the image to grayscale
+        BufferedImage originalImage = ImageIO.read(imageFile);
+        if (originalImage == null) {
+            throw new IOException("Failed to load image.");
+        }
+        int[][] pixels = Grayscale.imgToGrayPixels(originalImage);
+
+        // Apply Sobel Operator
+        int[][] gradientMagnitude = applySobelOperator(pixels);
+
+        // Thresholding to detect edges
+        calculateEdges(gradientMagnitude);
+
+        // Generate the output image showing detected edges
+        BufferedImage edgeImage = Threshold.applyThresholdReversed(edges);
+        File result = new File(path);
+        ImageIO.write(edgeImage, "png", result);
+
+        return result;
+    }
+
     // Apply Sobel Operator with chosen kernel size
     private int[][] applySobelOperator(int[][] pixels) {
         double[][] xKernel = (kernelSize == 3) ? X_kernel_3x3 : X_kernel_5x5;
