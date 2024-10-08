@@ -6,6 +6,8 @@ public class ImageFile {
     protected String path;
     protected FileType type;
     protected CropImage cropInfo;
+    protected boolean isCropped;
+    protected boolean isProcessed;
 
     public boolean isCropped() {
         return isCropped;
@@ -23,8 +25,6 @@ public class ImageFile {
         isProcessed = processed;
     }
 
-    protected boolean isCropped;
-    protected boolean isProcessed;
 
     public ImageFile(String name, String path, double size, FileType type){
         this.name = name;

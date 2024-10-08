@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import se233.lazycattool.Launcher;
+import se233.lazycattool.controller.EdgeDetectController;
 import se233.lazycattool.model.CropImage;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.exception.EmptyImageListException;
@@ -68,6 +69,7 @@ public class CropPane extends AnchorPane {
         Pane cropInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
         this.getChildren().add(cropInfoPane);
+        EdgeDetectController.checkCurrentAlgo();
     }
 
     private Pane genMainArea(){

@@ -3,6 +3,7 @@ package se233.lazycattool.controller;
 import javafx.application.Platform;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.CropImage;
+import se233.lazycattool.model.FileType;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.CropPane;
 import se233.lazycattool.view.template.progressBar.ProgressingImage;
@@ -52,6 +53,7 @@ public class ImageCropperLatest {
         int y = cropInfo.getCropY();
         int width = cropInfo.getCropWidth();
         int height = cropInfo.getCropHeight();
+        String imageType = croppedImage.getType();
 
         try {
             int maxSteps = 100;
@@ -67,7 +69,7 @@ public class ImageCropperLatest {
                 BufferedImage subImg = originalImg.getSubimage(x, y, width, height);
                 //System.out.println("Cropped Image Dimension: " + subImg.getWidth() + "x" + subImg.getHeight());
                 File outputfile = new File(desPath + "/copy-" + croppedImage.getName());
-                ImageIO.write(subImg, "png", outputfile);
+                ImageIO.write(subImg, imageType, outputfile);
                 //System.out.println("Cropped Image created successfully: " + croppedImage.getName());
 
                 Thread.sleep(25);

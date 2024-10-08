@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import se233.lazycattool.Launcher;
+import se233.lazycattool.controller.EdgeDetectController;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.components.*;
 import se233.lazycattool.view.template.cropPane.SeperateLine;
@@ -92,6 +93,7 @@ public class EdgeDetectPane extends AnchorPane {
         Pane edgeDetectInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
         this.getChildren().add(edgeDetectInfoPane);
+        EdgeDetectController.checkCurrentAlgo();
     }
 
     private VBox genMainArea(){
@@ -101,31 +103,11 @@ public class EdgeDetectPane extends AnchorPane {
 
         VBox middleArea = genMainMiddleArea();
 
-        SeperateLine line2 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
-
         VBox bottomArea = genMainBtmArea();
-
-        SeperateLine line3 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
 
         SeperateLine line4 = new SeperateLine(PANE_WIDTH, LINE_BOLD);
 
         HBox confirmButton = genConfirmBtn();
-
-        // Drop-down
-
-        // Weekdays
-        String week_days[] =
-                { "Monday", "Tuesday", "Wednesday",
-                        "Thursday", "Friday" };
-
-        // Create a combo box
-        ComboBox combo_box =
-                new ComboBox(FXCollections
-                        .observableArrayList(week_days));
-
-        combo_box.getSelectionModel().select(0);
-        // Create a tile pane
-        TilePane tile_pane = new TilePane(combo_box);
 
         ConfigureSection configureSection = new ConfigureSection();
 

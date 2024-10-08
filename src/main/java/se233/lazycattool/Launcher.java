@@ -64,18 +64,6 @@ public class Launcher extends Application {
         primaryStage.setResizable(false);
         Font.loadFont(Launcher.class.getResource("assets/fonts/Inter-VariableFont_opsz,wght.ttf").toExternalForm(), 10);
 
-        // delete soon...
-        ImageFile image1 = new ImageFile("blue_dusk.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/blue_dusk.png", 2048.5, FileType.png);
-        ImageFile image2 = new ImageFile("botanists_window.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/botanists_window.png", 1024.0, FileType.png);
-        ImageFile image3 = new ImageFile("dusty_lilac.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/dusty_lilac.png", 512.75, FileType.png);
-        ImageFile image4 = new ImageFile("summer_haze.png", "/Users/xiaoyoufung/Desktop/test-photo-resize/summer_haze.png", 2334.8, FileType.png);
-
-        tempImageFiles.add(image1);
-        tempImageFiles.add(image2);
-        tempImageFiles.add(image3);
-        tempImageFiles.add(image4);
-        //
-
         mainPane = new BorderPane();
         mainScene = new Scene(mainPane);
 
@@ -151,10 +139,21 @@ public class Launcher extends Application {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    public static ArrayList<ImageFile> getAllOutprocessedImages(){
+        return allUploadedImages.stream()
+                .filter(img -> !img.isProcessed())
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static ArrayList<ImageFile> getAllProcessedImages(){
+        return allUploadedImages.stream()
+                .filter(ImageFile::isProcessed)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public static void refreshCropPane() {
         cropPane.drawPane(getAllOutcroppedImages(), getAllCroppedImages());
     }
-
 
     public static void resetCropSetting(ArrayList<ImageFile> allUncroppedImages){
         // Reset allCroppedImages to be 0
