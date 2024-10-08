@@ -27,6 +27,7 @@ public class ImageEdgeDetector {
 
     public void detectImages(ArrayList<ImageFile> imagesToDetect, String desPath, Map<ImageFile, ProgressingImage> progressingImages, ConfigEdge config){
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
+
         for (ImageFile image: imagesToDetect){
             executor.submit(() -> detectImage(image, desPath, progressingImages, config));
             System.out.println("in this");
@@ -81,7 +82,7 @@ public class ImageEdgeDetector {
                         // Step 5: Apply Canny Edge Detection
                         CannyEdgeDetector canny = new CannyEdgeDetector.Builder(pixels)
                                 .minEdgeSize(10)
-                                .thresholds(5, 100)
+                                .thresholds(config.getLowThreshold(), config.getHighThreshold())
                                 .L1norm(false)
                                 .build();
                         boolean[][] edges = canny.getEdges();
