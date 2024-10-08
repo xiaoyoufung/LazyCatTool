@@ -79,7 +79,7 @@ public class ImageEdgeDetector {
                         // Step 5: Apply Canny Edge Detection
                         CannyEdgeDetector canny = new CannyEdgeDetector.Builder(pixels)
                                 .minEdgeSize(10)
-                                .thresholds(config.getLowThreshold(), config.getHighThreshold())
+                                .thresholds(5, 100)
                                 .L1norm(false)
                                 .build();
                         boolean[][] edges = canny.getEdges();
@@ -87,9 +87,11 @@ public class ImageEdgeDetector {
                         // Step 6: Create output image
                         BufferedImage outputImage = Threshold.applyThresholdReversed(edges);
 
-                        System.out.println("feff");
+                        System.out.println(outputPath);
+
                         // Step 7: Save the output image
-                        ImageIO.write(outputImage, "PNG", new File(outputPath + "/" + imageFile.getName()));
+                        File resultPath = new File(outputPath + "/" + imageFile.getName());
+                        ImageIO.write(outputImage, "png", resultPath);
 
                         System.out.println("Edge detection completed. Output saved to: " + outputPath);
                     } catch (IOException e) {
