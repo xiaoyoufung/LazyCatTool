@@ -38,6 +38,7 @@ public class EdgeDetectPane extends AnchorPane {
     private final double LINE_BOLD = 1.25;
     private ArrayList<ImageFile> unProcessedImages;
     private ProcessPane processArea;
+    private ArrayList<ImageFile> processedImages;
 
     public Map<ImageFile, ProgressingImage> getProgressingImages() {
         return progressingImages;
@@ -76,29 +77,32 @@ public class EdgeDetectPane extends AnchorPane {
         edgeDetectInfoPane.setPrefWidth(PANE_WIDTH);
         edgeDetectInfoPane.getStyleClass().add("edge-detect-pane");
 
-        processPane = new ProcessPane(unProcessedImages, progressingImages);
+        processArea = new ProcessPane(unProcessedImages, progressingImages);
 
         Pane mainArea = genMainArea();
 
         VBox mainAreaContainer = new VBox(mainArea);
 
-        edgeDetectInfoPane.getChildren().addAll(mainAreaContainer, processPane);
+        edgeDetectInfoPane.getChildren().addAll(mainAreaContainer, processArea);
 
         AnchorPane.setTopAnchor(mainAreaContainer, 0.0);
         AnchorPane.setLeftAnchor(mainAreaContainer, 0.0);
         AnchorPane.setRightAnchor(mainAreaContainer, 0.0);
         AnchorPane.setBottomAnchor(mainAreaContainer, 0.0);
 
-        AnchorPane.setTopAnchor(processPane, 35.0);
-        AnchorPane.setRightAnchor(processPane, -8.0);
+        AnchorPane.setTopAnchor(processArea, 35.0);
+        AnchorPane.setRightAnchor(processArea, -8.0);
 
         return edgeDetectInfoPane;
     }
 
-    public void drawPane(ArrayList<ImageFile> allUploadedImages){
+    public void drawPane(ArrayList<ImageFile> unProcessedImages, ArrayList<ImageFile> processedImages){
         // BEWARE!! the order is matter!
         this.getChildren().clear();
-        this.unProcessedImages = allUploadedImages;
+
+        this.unProcessedImages = unProcessedImages;
+        this.processedImages = processedImages;
+
         Pane edgeDetectInfoPane = getDetailsPane();
         this.setStyle("-fx-background-color:#FFF;");
         this.getChildren().add(edgeDetectInfoPane);
@@ -132,7 +136,7 @@ public class EdgeDetectPane extends AnchorPane {
         Label headLbl;
         BorderPane headerArea = new BorderPane();
 
-        threeDotsButton = new ProcessMoreButton( 13,7, processPane);
+        threeDotsButton = new ProcessMoreButton( 13,7, processArea);
         threeDotsButton.setVisible(false);
 
         headLbl = new Label("Detect Edge");

@@ -30,6 +30,7 @@ public class Launcher extends Application {
     private static ArrayList<ImageFile> allCroppedImages = null;
     private static ArrayList<ImageFile> allUncroppedImages = null;
 
+    private static ArrayList<ImageFile> allUnprocessedImages = null;
     private static ArrayList<ImageFile> allProcessedImages = null;
 
     public static CropPane getCropPane() {
@@ -60,6 +61,14 @@ public class Launcher extends Application {
 
     public static void setAllOutcroppedImages(ArrayList<ImageFile> allUncroppedImages) {
         Launcher.allUncroppedImages = allUncroppedImages;
+    }
+
+    public static void setAllProcessedImages(ArrayList<ImageFile> allProcessedImages){
+        Launcher.allProcessedImages = allProcessedImages;
+    }
+
+    public static void setAllUnprocessedImages(ArrayList<ImageFile> allUnprocessedImages){
+        Launcher.allUnprocessedImages = allUnprocessedImages;
     }
 
     public void start(Stage primaryStage){
@@ -102,7 +111,7 @@ public class Launcher extends Application {
     public static void refreshPane(){
         try {
             sideBarPane.drawPane();
-            edgeDetectPane.drawPane(allUploadedImages);
+            edgeDetectPane.drawPane(allUnprocessedImages, allProcessedImages);
             uploadPane.drawPane(allUploadedImages);
             cropPane.drawPane(allUncroppedImages, allCroppedImages);
             //edgeDetectPane.drawPane(allUploadedImages);
@@ -120,7 +129,7 @@ public class Launcher extends Application {
     }
 
     public static void refreshEdgeDetectPane(){
-        edgeDetectPane.drawPane(allUploadedImages);
+        edgeDetectPane.drawPane(allUnprocessedImages, allProcessedImages);
         Platform.runLater(() -> {
             edgeDetectPane.layout();
             mainPane.layout();
@@ -157,11 +166,13 @@ public class Launcher extends Application {
         cropPane.drawPane(getAllOutcroppedImages(), getAllCroppedImages());
     }
 
-    public static void resetCropSetting(ArrayList<ImageFile> allUncroppedImages){
+    public static void resetCropSetting(ArrayList<ImageFile> allUploadedImages){
         // Reset allCroppedImages to be 0
         Launcher.setAllCroppedImages(new ArrayList<>());
+        Launcher.setAllProcessedImages(new ArrayList<>());
         // Set allUncroppedImages
-        Launcher.setAllOutcroppedImages(allUncroppedImages);
+        Launcher.setAllOutcroppedImages(allUploadedImages);
+        Launcher.setAllUnprocessedImages(allUploadedImages);
     }
 
     public static void switchToUpload(){

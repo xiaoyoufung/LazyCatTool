@@ -128,7 +128,7 @@ public class EdgeDetectController {
                             Launcher.getEdgeDetectPane().getThreeDotsButton().setOnClick(true);
                             Launcher.getEdgeDetectPane().getThreeDotsButton().onMoreIconClicked();
 
-                            Launcher.getCropPane().showProcessingPane();
+                            Launcher.getEdgeDetectPane().showProcessingPane();
                             //Launcher.getEdgeDetectPane().showProcessingPane();
 
                             startDetectingProcess();

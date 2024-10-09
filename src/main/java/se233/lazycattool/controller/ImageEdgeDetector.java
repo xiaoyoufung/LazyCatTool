@@ -1,13 +1,12 @@
 package se233.lazycattool.controller;
 
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import se233.lazycattool.Launcher;
 import se233.lazycattool.model.AlgorithmType;
 import se233.lazycattool.model.ConfigEdge;
 import se233.lazycattool.model.ImageFile;
-import se233.lazycattool.model.edgeDetector.detectors.CannyEdgeDetector;
-import se233.lazycattool.model.edgeDetector.detectors.LaplacianEdgeDetector;
-import se233.lazycattool.model.edgeDetector.detectors.SobelEdgeDetector;
+import se233.lazycattool.model.edgeDetector.detectors.*;
 import se233.lazycattool.model.edgeDetector.util.Grayscale;
 import se233.lazycattool.model.edgeDetector.util.Threshold;
 import se233.lazycattool.view.template.progressBar.ProgressingImage;
@@ -73,6 +72,9 @@ public class ImageEdgeDetector {
                     System.out.println(config.getHighThreshold());
 
                     try {
+                        int lowThreshold = config.getLowThreshold();
+                        int highThreshold = config.getHighThreshold();
+
                         // Step 3: Read the input image
                         BufferedImage originalImage = ImageIO.read(new File(inputPath));
 
@@ -82,7 +84,7 @@ public class ImageEdgeDetector {
                         // Step 5: Apply Canny Edge Detection
                         CannyEdgeDetector canny = new CannyEdgeDetector.Builder(pixels)
                                 .minEdgeSize(10)
-                                .thresholds(config.getLowThreshold(), config.getHighThreshold())
+                                .thresholds(lowThreshold, highThreshold)
                                 .L1norm(false)
                                 .build();
                         boolean[][] edges = canny.getEdges();
@@ -137,7 +139,20 @@ public class ImageEdgeDetector {
                     System.out.println(config.getKernalSize() == 0);
                     System.out.println(config.getThreshold());
 
+                    int kernelStrength = config.getThreshold();
                     try {
+//                        Image originalImage = new Image("file:" + imageFile.getFilepath());
+//
+//                        Image processedImage = SobelEdgeDetectorLatest.detect(
+//                                originalImage,
+//                                progress -> {},
+//                                kernelStrength
+//                        );
+//
+//                        BufferedImage bufferedImage = imageToBufferedImage(processedImage);
+//
+//                        ImageIO.write(bufferedImage, "png", new File(outputPath + "/sobel_" + imageFile.getName()));
+
                         // Step 1: Specify input and output paths
 
                         // Step 2: Read the input image
@@ -145,16 +160,16 @@ public class ImageEdgeDetector {
 
                         // Step 3: Apply Sobel Edge Detection
                         // You can adjust the kernel size (3 or 5) and threshold as needed
-                        SobelEdgeDetector sobel = new SobelEdgeDetector(kernelSize, config.getHighThreshold());
-                        File outputFile = sobel.detectEdges(new File(inputPath), outputPath + "/" + imageFile.getName());
+                        SobelEdgeDetector sobel = new SobelEdgeDetector(kernelSize, kernelStrength);
+                        File outputFile = sobel.detectEdges(new File(inputPath));
 
                         // Step 4: The result is already saved by the detectEdges method
-                        System.out.println("Edge detection completed. Output saved to: " + outputFile.getAbsolutePath());
+                        //System.out.println("Edge detection completed. Output saved to: " + outputFile.getAbsolutePath());
 
-                        // Optional: If you want to save with a custom name/location
-                        //BufferedImage edgeImage = ImageIO.read(outputFile);
-                        //ImageIO.write(edgeImage, "PNG", new File(outputPath + "/sobel_" + imageFile.getName()));
-                       // System.out.println("Edge detection result copied to: " + outputPath);
+                        //Optional: If you want to save with a custom name/location
+                        BufferedImage edgeImage = ImageIO.read(outputFile);
+                        ImageIO.write(edgeImage, "PNG", new File(outputPath + "/sobel_" + imageFile.getName()));
+                        System.out.println("Edge detection result copied to: " + outputPath);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -183,66 +198,4 @@ public class ImageEdgeDetector {
         }
     }
 
-
-    public BufferedImage getCannyEdgeDetectorImage(ConfigEdge config, String inputPath) throws IOException {
-        // Step 3: Read the input image
-
-        BufferedImage originalImage = ImageIO.read(new File(inputPath));
-
-        // Step 4: Convert to grayscale
-        int[][] pixels = Grayscale.imgToGrayPixels(originalImage);
-
-        int lowThreshold = config.getLowThreshold();
-        int highThreshold = config.getHighThreshold();
-
-        CannyEdgeDetector canny = new CannyEdgeDetector.Builder(pixels)
-                .minEdgeSize(10)
-                .thresholds(lowThreshold, highThreshold)
-                .L1norm(false)
-                .build();
-        boolean[][] edges = canny.getEdges();
-        BufferedImage outputImage = Threshold.applyThresholdReversed(edges);
-
-        return outputImage;
-    }
-
-    public BufferedImage getLaplacianEdgeDetectorImage(ConfigEdge config, String inputPath) throws IOException {
-
-        double maskSizeIndex = config.getConvolutionMask();
-        int maskSize;
-
-        if (maskSizeIndex == 0){
-            maskSize = 3;
-        } else{
-            maskSize = 5;
-        }
-
-        // Step 4: Apply Laplacian Edge Detection
-        LaplacianEdgeDetector laplacian = new LaplacianEdgeDetector(maskSize); // Use 3x3 mask
-        File outputFile = laplacian.detectEdges(new File(inputPath));
-        BufferedImage outputImage = ImageIO.read(outputFile);
-
-        return outputImage;
-    }
-
-    public BufferedImage getSobelEdgeDetectorImage(ConfigEdge config, String inputPath) throws IOException {
-
-        double kernelSizeIndex = config.getKernalSize();
-        int threshold = config.getThreshold();
-
-        int kernelSize;
-        if(kernelSizeIndex == 0){
-            kernelSize = 3;
-        } else{
-            kernelSize = 5;
-        }
-
-        // Step 3: Apply Sobel Edge Detection
-        // You can adjust the kernel size (3 or 5) and threshold as needed
-        SobelEdgeDetector sobel = new SobelEdgeDetector(kernelSize, threshold);
-        File outputFile = sobel.detectEdges(new File(inputPath));
-
-        // Optional: If you want to save with a custom name/location
-        return ImageIO.read(outputFile);
-    }
 }
