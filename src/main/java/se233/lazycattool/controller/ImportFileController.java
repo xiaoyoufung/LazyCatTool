@@ -4,6 +4,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import se233.lazycattool.Launcher;
+import se233.lazycattool.exception.ZipExtractionException;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.model.FileType;
 import java.io.File;
@@ -29,13 +30,13 @@ public class ImportFileController {
         }
     }
 
-    public static void onDragDropped(DragEvent event) throws IOException {
+    public static void onDragDropped(DragEvent event) throws IOException, ZipExtractionException {
         Dragboard db = event.getDragboard();
 
         // Get all uploaded Image
         ArrayList<ImageFile> allUploadedImages = Launcher.getAllUploadedImages();
 
-        ZipExtractor extractZipFile = new ZipExtractor();
+        ZipExtractorLatest extractZipFile = new ZipExtractorLatest();
 
         boolean success = false;
         if (db.hasFiles()){

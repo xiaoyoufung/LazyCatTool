@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import se233.lazycattool.Launcher;
+import se233.lazycattool.exception.ZipExtractionException;
 import se233.lazycattool.model.ImageFile;
 import se233.lazycattool.view.template.uploadPane.DragDropBox;
 import se233.lazycattool.view.template.components.HeadingSection;
@@ -85,6 +86,8 @@ public class UploadPane extends ScrollPane {
                 onDragDropped(e);
             } catch (IOException ex) {
                 // (E.2) RuntimeException
+                throw new RuntimeException(ex);
+            } catch (ZipExtractionException ex) {
                 throw new RuntimeException(ex);
             }
         });

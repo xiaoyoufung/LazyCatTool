@@ -20,15 +20,31 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ImageEdgeDetector {
     private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
 
     public void detectImages(ArrayList<ImageFile> imagesToDetect, String desPath, Map<ImageFile, ProgressingImage> progressingImages, ConfigEdge config){
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
+        int totalImages = imagesToDetect.size();
+
+        // atomically incremented counters, and cannot be used as a replacement for an Integer
+        AtomicInteger processedImages = new AtomicInteger(0);
 
         for (ImageFile image: imagesToDetect){
-            executor.submit(() -> detectImage(image, desPath, progressingImages, config));
+            executor.submit(() -> {
+                detectImage(image, desPath, progressingImages, config);
+                int completed = processedImages.incrementAndGet();
+                double overallProgress = (double) completed / totalImages;
+                Platform.runLater(() -> {
+                    for (ProgressingImage pi : progressingImages.values()) {
+                        pi.updateProgress(overallProgress);
+                        pi.updatePercent(String.format("%.0f%%", overallProgress * 100));
+                    }
+                });
+            });
+
             System.out.println("in this");
         }
 
