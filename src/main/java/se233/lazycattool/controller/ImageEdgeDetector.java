@@ -27,23 +27,9 @@ public class ImageEdgeDetector {
 
     public void detectImages(ArrayList<ImageFile> imagesToDetect, String desPath, Map<ImageFile, ProgressingImage> progressingImages, ConfigEdge config){
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
-        int totalImages = imagesToDetect.size();
-
-        // atomically incremented counters, and cannot be used as a replacement for an Integer
-        AtomicInteger processedImages = new AtomicInteger(0);
 
         for (ImageFile image: imagesToDetect){
-            executor.submit(() -> {
-                detectImage(image, desPath, progressingImages, config);
-                int completed = processedImages.incrementAndGet();
-                double overallProgress = (double) completed / totalImages;
-                Platform.runLater(() -> {
-                    for (ProgressingImage pi : progressingImages.values()) {
-                        pi.updateProgress(overallProgress);
-                        pi.updatePercent(String.format("%.0f%%", overallProgress * 100));
-                    }
-                });
-            });
+            executor.submit(() -> detectImage(image, desPath, progressingImages, config));
 
             System.out.println("in this");
         }
